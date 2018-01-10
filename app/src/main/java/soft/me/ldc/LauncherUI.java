@@ -6,10 +6,10 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Toast;
 
-import soft.me.ldc.base.baseActivity;
-import soft.me.ldc.view.toastView;
+import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.view.ToastView;
 
-public class LauncherUI extends baseActivity {
+public class LauncherUI extends RootActivity {
 
     AppCompatButton btn = null;
 
@@ -37,7 +37,7 @@ public class LauncherUI extends baseActivity {
     @Override
     protected void Error(Exception e) {
 
-        toastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
+        ToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
 
@@ -47,7 +47,7 @@ public class LauncherUI extends baseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn:
-                    toastView.show(ctx, "测试数据", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "测试数据", Toast.LENGTH_SHORT);
                     break;
             }
         }

@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by liudi on 2018/1/10.
  */
 
-public abstract class baseActivity extends AppCompatActivity {
+public abstract class RootActivity extends AppCompatActivity {
 
     protected Context ctx;
     protected Activity act;

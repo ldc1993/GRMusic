@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @created 2012-3-21
  */
-public class stringUtil
+public class StringUtil
 {
 	private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 	//private final static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
