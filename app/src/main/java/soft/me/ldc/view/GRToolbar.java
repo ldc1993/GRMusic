@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import soft.me.ldc.R;
 import soft.me.ldc.utils.StringUtil;
@@ -29,6 +30,7 @@ public class GRToolbar extends Toolbar {
     private LinearLayoutCompat leftBtn, rightBtn, titleBtn;
     private AppCompatTextView leftTv, rightTv, titleTv;
     private AppCompatImageView leftIv, rightIv;
+    private LinearLayoutCompat.LayoutParams params = null;
 
     public GRToolbar(Context context) {
         super(context, null);
@@ -45,7 +47,7 @@ public class GRToolbar extends Toolbar {
 
 
     private void UI(Context context, @Nullable AttributeSet attrs) {
-        mainView = LayoutInflater.from(context).inflate(R.layout.gr_toolbar, null);
+        mainView = LayoutInflater.from(context).inflate(R.layout.gr_toolbar, null, true);
         leftBtn = mainView.findViewById(R.id.leftBtn);
         titleBtn = mainView.findViewById(R.id.titleBtn);
         rightBtn = mainView.findViewById(R.id.rightBtn);
@@ -68,9 +70,11 @@ public class GRToolbar extends Toolbar {
             leftIv.setVisibility(GONE);
         if (rightIv != null)
             rightIv.setVisibility(GONE);
-
+        if (params == null)
+            params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setContentInsetsRelative(10, 10);
         this.setTitleMargin(0, 0, 0, 0);
+        this.addView(mainView, params);
 
     }
 

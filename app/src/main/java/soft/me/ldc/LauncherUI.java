@@ -37,13 +37,20 @@ public class LauncherUI extends RootActivity {
     @Override
     protected void Main() {
         {
-            toolbar.setColorRes(R.color.colorPrimary);
-            toolbar.setTitleText("标题栏");
+            toolbar.setColorRes(R.color.green);
+            toolbar.setTitleText("数字帝国");
             toolbar.setLeftText("返回");
+            toolbar.setRightText("签到");
             toolbar.setLeftBtnListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GRToastView.show(ctx, "哈喽", Toast.LENGTH_SHORT);
+                    GRToastView.show(ctx, "哈喽1", Toast.LENGTH_SHORT);
+                }
+            });
+            toolbar.setRightBtnListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GRToastView.show(ctx, "哈喽2", Toast.LENGTH_SHORT);
                 }
             });
             setSupportActionBar(toolbar);
