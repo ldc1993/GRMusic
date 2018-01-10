@@ -6,9 +6,17 @@
     android:layout_height="match_parent"
     tools:context="soft.me.ldc.LauncherUI">
 
+    <soft.me.ldc.view.GRToolbar
+        android:id="@+id/toolbar"
+        app:contentInsetStart="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btn"
-        android:layout_width="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hello World!" />
 

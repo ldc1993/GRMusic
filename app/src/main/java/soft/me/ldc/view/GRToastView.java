@@ -9,9 +9,8 @@ import soft.me.ldc.utils.StringUtil;
  * Created by liudi on 2018/1/10.
  */
 
-public class ToastView {
+public class GRToastView {
     static Toast toast = null;
-
 
     public static void show(Context ctx, String txt, Integer integer) {
         if (toast == null) {
