@@ -6,33 +6,41 @@
     android:orientation="horizontal">
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/leftBtn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
         android:minWidth="60dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/leftTv"
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/leftBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/toolbar_click"
             android:gravity="center"
-            android:padding="2dp"
-            android:text="测试"
-            android:textColor="@color/snow"
-            android:visibility="gone" />
+            android:padding="2dp">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/leftIv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:minHeight="30dp"
-            android:minWidth="30dp"
-            android:scaleType="centerCrop" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/leftTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="测试"
+                android:textColor="@color/snow"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/leftIv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="false"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:minHeight="30dp"
+                android:minWidth="30dp"
+                android:scaleType="centerCrop" />
+        </android.support.v7.widget.LinearLayoutCompat>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -57,33 +65,41 @@
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/rightBtn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
         android:minWidth="60dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/rightTv"
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/rightBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/toolbar_click"
             android:gravity="center"
-            android:padding="2dp"
-            android:text="测试"
-            android:textColor="@color/snow"
-            android:visibility="gone" />
+            android:padding="2dp">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/rightIv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:adjustViewBounds="false"
-            android:background="@android:color/transparent"
-            android:gravity="center"
-            android:minHeight="30dp"
-            android:minWidth="30dp"
-            android:scaleType="centerCrop" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/rightTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="测试"
+                android:textColor="@color/snow"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/rightIv"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:adjustViewBounds="false"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:minHeight="30dp"
+                android:minWidth="30dp"
+                android:scaleType="centerCrop" />
+        </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v7.widget.LinearLayoutCompat>
 
 

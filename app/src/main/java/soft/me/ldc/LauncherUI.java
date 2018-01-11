@@ -85,7 +85,6 @@ public class LauncherUI extends RootActivity {
 
     @Override
     protected void Error(Exception e) {
-
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
