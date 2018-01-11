@@ -88,6 +88,62 @@ public class GRToolbar extends Toolbar {
             this.setBackgroundResource(res);
     }
 
+
+    public void setLeftTextColor(int color) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextColor(color);
+        }
+    }
+
+    public void setLeftTextSize(int unit, float size) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextSize(unit, size);
+        }
+    }
+
+    public void setLeftTextSize(float size) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextSize(size);
+        }
+    }
+
+
+    public void setTitleTextColor(int color) {
+        if (this.titleTv != null) {
+            this.titleTv.setTextColor(color);
+        }
+    }
+
+    public void setTitleTextSize(float size) {
+        if (this.titleTv != null) {
+            this.titleTv.setTextSize(size);
+        }
+    }
+
+    public void setTitleTextSize(int unit, float size) {
+        if (this.titleTv != null) {
+            this.titleTv.setTextSize(unit, size);
+        }
+    }
+
+    public void setRightTextColor(int color) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextColor(color);
+        }
+    }
+
+    public void setRightTextSize(int unit, float size) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextSize(unit, size);
+        }
+    }
+
+    public void setRightTextSize(float size) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextSize(size);
+        }
+    }
+
     public void setLeftBtnListener(View.OnClickListener listener) {
         if (this.leftBtn != null)
             this.leftBtn.setOnClickListener(listener);
@@ -139,6 +195,7 @@ public class GRToolbar extends Toolbar {
             }
         }
     }
+
 
     public void setLeftImg(int res) {
         if (this.leftIv != null) {

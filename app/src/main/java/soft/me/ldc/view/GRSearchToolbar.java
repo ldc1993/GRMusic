@@ -87,6 +87,60 @@ public class GRSearchToolbar extends Toolbar {
             this.setBackgroundResource(res);
     }
 
+    public void setLeftTextColor(int color) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextColor(color);
+        }
+    }
+
+    public void setLeftTextSize(int unit, float size) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextSize(unit, size);
+        }
+    }
+
+    public void setLeftTextSize(float size) {
+        if (this.leftTv != null) {
+            this.leftTv.setTextSize(size);
+        }
+    }
+
+    public void setSearchTextColor(int color) {
+        if (this.titleEt != null) {
+            this.titleEt.setTextColor(color);
+        }
+    }
+
+    public void setSearchTextSize(float size) {
+        if (this.titleEt != null) {
+            this.titleEt.setTextSize(size);
+        }
+    }
+
+    public void setSearchTextSize(int unit, float size) {
+        if (this.titleEt != null) {
+            this.titleEt.setTextSize(unit, size);
+        }
+    }
+
+    public void setRightTextColor(int color) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextColor(color);
+        }
+    }
+
+    public void setRightTextSize(int unit, float size) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextSize(unit, size);
+        }
+    }
+
+    public void setRightTextSize(float size) {
+        if (this.rightTv != null) {
+            this.rightTv.setTextSize(size);
+        }
+    }
+
     public void setLeftBtnListener(View.OnClickListener listener) {
         if (this.leftBtn != null)
             this.leftBtn.setOnClickListener(listener);

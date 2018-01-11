@@ -32,7 +32,6 @@ public abstract class RootActivity extends AppCompatActivity {
             this.ctx = this;
             this.act = this;
             this.fragmentManager = this.getSupportFragmentManager();
-            ViewId();
             Main();
         } catch (Exception e) {
             Error(e);
@@ -44,9 +43,6 @@ public abstract class RootActivity extends AppCompatActivity {
     protected abstract void NewCreate(@Nullable Bundle savedInstanceState);
 
     protected abstract Integer UI();
-
-    // TODO: 2018/1/10 绑定组件
-    protected abstract void ViewId();
 
     // TODO: 2018/1/10 程序入口
     protected abstract void Main();
