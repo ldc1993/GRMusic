@@ -42,18 +42,21 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/titleTv"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+            android:hint="请输入关键字"
             android:padding="2dp"
-            android:text="测试"
             android:textColor="@color/snow"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:textColorHint="@color/snow" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat

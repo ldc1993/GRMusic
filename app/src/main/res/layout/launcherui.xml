@@ -8,16 +8,32 @@
 
     <soft.me.ldc.view.GRToolbar
         android:id="@+id/toolbar"
-        app:contentInsetStart="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        app:contentInsetStart="0dp" />
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/btn"
-        android:layout_below="@id/toolbar"
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical">
+
+        <soft.me.ldc.view.GRSearchToolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Hello World!" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
 
 </RelativeLayout>
