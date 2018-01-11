@@ -12,15 +12,15 @@ import soft.me.ldc.utils.StringUtil;
 public class GRToastView {
     static Toast toast = null;
 
-    public static void show(Context ctx, String txt, Integer integer) {
+    public static void show(Context ctx, String txt, Integer lenght) {
         if (toast == null) {
             if (StringUtil.isNotBlank(txt)) {
-                toast = Toast.makeText(ctx, txt, integer);
+                toast = Toast.makeText(ctx, txt, lenght);
             } else {
-                toast = Toast.makeText(ctx, "", integer);
+                toast = Toast.makeText(ctx, "", lenght);
             }
         } else {
-            toast.setDuration(integer);
+            toast.setDuration(lenght);
             if (StringUtil.isNotBlank(txt)) {
                 toast.setText(txt);
             } else {

@@ -15,10 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.layout.StyleActivity;
+import soft.me.ldc.layout.StyleThemeActivity;
 import soft.me.ldc.view.GRToastView;
 
 public class LauncherUI extends RootActivity {
@@ -93,7 +92,7 @@ public class LauncherUI extends RootActivity {
         switch (view.getId()) {
             case R.id.switchStyle:
                 Intent styleIt = new Intent();
-                styleIt.setClass(ctx, StyleActivity.class);
+                styleIt.setClass(ctx, StyleThemeActivity.class);
                 startActivity(styleIt);
                 break;
         }

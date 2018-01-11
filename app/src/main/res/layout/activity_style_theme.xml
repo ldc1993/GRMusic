@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="soft.me.ldc.layout.StyleActivity">
+    tools:context="soft.me.ldc.layout.StyleThemeActivity">
 
     <soft.me.ldc.view.GRToolbar
         android:id="@+id/mToolbar"
@@ -17,6 +17,16 @@
         android:layout_height="match_parent"
         android:layout_below="@id/mToolbar"
         android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp">
+
+        </android.support.v7.widget.RecyclerView>
 
     </android.support.v7.widget.LinearLayoutCompat>
 
