@@ -116,9 +116,7 @@ public class StyleThemeActivity extends RootActivity {
         @Override
         public void onItemCheckedClick(int position, boolean checked) {
             if (styleThemeAdapter != null) {
-                if (checked == true) {
-                    styleThemeAdapter.setIsCheckedIndex(position);
-                }
+                styleThemeAdapter.setIsChecked(position, checked);
                 GRToastView.show(ctx, "哈喽" + position + checked, Toast.LENGTH_SHORT);
             }
         }

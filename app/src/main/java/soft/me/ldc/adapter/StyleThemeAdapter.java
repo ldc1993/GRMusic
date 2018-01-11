@@ -2,12 +2,15 @@ package soft.me.ldc.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.StyleThemeViewHolder;
@@ -20,17 +23,18 @@ import soft.me.ldc.base.RootRecyclerViewAdapter;
 public class StyleThemeAdapter extends RootRecyclerViewAdapter<StyleThemeViewHolder> implements View.OnClickListener {
     List<String> colors = null;
     List<String> texts = null;
-    private int isCheckedIndex = -1;
+    Map<Integer, Boolean> map = new HashMap<>();
+    int isCheckedIndex = -1;
     Context ctx;
+    //事件
     ItemListener listener = null;
-
-
     ItemCheckListener checkedlistener = null;
 
     //选择中的
-    public void setIsCheckedIndex(int position) {
-        this.isCheckedIndex = position;
-        this.notifyDataSetChanged();
+    public void setIsChecked(int position, boolean isChecked) {
+        map.put(position, isChecked);
+
+
     }
 
     //数据
@@ -53,23 +57,20 @@ public class StyleThemeAdapter extends RootRecyclerViewAdapter<StyleThemeViewHol
         holder.itemView.setTag(position);
         holder.mColor.setBackgroundColor(Color.parseColor(colors.get(position)));
         holder.mColorText.setText(texts.get(position));
-        if (isCheckedIndex >= 0) {
-            if (position == isCheckedIndex) {
-                holder.mColorCheckBox.setChecked(true);
-                holder.mColorText.setText(texts.get(position) + true);
-            } else {
-                holder.mColorCheckBox.setChecked(false);
-                holder.mColorText.setText(texts.get(position) + false);
-            }
-        }
         // TODO: 2018/1/11 选择事件
         holder.mColorCheckBox.setOnCheckedChangeListener(new OnCheckedListener(position));
+        if (map != null && map.containsKey(position)) {
+            holder.mColorCheckBox.setChecked(true);
+        } else {
+            holder.mColorCheckBox.setChecked(false);
+        }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return colors != null || texts != null ? colors.size() : 0;
+        return colors != null || texts != null ? colors.size() >= texts.size() ? texts.size() : colors.size() : 0;
     }
 
     @Override
@@ -82,17 +83,27 @@ public class StyleThemeAdapter extends RootRecyclerViewAdapter<StyleThemeViewHol
 
 
     class OnCheckedListener implements CompoundButton.OnCheckedChangeListener {
-        int position_checked = -1;
+        int position = 0;
 
         public OnCheckedListener(int position) {
-            this.position_checked = position;
+            this.position = position;
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (checkedlistener != null) {
-                checkedlistener.onItemCheckedClick(position_checked, isChecked);
+            if (isChecked == true) {
+                map.clear();
+                map.put(position, true);
+            } else {
+                map.remove(position);
+                if (map.size() == 0) {
+                    isCheckedIndex = -1;
+                }
             }
+            if (checkedlistener != null) {
+                checkedlistener.onItemCheckedClick(position, isChecked);
+            }
+            notifyDataSetChanged();
 
         }
     }
