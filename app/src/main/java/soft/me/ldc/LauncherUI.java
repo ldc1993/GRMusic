@@ -6,6 +6,9 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.view.GRSearchToolbar;
 import soft.me.ldc.view.GRToastView;
@@ -13,12 +16,15 @@ import soft.me.ldc.view.GRToolbar;
 
 public class LauncherUI extends RootActivity {
 
-    AppCompatButton btn = null;
-    GRToolbar toolbar = null;
-    GRSearchToolbar searchtoolbar = null;
+    @BindView(R.id.toolbar)
+    GRToolbar toolbar;
+    @BindView(R.id.search_toolbar)
+    GRSearchToolbar searchToolbar;
+    @BindView(R.id.btn)
+    AppCompatButton btn;
 
     @Override
-    protected void NewUI(@Nullable Bundle savedInstanceState) {
+    protected void NewCreate(@Nullable Bundle savedInstanceState) {
 
     }
 
@@ -29,12 +35,7 @@ public class LauncherUI extends RootActivity {
 
     @Override
     protected void ViewId() {
-        if (btn == null)
-            btn = findViewById(R.id.btn);
-        if (toolbar == null)
-            toolbar = findViewById(R.id.toolbar);
-        if (searchtoolbar == null)
-            searchtoolbar = findViewById(R.id.search_toolbar);
+
     }
 
     @Override
@@ -61,26 +62,26 @@ public class LauncherUI extends RootActivity {
         }
 
         {
-            searchtoolbar.setColorRes(R.color.green);
-            searchtoolbar.setSearchHint("请输入关键字");
-            searchtoolbar.setLeftText("返回");
-            searchtoolbar.setRightImg(R.mipmap.ic_launcher);
-            searchtoolbar.setLeftBtnListener(new View.OnClickListener() {
+            searchToolbar.setColorRes(R.color.green);
+            searchToolbar.setSearchHint("请输入关键字");
+            searchToolbar.setLeftText("返回");
+            searchToolbar.setRightImg(R.mipmap.ic_launcher);
+            searchToolbar.setLeftBtnListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     GRToastView.show(ctx, "哈喽1", Toast.LENGTH_SHORT);
                 }
             });
-            searchtoolbar.setRightBtnListener(new View.OnClickListener() {
+            searchToolbar.setRightBtnListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     GRToastView.show(ctx, "哈喽2", Toast.LENGTH_SHORT);
                 }
             });
-            setSupportActionBar(searchtoolbar);
+            setSupportActionBar(searchToolbar);
 
         }
-        btn.setOnClickListener(new OnClickListener());
+
     }
 
     @Override
@@ -89,15 +90,12 @@ public class LauncherUI extends RootActivity {
     }
 
 
-    class OnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn:
-                    GRToastView.show(ctx, "测试数据", Toast.LENGTH_SHORT);
-                    break;
-            }
+    @OnClick({R.id.btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn:
+                GRToastView.show(ctx, "测试数据", Toast.LENGTH_SHORT);
+                break;
         }
     }
 
