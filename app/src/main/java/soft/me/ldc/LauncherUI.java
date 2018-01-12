@@ -1,24 +1,23 @@
 package soft.me.ldc;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.layout.StyleThemeActivity;
 import soft.me.ldc.view.GRToastView;
 
 public class LauncherUI extends RootActivity {
@@ -37,7 +36,7 @@ public class LauncherUI extends RootActivity {
     @BindView(R.id.switchText)
     AppCompatTextView switchText;
     @BindView(R.id.switchBtn)
-    ToggleButton switchBtn;
+    AppCompatCheckBox switchBtn;
     //
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -55,6 +54,7 @@ public class LauncherUI extends RootActivity {
     @Override
     protected void Main() {
         initToolbar();
+        switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
 
     }
 
@@ -88,16 +88,18 @@ public class LauncherUI extends RootActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle); //设置侧滑监听
     }
 
+    class switchBtnListener implements CompoundButton.OnCheckedChangeListener {
 
-    // TODO: 2018/1/11 点击事件
-    @OnClick({R.id.switchStyle})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.switchStyle:
-
-                break;
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                switchText.setText("夜间");
+                GRToastView.show(ctx, "夜间", Toast.LENGTH_SHORT);
+            } else {
+                switchText.setText("白天");
+                GRToastView.show(ctx, "白天", Toast.LENGTH_SHORT);
+            }
         }
     }
-
 
 }

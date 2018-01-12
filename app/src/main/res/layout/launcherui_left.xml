@@ -32,41 +32,44 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuList"
-            android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:background="@android:color/transparent" />
 
         <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/switchStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@android:color/transparent"
+            android:gravity="center_vertical"
             android:minHeight="50dp"
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/switchText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:minHeight="40dp"
                 android:text="切换主题" />
 
-            <ToggleButton
+            <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/switchBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:button="@drawable/switchbutton"
-                android:checked="true"
-                android:minHeight="40dp"
-                android:minWidth="40dp" />
+                android:gravity="center"
+                android:minHeight="30dp"
+                android:minWidth="40dp"
+                android:text=""
+                android:textOff=""
+                android:textOn="" />
 
         </android.support.v7.widget.LinearLayoutCompat>
 
