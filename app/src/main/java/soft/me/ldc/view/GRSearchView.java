@@ -52,7 +52,7 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
     }
 
     // TODO: 2018/1/12 接口
-    interface onSearchListener {
+   public interface onSearchListener {
         void onSearchClick(View view, String key);
     }
 

@@ -3,18 +3,20 @@ package soft.me.ldc.layout;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
+import soft.me.ldc.view.GRSearchView;
 import soft.me.ldc.view.GRToastView;
 
 
 public class Main1Fragment extends RootFragment {
+    @BindView(R.id.searchView)
+    GRSearchView searchView;
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
@@ -24,12 +26,14 @@ public class Main1Fragment extends RootFragment {
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
 
-        return inflater.inflate(R.layout.fragment_main1, null);
+        return inflater.inflate(R.layout.fragment_main1, null, false);
     }
 
     @Override
     protected void Init() throws Exception {
-
+        searchView.setHint("输入关键字");
+        GRToastView.show(ctx, "" + 11111, Toast.LENGTH_SHORT);
+        searchView.setSearchBtnListener(new SearchListener());
     }
 
     @Override
@@ -40,5 +44,15 @@ public class Main1Fragment extends RootFragment {
     @Override
     protected void Exception(Exception e) {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
+    }
+
+
+    // TODO: 2018/1/12 搜索事件
+    class SearchListener implements GRSearchView.onSearchListener {
+
+        @Override
+        public void onSearchClick(View view, String key) {
+            GRToastView.show(ctx, "" + key, Toast.LENGTH_SHORT);
+        }
     }
 }

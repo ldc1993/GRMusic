@@ -26,7 +26,7 @@ public class Main2Fragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_main2, null);
+        return inflater.inflate(R.layout.fragment_main2, null,false);
     }
 
     @Override
