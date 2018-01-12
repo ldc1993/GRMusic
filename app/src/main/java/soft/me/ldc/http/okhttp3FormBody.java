@@ -1,7 +1,6 @@
 package soft.me.ldc.http;
 
 
-
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -18,20 +17,20 @@ import soft.me.ldc.http.param.HttpParam;
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3DefaultRequest implements HttpAccsess {
-    private static okhttp3DefaultRequest instance = null;
+public class okhttp3FormBody implements HttpAccsess {
+    private static okhttp3FormBody instance = null;
     private OkHttpClient okclient = null;
 
     //单实例 线程安全
-    public static okhttp3DefaultRequest newInstance() {
-        synchronized (okhttp3DefaultRequest.class) {
+    public static okhttp3FormBody newInstance() {
+        synchronized (okhttp3FormBody.class) {
             if (instance == null)
-                instance = new okhttp3DefaultRequest();
+                instance = new okhttp3FormBody();
         }
         return instance;
     }
 
-    private okhttp3DefaultRequest() {
+    private okhttp3FormBody() {
         InitOkClient();
     }
 

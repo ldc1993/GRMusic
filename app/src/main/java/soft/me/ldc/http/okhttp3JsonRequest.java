@@ -8,21 +8,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import soft.me.ldc.http.accsess.HttpAccsess;
-import soft.me.ldc.http.param.HttpParam;
+import soft.me.ldc.http.accsess.HttpJsonAccess;
+import soft.me.ldc.http.param.HttpJsonParam;
 
 /**
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3JsonRequest implements HttpAccsess {
+public class okhttp3JsonRequest implements HttpJsonAccess {
 
     private static okhttp3JsonRequest instance = null;
     private OkHttpClient okclient = null;
 
     //单实例 线程安全
     public static okhttp3JsonRequest newInstance() {
-        synchronized (okhttp3DefaultRequest.class) {
+        synchronized (okhttp3FormBody.class) {
             if (instance == null)
                 instance = new okhttp3JsonRequest();
         }
@@ -47,7 +47,7 @@ public class okhttp3JsonRequest implements HttpAccsess {
     }
 
     @Override
-    public Response MethodPost(HttpParam param) throws Exception {
+    public Response MethodPost(HttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -67,13 +67,13 @@ public class okhttp3JsonRequest implements HttpAccsess {
     }
 
     @Override
-    public Response MethodGet(HttpParam param) throws Exception {
-
+    public Response MethodGet(HttpJsonParam param) throws Exception {
+        //get 不做json 提交
         return null;
     }
 
     @Override
-    public Response MethodPut(HttpParam param) throws Exception {
+    public Response MethodPut(HttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -93,7 +93,7 @@ public class okhttp3JsonRequest implements HttpAccsess {
     }
 
     @Override
-    public Response MethodDelete(HttpParam param) throws Exception {
+    public Response MethodDelete(HttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -113,7 +113,7 @@ public class okhttp3JsonRequest implements HttpAccsess {
     }
 
     @Override
-    public Response MethodPatch(HttpParam param) throws Exception {
+    public Response MethodPatch(HttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)

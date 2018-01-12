@@ -21,25 +21,25 @@ import soft.me.ldc.http.param.HttpParam;
  * Created by LDC on 2017/8/15.
  */
 
-public class okhttp3MultipartRequst implements HttpAccsess {
-    private static okhttp3MultipartRequst instance = null;
+public class okhttp3MultipartBody implements HttpAccsess {
+    private static okhttp3MultipartBody instance = null;
     private OkHttpClient okclient = null;
 
     //单实例 线程安全
-    public static okhttp3MultipartRequst newInstance() {
-        synchronized (okhttp3MultipartRequst.class) {
+    public static okhttp3MultipartBody newInstance() {
+        synchronized (okhttp3MultipartBody.class) {
             if (instance == null)
-                instance = new okhttp3MultipartRequst();
+                instance = new okhttp3MultipartBody();
         }
         return instance;
     }
 
-    private okhttp3MultipartRequst() {
+    private okhttp3MultipartBody() {
         InitOkClient();
     }
 
     /**
-     * get method
+     * get Method
      *
      * @param param
      * @throws Exception
@@ -79,7 +79,7 @@ public class okhttp3MultipartRequst implements HttpAccsess {
 
 
     /**
-     * post method
+     * post Method
      *
      * @param param
      * @throws Exception
@@ -118,7 +118,7 @@ public class okhttp3MultipartRequst implements HttpAccsess {
     }
 
     /**
-     * Put method
+     * Put Method
      *
      * @param param
      * @throws Exception
@@ -157,7 +157,7 @@ public class okhttp3MultipartRequst implements HttpAccsess {
     }
 
     /**
-     * delete method
+     * delete Method
      *
      * @param param
      * @throws Exception
@@ -197,7 +197,7 @@ public class okhttp3MultipartRequst implements HttpAccsess {
 
 
     /**
-     * pathch method
+     * pathch Method
      *
      * @param param
      * @throws Exception
