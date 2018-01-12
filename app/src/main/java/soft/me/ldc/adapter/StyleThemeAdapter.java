@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import soft.me.ldc.R;
-import soft.me.ldc.adapter.viewholder.StyleThemeViewHolder;
-import soft.me.ldc.base.RootRecyclerViewAdapter;
 
 /**
  * Created by liudi on 2018/1/11.
