@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,10 +32,12 @@ public class LauncherUI extends RootActivity {
     RecyclerView menuList;
     @BindView(R.id.mDrawerLayout)
     DrawerLayout mDrawerLayout;
-    @BindView(R.id.switchStyle)
-    AppCompatTextView switchStyle;
     @BindView(R.id.mRelativeLayout)
     RelativeLayout mRelativeLayout;
+    @BindView(R.id.switchText)
+    AppCompatTextView switchText;
+    @BindView(R.id.switchBtn)
+    ToggleButton switchBtn;
     //
     private ActionBarDrawerToggle mDrawerToggle;
 
@@ -91,9 +94,7 @@ public class LauncherUI extends RootActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.switchStyle:
-                Intent styleIt = new Intent();
-                styleIt.setClass(ctx, StyleThemeActivity.class);
-                startActivity(styleIt);
+
                 break;
         }
     }
