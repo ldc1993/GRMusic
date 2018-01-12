@@ -53,7 +53,6 @@ public abstract class RootFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         try {
             Init();
-            ViewId();
             Main();
         } catch (Exception e) {
             Exception(e);
@@ -69,8 +68,7 @@ public abstract class RootFragment extends Fragment {
     // TODO: 2017/9/5 设置事物
     protected abstract void Init() throws Exception;
 
-    protected abstract void ViewId() throws Exception;
-
+    // TODO: 2018/1/12 入口
     protected abstract void Main() throws Exception;
 
     // TODO: 2017/9/5 异常捕获

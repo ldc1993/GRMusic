@@ -7,17 +7,9 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/mImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:adjustViewBounds="false"
-            android:minHeight="100dp"
-            android:minWidth="100dp"
-            android:scaleType="center" />
+        <include layout="@layout/launcherui_main" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 
@@ -29,6 +21,23 @@
         android:layout_gravity="start"
         android:background="@android:color/white"
         android:orientation="vertical">
+        <!--主布局-->
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/mImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:adjustViewBounds="false"
+                android:minHeight="100dp"
+                android:minWidth="100dp"
+                android:scaleType="center" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menuList"
@@ -40,10 +49,19 @@
             android:layout_marginTop="5dp"
             android:background="@android:color/transparent" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="@color/dimgray" />
+
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignBaseline="@id/menuList"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:minHeight="50dp"
@@ -53,23 +71,26 @@
                 android:id="@+id/switchText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:gravity="center"
                 android:minHeight="40dp"
-                android:text="切换主题" />
+                android:text="白天"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/switchBtn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:background="@android:color/transparent"
                 android:button="@drawable/switchbutton"
                 android:gravity="center"
-                android:minHeight="30dp"
-                android:minWidth="40dp"
-                android:text=""
-                android:textOff=""
-                android:textOn="" />
+                android:minHeight="40dp"
+                android:minWidth="50dp" />
 
         </android.support.v7.widget.LinearLayoutCompat>
 
