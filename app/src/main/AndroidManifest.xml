@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".layout.StyleThemeActivity"></activity>
+        <activity android:name=".layout.MusicListActivity"></activity>
     </application>
 
 </manifest>

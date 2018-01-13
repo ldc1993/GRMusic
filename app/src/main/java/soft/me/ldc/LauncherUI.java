@@ -18,16 +18,13 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.layout.Main1Fragment;
+import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.Main2Fragment;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.view.GRToastView;
@@ -121,7 +118,7 @@ public class LauncherUI extends RootActivity {
         titles.add("音乐");
         titles.add("我的");
         //页面
-        fragments.add(new Main1Fragment());
+        fragments.add(new MusicFragment());
         fragments.add(new Main2Fragment());
         fragments.add(new Main3Fragment());
 
@@ -129,6 +126,7 @@ public class LauncherUI extends RootActivity {
             uiViewPagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
         uiViewPagerAdapter.pushData(fragments, titles);
         //
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(uiViewPagerAdapter);
         viewPager.setCurrentItem(0);
         //

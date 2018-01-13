@@ -17,8 +17,8 @@ import java.util.List;
  */
 
 public abstract class RootRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
-    protected static int mPosition = -1;
-    protected static boolean isLeft = false;
+    private static int mPosition = -1;
+    private static boolean isLeft = false;
 
     @SuppressLint("NewApi")
     protected void setAnimator(View view, int position) {
