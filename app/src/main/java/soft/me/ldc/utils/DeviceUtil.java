@@ -19,13 +19,21 @@ import android.view.WindowManager;
 public class DeviceUtil {
 
 
+
+
+
+    public static String makeUA() {
+        final String ua = Build.BRAND + "/" + Build.MODEL + "/" + Build.VERSION.RELEASE;
+        return ua;
+    }
+
     /**
      * 获取DisplayMetrics
      *
      * @param context
      * @return
      */
-    private static DisplayMetrics obtain(Context context) {
+    public static DisplayMetrics obtain(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);

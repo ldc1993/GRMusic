@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootActivity;
@@ -30,6 +32,8 @@ public class MusicListActivity extends RootActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
+    @BindView(R.id.smartrefreshlayout)
+    SmartRefreshLayout smartrefreshlayout;
     @BindView(R.id.mList)
     RecyclerView mList;
 
@@ -105,22 +109,24 @@ public class MusicListActivity extends RootActivity {
 
         if (gson == null)
             gson = new Gson();
-
-        //加载任务
-        RefreshTaskRun();
+        //刷新监听
+        smartrefreshlayout.setOnRefreshListener(new RefreshListener());
+        smartrefreshlayout.setOnLoadmoreListener(new RefreshListener());
 
         if (llm == null)
             llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
-
+        if (music == null)
+            music = new Music();
         if (musicListAdapter == null)
             musicListAdapter = new MusicListAdapter();
+        musicListAdapter.pushData(music.song_list);
         musicListAdapter.setListener(new ItemListener());
-
-
         mList.setLayoutFrozen(true);
         mList.setHasFixedSize(true);
         mList.setLayoutManager(llm);
         mList.setAdapter(musicListAdapter);
+        //加载任务
+        RefreshTaskRun();
 
 
     }
@@ -191,10 +197,8 @@ public class MusicListActivity extends RootActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                if (music != null)
-                    music = null;
                 pageNo = 0;
-                music = MusicService.MusicList(musicType.typeCode, 20, pageNo);
+                music = MusicService.MusicList(musicType.typeCode, 20 + "", pageNo + "");
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
@@ -222,10 +226,8 @@ public class MusicListActivity extends RootActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                if (music != null)
-                    music = null;
                 pageNo++;
-                music = MusicService.MusicList(musicType.typeCode, 20, pageNo);
+                music = MusicService.MusicList(musicType.typeCode, 20 + "", pageNo + "");
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();

@@ -12,6 +12,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import soft.me.ldc.http.accsess.HttpAccsess;
 import soft.me.ldc.http.param.HttpParam;
+import soft.me.ldc.utils.DeviceUtil;
 
 /**
  * Created by LDC on 2017/12/12.
@@ -108,6 +109,7 @@ public class okhttp3FormBody implements HttpAccsess {
         //补全请求地址
         String requesturl = String.format("%s?%s", param.url, tempparam.toString());
         //构建请求体
+
         final Request request = new Request.Builder().url(requesturl.trim()).get().build();
         //请求
         return okclient.newCall(request).execute();

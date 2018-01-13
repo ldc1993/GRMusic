@@ -46,7 +46,7 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
         holder.mCountry.setText("" + data.country);
         holder.mCompany.setText("" + data.si_proxycompany);
         holder.mLanguage.setText("" + data.language);
-        Picasso.with(ctx).load(data.pic_big).resize(96, 96).centerCrop().into(holder.mIcon);
+        Picasso.with(ctx).load(data.pic_big).resize(96, 96).centerInside().into(holder.mIcon);
 
     }
 
