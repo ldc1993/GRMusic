@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.view.GRSearchView;
@@ -15,6 +18,7 @@ import soft.me.ldc.view.GRToastView;
 
 
 public class Main1Fragment extends RootFragment {
+
     @BindView(R.id.searchView)
     GRSearchView searchView;
 
@@ -31,8 +35,8 @@ public class Main1Fragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
-        searchView.setHint("输入关键字");
-        GRToastView.show(ctx, "" + 11111, Toast.LENGTH_SHORT);
+        searchView.setHint("请输入关键字");
+        searchView.setHintColor("#ffffff");
         searchView.setSearchBtnListener(new SearchListener());
     }
 

@@ -41,7 +41,7 @@ public abstract class RootFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         try {
             rootView = UI(inflater);
-            unbinder = ButterKnife.bind(rootView);
+            unbinder = ButterKnife.bind(this, rootView);
         } catch (Exception e) {
             Exception(e);
         }
