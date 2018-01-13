@@ -36,7 +36,7 @@ public class Main1Fragment extends RootFragment {
     @Override
     protected void Init() throws Exception {
         searchView.setHint("请输入关键字");
-        searchView.setHintColor("#ffffff");
+        searchView.setHintColor("#808080");
         searchView.setSearchBtnListener(new SearchListener());
     }
 
