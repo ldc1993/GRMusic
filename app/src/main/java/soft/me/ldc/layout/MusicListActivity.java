@@ -85,6 +85,8 @@ public class MusicListActivity extends RootActivity {
                             musicListAdapter.pushData(mData.song_list);
                             musicListAdapter.notifyDataSetChanged();
                         }
+                        if (mList != null)
+                            mList.smoothScrollToPosition(0);
                     } else {
                         dkhandler.sendEmptyMessage(ERRORCODE);
                     }
@@ -133,6 +135,7 @@ public class MusicListActivity extends RootActivity {
         //刷新监听
         smartrefreshlayout.setOnRefreshListener(new RefreshListener());
         smartrefreshlayout.setOnLoadmoreListener(new RefreshListener());
+        smartrefreshlayout.setEnableAutoLoadmore(false);
 
         if (llm == null)
             llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
@@ -184,8 +187,8 @@ public class MusicListActivity extends RootActivity {
 
 
         @Override
-        public void onItem(View view, Music type) {
-            GRToastView.show(ctx, type.billboard.name, Toast.LENGTH_SHORT);
+        public void onItem(View view, Music.SongListBean type) {
+            GRToastView.show(ctx, type.title, Toast.LENGTH_SHORT);
         }
     }
 

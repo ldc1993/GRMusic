@@ -58,13 +58,13 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
     @Override
     public void onClick(View v) {
         if (this.listener != null) {
-            this.listener.onItem(v, (Music) v.getTag());
+            this.listener.onItem(v, (Music.SongListBean) v.getTag());
         }
     }
 
     //接口
     public interface OnItemListener {
-        void onItem(View view, Music type);
+        void onItem(View view, Music.SongListBean type);
     }
 
     //暴露接口
