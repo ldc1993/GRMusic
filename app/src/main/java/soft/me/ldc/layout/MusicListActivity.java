@@ -118,7 +118,7 @@ public class MusicListActivity extends RootActivity {
     @Override
     protected void Main() {
         {
-            mToolbar.setLeftText("返回");
+            mToolbar.setLeftImg(R.mipmap.back_icon);
             mToolbar.setTitleText("" + musicType.typeName);
             mToolbar.setColorRes(R.color.colorPrimary);
             mToolbar.setLeftBtnListener(new View.OnClickListener() {

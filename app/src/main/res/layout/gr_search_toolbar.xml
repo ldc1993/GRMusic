@@ -32,13 +32,13 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/leftIv"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:adjustViewBounds="false"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:minHeight="30dp"
-                android:minWidth="30dp"
+                android:minHeight="25dp"
+                android:minWidth="25dp"
                 android:scaleType="centerCrop" />
         </android.support.v7.widget.LinearLayoutCompat>
 
@@ -96,13 +96,13 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/rightIv"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:adjustViewBounds="false"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:minHeight="30dp"
-                android:minWidth="30dp"
+                android:minHeight="25dp"
+                android:minWidth="25dp"
                 android:scaleType="centerCrop" />
         </android.support.v7.widget.LinearLayoutCompat>
     </android.support.v7.widget.LinearLayoutCompat>

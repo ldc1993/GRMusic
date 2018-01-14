@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".layout.MusicListActivity"></activity>
+        <activity android:name=".layout.MusicListActivity" />
+        <activity android:name=".layout.QueryMusicActivity"></activity>
     </application>
 
 </manifest>

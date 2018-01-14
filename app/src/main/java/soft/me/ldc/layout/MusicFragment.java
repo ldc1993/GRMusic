@@ -84,7 +84,9 @@ public class MusicFragment extends RootFragment {
 
         @Override
         public void onSearchClick(View view, String key) {
-            GRToastView.show(ctx, "" + key, Toast.LENGTH_SHORT);
+            Intent it = new Intent();
+            it.setClass(ctx, QueryMusicActivity.class);
+            startActivity(it);
         }
     }
 

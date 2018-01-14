@@ -191,7 +191,7 @@ public class GRSearchToolbar extends Toolbar {
         }
     }
 
-    public AppCompatEditText getSearchEt(String txt) {
+    public AppCompatEditText getSearchEt() {
         if (this.titleEt != null) {
             return this.titleEt;
         } else {
