@@ -3,14 +3,22 @@ package soft.me.ldc.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import okhttp3.Response;
 import soft.me.ldc.BuildConfig;
+import soft.me.ldc.config.App;
 import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.http.okhttp3Request;
 import soft.me.ldc.http.param.HttpParam;
 import soft.me.ldc.model.Music;
+import soft.me.ldc.utils.DeviceUtil;
+import soft.me.ldc.utils.ToFormat;
 
 /**
  * Created by ldc45 on 2018/1/13.
@@ -1216,6 +1224,62 @@ public class MusicService {
         } finally {
             if (response != null)
                 response.close();
+        }
+        return music;
+
+    }
+
+    /**
+     * @param type   音乐类型
+     * @param size   返回数量
+     * @param offset 偏移 分页
+     * @return
+     */
+    public static Music TestMusicList(String type, String size, String offset) {
+        String result = "";
+        Music music = null;
+        Gson gson = null;
+        HttpURLConnection connection = null;
+        int responseCode = 200;
+        URL url = null;
+        InputStream is = null;
+        try {
+            if (url == null)
+                url = new URL(AppConfig.ServiceUrl);
+            if (connection == null)
+                connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.addRequestProperty("User-Agent", "" + DeviceUtil.makeUA());
+            connection.setRequestProperty("method", "baidu.ting.billboard.billList");
+            connection.setRequestProperty("type", "" + type);
+            connection.setRequestProperty("size", "" + size);
+            connection.setRequestProperty("offset", "" + offset);
+            connection.setConnectTimeout(40 * 1000);
+            connection.setReadTimeout(50 * 1000);
+            connection.connect();//连接
+            responseCode = connection.getResponseCode();
+            if (responseCode == 200) {
+                is = connection.getInputStream();
+                result = ToFormat.Stream2String(is);
+            } else {
+                result = testJson;
+            }
+
+            if (gson == null)
+                gson = new Gson();
+            music = gson.fromJson(result, Music.class);
+            if (is != null)
+                is.close();
+
+        } catch (Exception e) {
+            music = null;
+            e.printStackTrace();
+        } finally {
+            if (connection != null)
+                connection.disconnect();
+
         }
         return music;
 

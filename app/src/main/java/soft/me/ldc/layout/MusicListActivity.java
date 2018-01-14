@@ -198,7 +198,7 @@ public class MusicListActivity extends RootActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 pageNo = 0;
-                music = MusicService.MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                music = MusicService.TestMusicList(musicType.typeCode, 20 + "", pageNo + "");
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
@@ -227,7 +227,7 @@ public class MusicListActivity extends RootActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 pageNo++;
-                music = MusicService.MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                music = MusicService.TestMusicList(musicType.typeCode, 20 + "", pageNo + "");
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();

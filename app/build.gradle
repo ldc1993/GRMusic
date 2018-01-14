@@ -45,4 +45,6 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片处理
     compile 'com.squareup.picasso:picasso:2.5.2'
+    //
+    implementation 'com.yanzhenjie.nohttp:okhttp:1.1.8'
 }
