@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 
 /**
  * Created by ldc45 on 2018/1/13.
@@ -15,8 +16,15 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        config = InitializationConfig.newBuilder(this).readTimeout(40 * 1000)
-                .connectionTimeout(30 * 1000).build();
+        config = InitializationConfig.newBuilder(this)
+                .readTimeout(40 * 1000)
+
+                .connectionTimeout(30 * 1000)
+                .networkExecutor(new OkHttpNetworkExecutor())//Okhttp网络层
+                .retry(3)//提交次数
+
+
+                .build();
         NoHttp.initialize(config);
     }
 }

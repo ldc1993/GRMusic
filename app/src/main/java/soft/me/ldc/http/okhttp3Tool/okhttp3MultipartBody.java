@@ -1,4 +1,4 @@
-package soft.me.ldc.http;
+package soft.me.ldc.http.okhttp3Tool;
 
 
 
@@ -14,14 +14,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import soft.me.ldc.http.accsess.HttpAccsess;
-import soft.me.ldc.http.param.HttpParam;
+import soft.me.ldc.http.okhttp3Tool.accsess.okHttpAccsess;
+import soft.me.ldc.http.okhttp3Tool.param.okHttpParam;
 
 /**
  * Created by LDC on 2017/8/15.
  */
 
-public class okhttp3MultipartBody implements HttpAccsess {
+public class okhttp3MultipartBody implements okHttpAccsess {
     private static okhttp3MultipartBody instance = null;
     private OkHttpClient okclient = null;
 
@@ -45,7 +45,7 @@ public class okhttp3MultipartBody implements HttpAccsess {
      * @throws Exception
      */
     @Override
-    public Response MethodGet(HttpParam param) throws Exception {
+    public Response MethodGet(okHttpParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -85,7 +85,7 @@ public class okhttp3MultipartBody implements HttpAccsess {
      * @throws Exception
      */
     @Override
-    public Response MethodPost(HttpParam param) throws Exception {
+    public Response MethodPost(okHttpParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -124,7 +124,7 @@ public class okhttp3MultipartBody implements HttpAccsess {
      * @throws Exception
      */
     @Override
-    public Response MethodPut(HttpParam param) throws Exception {
+    public Response MethodPut(okHttpParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -163,7 +163,7 @@ public class okhttp3MultipartBody implements HttpAccsess {
      * @throws Exception
      */
     @Override
-    public Response MethodDelete(HttpParam param) throws Exception {
+    public Response MethodDelete(okHttpParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -203,7 +203,7 @@ public class okhttp3MultipartBody implements HttpAccsess {
      * @throws Exception
      */
     @Override
-    public Response MethodPatch(HttpParam param) throws Exception {
+    public Response MethodPatch(okHttpParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)

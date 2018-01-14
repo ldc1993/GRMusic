@@ -1,24 +1,22 @@
 package soft.me.ldc.service;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
 
-import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.json.JSONObject;
 
-import javax.net.ssl.HttpsURLConnection;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import okhttp3.Response;
-import soft.me.ldc.BuildConfig;
-import soft.me.ldc.config.App;
 import soft.me.ldc.config.AppConfig;
-import soft.me.ldc.http.okhttp3Request;
-import soft.me.ldc.http.param.HttpParam;
+import soft.me.ldc.http.okhttp3Tool.okhttp3Request;
+import soft.me.ldc.http.okhttp3Tool.param.okHttpParam;
 import soft.me.ldc.model.Music;
-import soft.me.ldc.utils.DeviceUtil;
-import soft.me.ldc.utils.ToFormat;
 
 /**
  * Created by ldc45 on 2018/1/13.
@@ -1199,10 +1197,10 @@ public class MusicService {
         Music music = null;
         Gson gson = null;
         try {
-            HttpParam param = new HttpParam();
+            okHttpParam param = new okHttpParam();
             param.url = AppConfig.ServiceUrl;
             param.method = "0";//get
-            param.requestType = HttpParam.FormBody;
+            param.requestType = okHttpParam.FormBodyType;
             param.parems.put("method", "baidu.ting.billboard.billList");
             param.parems.put("type", "" + type);
             param.parems.put("size", "" + size);
@@ -1239,46 +1237,53 @@ public class MusicService {
         String result = "";
         Music music = null;
         Gson gson = null;
-        HttpURLConnection connection = null;
+        Request<JSONObject> jorequest = null;
         int responseCode = 200;
-        URL url = null;
-        InputStream is = null;
         try {
-            if (url == null)
-                url = new URL(AppConfig.ServiceUrl);
-            if (connection == null)
-                connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.addRequestProperty("User-Agent", "" + DeviceUtil.makeUA());
-            connection.setRequestProperty("method", "baidu.ting.billboard.billList");
-            connection.setRequestProperty("type", "" + type);
-            connection.setRequestProperty("size", "" + size);
-            connection.setRequestProperty("offset", "" + offset);
-            connection.setConnectTimeout(40 * 1000);
-            connection.setReadTimeout(50 * 1000);
-            connection.connect();//连接
-            responseCode = connection.getResponseCode();
-            if (responseCode == 200) {
-                is = connection.getInputStream();
-                result = ToFormat.Stream2String(is);
-            } else {
-                result = testJson;
-            }
+            if (jorequest == null)
+                jorequest = new Request<JSONObject>(AppConfig.ServiceUrl, RequestMethod.GET) {
+                    @Override
+                    public void onPreExecute() {
+                        super.onPreExecute();
+                    }
 
-            if (gson == null)
-                gson = new Gson();
-            music = gson.fromJson(result, Music.class);
-            if (is != null)
-                is.close();
+                    @Override
+                    public JSONObject parseResponse(Headers responseHeaders, byte[] responseBody) throws Exception {
+                        return null;
+                    }
+
+                    @Override
+                    public void onWriteRequestBody(OutputStream writer) throws IOException {
+                        super.onWriteRequestBody(writer);
+                    }
+                };
+            jorequest.add("method", "baidu.ting.billboard.billList");
+            jorequest.add("type", type);
+            jorequest.add("size", size);
+            jorequest.add("offset", offset);
+            new RequestQueue(5).add(0, jorequest, new OnResponseListener<JSONObject>() {
+                @Override
+                public void onStart(int what) {
+
+                }
+
+                @Override
+                public void onSucceed(int what, com.yanzhenjie.nohttp.rest.Response<JSONObject> response) {
+
+                }
+
+                @Override
+                public void onFailed(int what, com.yanzhenjie.nohttp.rest.Response<JSONObject> response) {
+
+                }
+
+                @Override
+                public void onFinish(int what) {
+
+                }
+            });
 
         } catch (Exception e) {
-            music = null;
-            e.printStackTrace();
-        } finally {
-            if (connection != null)
-                connection.disconnect();
 
         }
         return music;

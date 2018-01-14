@@ -1,16 +1,16 @@
-package soft.me.ldc.http;
+package soft.me.ldc.http.okhttp3Tool;
 
 
 import okhttp3.Response;
-import soft.me.ldc.http.accsess.MethodAccsess;
-import soft.me.ldc.http.param.HttpJsonParam;
-import soft.me.ldc.http.param.HttpParam;
+import soft.me.ldc.http.okhttp3Tool.accsess.okHttpMethodAccsess;
+import soft.me.ldc.http.okhttp3Tool.param.okHttpJsonParam;
+import soft.me.ldc.http.okhttp3Tool.param.okHttpParam;
 
 /**
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3Request implements MethodAccsess {
+public class okhttp3Request implements okHttpMethodAccsess {
     private static okhttp3Request instance = null;
 
     public static okhttp3Request getInstance() {
@@ -27,10 +27,10 @@ public class okhttp3Request implements MethodAccsess {
         if (obj == null)
             return null;
 
-        if (obj instanceof HttpParam) {
-            HttpParam param = (HttpParam) obj;
+        if (obj instanceof okHttpParam) {
+            okHttpParam param = (okHttpParam) obj;
             // TODO: 2017/12/12 参数文件提交
-            if (param.requestType == HttpParam.MultipartBody) {
+            if (param.requestType == okHttpParam.MultipartBodyType) {
                 if (param.method.trim().equals("0")) {
                     response = okhttp3MultipartBody.newInstance().MethodGet(param);
                 }
@@ -48,7 +48,7 @@ public class okhttp3Request implements MethodAccsess {
                 }
             }
             // TODO: 2017/12/12 提交参数
-            else if (param.requestType == HttpParam.FormBody) {
+            else if (param.requestType == okHttpParam.FormBodyType) {
                 if (param.method.trim().equals("0")) {
                     response = okhttp3FormBody.newInstance().MethodGet(param);
                 }
@@ -69,10 +69,10 @@ public class okhttp3Request implements MethodAccsess {
         }
 
         // TODO: 2017/12/12 提交json数据
-        else if (obj instanceof HttpJsonParam) {
+        else if (obj instanceof okHttpJsonParam) {
             //转类型
-            HttpJsonParam param = (HttpJsonParam) obj;
-            if (param.requestType == HttpParam.Json) {
+            okHttpJsonParam param = (okHttpJsonParam) obj;
+            if (param.requestType == okHttpParam.MediaType) {
                 if (param.method.trim().equals("0")) {
                     response = okhttp3JsonRequest.newInstance().MethodGet(param);
                 }

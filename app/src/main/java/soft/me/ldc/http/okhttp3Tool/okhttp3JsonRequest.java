@@ -1,4 +1,4 @@
-package soft.me.ldc.http;
+package soft.me.ldc.http.okhttp3Tool;
 
 
 import java.util.concurrent.TimeUnit;
@@ -8,14 +8,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import soft.me.ldc.http.accsess.HttpJsonAccess;
-import soft.me.ldc.http.param.HttpJsonParam;
+import soft.me.ldc.http.okhttp3Tool.accsess.okHttpJsonAccess;
+import soft.me.ldc.http.okhttp3Tool.param.okHttpJsonParam;
 
 /**
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3JsonRequest implements HttpJsonAccess {
+public class okhttp3JsonRequest implements okHttpJsonAccess {
 
     private static okhttp3JsonRequest instance = null;
     private OkHttpClient okclient = null;
@@ -47,7 +47,7 @@ public class okhttp3JsonRequest implements HttpJsonAccess {
     }
 
     @Override
-    public Response MethodPost(HttpJsonParam param) throws Exception {
+    public Response MethodPost(okHttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -67,13 +67,13 @@ public class okhttp3JsonRequest implements HttpJsonAccess {
     }
 
     @Override
-    public Response MethodGet(HttpJsonParam param) throws Exception {
+    public Response MethodGet(okHttpJsonParam param) throws Exception {
         //get 不做json 提交
         return null;
     }
 
     @Override
-    public Response MethodPut(HttpJsonParam param) throws Exception {
+    public Response MethodPut(okHttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -93,7 +93,7 @@ public class okhttp3JsonRequest implements HttpJsonAccess {
     }
 
     @Override
-    public Response MethodDelete(HttpJsonParam param) throws Exception {
+    public Response MethodDelete(okHttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
@@ -113,7 +113,7 @@ public class okhttp3JsonRequest implements HttpJsonAccess {
     }
 
     @Override
-    public Response MethodPatch(HttpJsonParam param) throws Exception {
+    public Response MethodPatch(okHttpJsonParam param) throws Exception {
         if (okclient == null)
             InitOkClient();
         if (param == null)
