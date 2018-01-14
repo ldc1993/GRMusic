@@ -15,21 +15,21 @@ import soft.me.ldc.http.okhttp3Tool.param.okHttpJsonParam;
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3JsonRequest implements okHttpJsonAccess {
+public class okHttp3JsonRequest implements okHttpJsonAccess {
 
-    private static okhttp3JsonRequest instance = null;
+    private static okHttp3JsonRequest instance = null;
     private OkHttpClient okclient = null;
 
     //单实例 线程安全
-    public static okhttp3JsonRequest newInstance() {
-        synchronized (okhttp3FormBody.class) {
+    public static okHttp3JsonRequest newInstance() {
+        synchronized (okHttp3FormBody.class) {
             if (instance == null)
-                instance = new okhttp3JsonRequest();
+                instance = new okHttp3JsonRequest();
         }
         return instance;
     }
 
-    private okhttp3JsonRequest() {
+    private okHttp3JsonRequest() {
         InitOkClient();
     }
 

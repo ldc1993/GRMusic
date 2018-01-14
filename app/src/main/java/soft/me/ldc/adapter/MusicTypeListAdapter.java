@@ -35,7 +35,7 @@ public class MusicTypeListAdapter extends RootRecyclerViewAdapter<MusicTypeListV
 
         MusicType type = mData.get(position);
         holder.itemView.setTag(type);
-        setAnimator(holder.itemView, position);
+        setAnimator(holder.itemView);
         holder.icon.setImageResource(type.typeIcon);
         holder.text.setText(type.typeName);
 

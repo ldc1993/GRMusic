@@ -40,7 +40,7 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
     public void onBindViewHolder(MusicListViewHolder holder, int position) {
         Music.SongListBean data = mData.get(position);
         holder.itemView.setTag(data);
-        setAnimator(holder.itemView,position);
+        setAnimator(holder.itemView);
         holder.mTitle.setText("" + data.title);
         holder.mAuthor.setText("" + data.author);
         holder.mCountry.setText("" + data.country);

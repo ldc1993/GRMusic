@@ -17,26 +17,19 @@ import java.util.List;
  */
 
 public abstract class RootRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
-    private static int mPosition = -1;
-    private static boolean isLeft = false;
+
 
     @SuppressLint("NewApi")
-    protected void setAnimator(View view, int position) {
-        isLeft = Integer.compare(position, mPosition) <= 0 ? true : false;
-        addInAnimation(view, isLeft);
-        mPosition = position;
+    protected void setAnimator(View view) {
+        addInAnimation(view);
     }
 
     /**
      * 将动画对象加入集合中  根据左右滑动加入不同
      */
-    private void addInAnimation(View view, boolean change) {
+    private void addInAnimation(View view) {
         List<Animator> list = new ArrayList<>();
-        if (change) {
-            list.add(ObjectAnimator.ofFloat(view, "translationY", -view.getMeasuredHeight() / 2, 0));
-        } else {
-            list.add(ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight() / 2, 0));
-        }
+
         list.add(ObjectAnimator.ofFloat(view, "alpha", 0f, 1f));
         list.add(ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.1f, 1f));
         list.add(ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.1f, 1f));

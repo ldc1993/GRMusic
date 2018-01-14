@@ -1,8 +1,11 @@
 package soft.me.ldc.http.nohttpTool;
 
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.SimpleResponseListener;
+
+import soft.me.ldc.http.nohttpTool.accsess.noHttpResultListener;
 
 /**
  * Created by ldc45 on 2018/1/14.
@@ -24,12 +27,23 @@ public class noHttpQueue {
 
     //私有构造函数
     private noHttpQueue() {
-        requestQueue = new RequestQueue(10);//线程池数 10
+        if (requestQueue == null)
+            requestQueue = new RequestQueue(10);//线程池数 10
+        requestQueue.start();
     }
 
     //添加请求
-    public <T> void request(int what, Request<T> request, SimpleResponseListener<T> listener) {
+    public <T> void push(int what, Request<T> request, noHttpResultListener<T> listener) {
         requestQueue.add(what, request, listener);
+    }
+
+    //添加请求
+    public <T> void push(int what, Request<T> request, OnResponseListener<T> listener) {
+        requestQueue.add(what, request, listener);
+    }
+
+    public void cancelAll() {
+        requestQueue.cancelAll();
     }
 
     //关闭线程池

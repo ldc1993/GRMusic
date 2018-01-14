@@ -10,13 +10,13 @@ import soft.me.ldc.http.okhttp3Tool.param.okHttpParam;
  * Created by LDC on 2017/12/12.
  */
 
-public class okhttp3Request implements okHttpMethodAccsess {
-    private static okhttp3Request instance = null;
+public class okHttp3Request implements okHttpMethodAccsess {
+    private static okHttp3Request instance = null;
 
-    public static okhttp3Request getInstance() {
-        synchronized (okhttp3Request.class) {
+    public static okHttp3Request getInstance() {
+        synchronized (okHttp3Request.class) {
             if (instance == null)
-                instance = new okhttp3Request();
+                instance = new okHttp3Request();
         }
         return instance;
     }
@@ -32,37 +32,37 @@ public class okhttp3Request implements okHttpMethodAccsess {
             // TODO: 2017/12/12 参数文件提交
             if (param.requestType == okHttpParam.MultipartBodyType) {
                 if (param.method.trim().equals("0")) {
-                    response = okhttp3MultipartBody.newInstance().MethodGet(param);
+                    response = okHttp3MultipartBody.newInstance().MethodGet(param);
                 }
                 if (param.method.trim().equals("1")) {
-                    response = okhttp3MultipartBody.newInstance().MethodPost(param);
+                    response = okHttp3MultipartBody.newInstance().MethodPost(param);
                 }
                 if (param.method.trim().equals("2")) {
-                    response = okhttp3MultipartBody.newInstance().MethodPut(param);
+                    response = okHttp3MultipartBody.newInstance().MethodPut(param);
                 }
                 if (param.method.trim().equals("3")) {
-                    response = okhttp3MultipartBody.newInstance().MethodDelete(param);
+                    response = okHttp3MultipartBody.newInstance().MethodDelete(param);
                 }
                 if (param.method.trim().equals("4")) {
-                    response = okhttp3MultipartBody.newInstance().MethodPatch(param);
+                    response = okHttp3MultipartBody.newInstance().MethodPatch(param);
                 }
             }
             // TODO: 2017/12/12 提交参数
             else if (param.requestType == okHttpParam.FormBodyType) {
                 if (param.method.trim().equals("0")) {
-                    response = okhttp3FormBody.newInstance().MethodGet(param);
+                    response = okHttp3FormBody.newInstance().MethodGet(param);
                 }
                 if (param.method.trim().equals("1")) {
-                    response = okhttp3FormBody.newInstance().MethodPost(param);
+                    response = okHttp3FormBody.newInstance().MethodPost(param);
                 }
                 if (param.method.trim().equals("2")) {
-                    response = okhttp3FormBody.newInstance().MethodPut(param);
+                    response = okHttp3FormBody.newInstance().MethodPut(param);
                 }
                 if (param.method.trim().equals("3")) {
-                    response = okhttp3FormBody.newInstance().MethodDelete(param);
+                    response = okHttp3FormBody.newInstance().MethodDelete(param);
                 }
                 if (param.method.trim().equals("4")) {
-                    response = okhttp3FormBody.newInstance().MethodPatch(param);
+                    response = okHttp3FormBody.newInstance().MethodPatch(param);
                 }
             }
 
@@ -74,19 +74,19 @@ public class okhttp3Request implements okHttpMethodAccsess {
             okHttpJsonParam param = (okHttpJsonParam) obj;
             if (param.requestType == okHttpParam.MediaType) {
                 if (param.method.trim().equals("0")) {
-                    response = okhttp3JsonRequest.newInstance().MethodGet(param);
+                    response = okHttp3JsonRequest.newInstance().MethodGet(param);
                 }
                 if (param.method.trim().equals("1")) {
-                    response = okhttp3JsonRequest.newInstance().MethodPost(param);
+                    response = okHttp3JsonRequest.newInstance().MethodPost(param);
                 }
                 if (param.method.trim().equals("2")) {
-                    response = okhttp3JsonRequest.newInstance().MethodPut(param);
+                    response = okHttp3JsonRequest.newInstance().MethodPut(param);
                 }
                 if (param.method.trim().equals("3")) {
-                    response = okhttp3JsonRequest.newInstance().MethodDelete(param);
+                    response = okHttp3JsonRequest.newInstance().MethodDelete(param);
                 }
                 if (param.method.trim().equals("4")) {
-                    response = okhttp3JsonRequest.newInstance().MethodPatch(param);
+                    response = okHttp3JsonRequest.newInstance().MethodPatch(param);
                 }
             }
         }

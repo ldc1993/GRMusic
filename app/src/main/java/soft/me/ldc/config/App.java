@@ -18,12 +18,9 @@ public class App extends Application {
         super.onCreate();
         config = InitializationConfig.newBuilder(this)
                 .readTimeout(40 * 1000)
-
                 .connectionTimeout(30 * 1000)
                 .networkExecutor(new OkHttpNetworkExecutor())//Okhttp网络层
-                .retry(3)//提交次数
-
-
+                .retry(1)//提交次数
                 .build();
         NoHttp.initialize(config);
     }

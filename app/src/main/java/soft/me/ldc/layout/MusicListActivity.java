@@ -15,15 +15,24 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.JsonObjectRequest;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Response;
+import com.yanzhenjie.nohttp.rest.SimpleResponseListener;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.config.AppConfig;
+import soft.me.ldc.http.nohttpTool.noHttpQueue;
 import soft.me.ldc.model.Music;
 import soft.me.ldc.model.MusicType;
 import soft.me.ldc.service.MusicService;
+import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 
@@ -46,17 +55,20 @@ public class MusicListActivity extends RootActivity {
     RefreshTask refreshTask = null;
     LoadmoreTask loadmoreTask = null;
     //数据
-    Music music = null;
+    Music mData = null;
     Gson gson = null;
     //
     LinearLayoutManager llm = null;
     MusicListAdapter musicListAdapter = null;
+    //等待对话框
+    private GRLoadDialog loadDialog = null;
 
     static final int REFRESHCODE = 0x000;//下拉刷新
     static final int LOADMORECODE = 0x001;//上拉刷新
     static final int UPDATEDATACODE = 0x002;//更新数据
-    static final int ERRORCODE = 0x003;//错误
-    Handler dkhandler = new Handler() {
+    static final int NODATACODE = 0x003;//错误
+    static final int ERRORCODE = 0x004;//错误
+    private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -67,13 +79,22 @@ public class MusicListActivity extends RootActivity {
                     LoadmoreTaskRun();
                     break;
                 case UPDATEDATACODE:
-                    music = (Music) msg.obj;
-                    if (musicListAdapter != null)
-                        musicListAdapter.pushData(music.song_list);
-                    musicListAdapter.notifyDataSetChanged();
+                    mData = (Music) msg.obj;
+                    if (mData != null && mData.song_list.size() > 0) {
+                        if (musicListAdapter != null) {
+                            musicListAdapter.pushData(mData.song_list);
+                            musicListAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        dkhandler.sendEmptyMessage(ERRORCODE);
+                    }
+
+                    break;
+                case NODATACODE:
+                    GRToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "加载失败!", Toast.LENGTH_SHORT);
+                    GRToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
                     break;
 
             }
@@ -115,18 +136,18 @@ public class MusicListActivity extends RootActivity {
 
         if (llm == null)
             llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
-        if (music == null)
-            music = new Music();
+        if (mData == null)
+            mData = new Music();
         if (musicListAdapter == null)
             musicListAdapter = new MusicListAdapter();
-        musicListAdapter.pushData(music.song_list);
+        musicListAdapter.pushData(mData.song_list);
         musicListAdapter.setListener(new ItemListener());
         mList.setLayoutFrozen(true);
         mList.setHasFixedSize(true);
         mList.setLayoutManager(llm);
         mList.setAdapter(musicListAdapter);
         //加载任务
-        RefreshTaskRun();
+        dkhandler.sendEmptyMessage(REFRESHCODE);
 
 
     }
@@ -164,7 +185,7 @@ public class MusicListActivity extends RootActivity {
 
         @Override
         public void onItem(View view, Music type) {
-            GRToastView.show(ctx, type.billboard.comment, Toast.LENGTH_SHORT);
+            GRToastView.show(ctx, type.billboard.name, Toast.LENGTH_SHORT);
         }
     }
 
@@ -188,64 +209,81 @@ public class MusicListActivity extends RootActivity {
 
 
     //下拉刷新
-    class RefreshTask extends AsyncTask<Void, Void, Void> {
+    class RefreshTask extends AsyncTask<Void, Void, Music> {
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            if (loadDialog != null && loadDialog.isShow())
+                loadDialog.dismiss();
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.Blue).show("数据加载中···", true);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Music doInBackground(Void... voids) {
+            Music result = null;
             try {
                 pageNo = 0;
-                music = MusicService.TestMusicList(musicType.typeCode, 20 + "", pageNo + "");
+                String str = MusicService.Instance(ctx).MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                if (gson == null)
+                    gson = new Gson();
+                result = gson.fromJson(str, Music.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Music result) {
             msg = new Message();
-            msg.what = UPDATEDATACODE;
-            msg.obj = music;
-            dkhandler.sendMessageDelayed(msg, 1500);
+            if (result != null) {
+                msg.what = UPDATEDATACODE;
+                msg.obj = result;
+            } else {
+                msg.what = NODATACODE;
+            }
+            loadDialog.dismiss();
+            dkhandler.sendMessage(msg);
         }
     }
 
     //上拉刷新
-    class LoadmoreTask extends AsyncTask<Void, Void, Void> {
+    class LoadmoreTask extends AsyncTask<Void, Void, Music> {
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            if (loadDialog != null && loadDialog.isShow())
+                loadDialog.dismiss();
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.Blue).show("数据加载中···", true);
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Music doInBackground(Void... voids) {
+            Music result = null;
             try {
                 pageNo++;
-                music = MusicService.TestMusicList(musicType.typeCode, 20 + "", pageNo + "");
+                String str = MusicService.Instance(ctx).MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                if (gson == null)
+                    gson = new Gson();
+                result = gson.fromJson(str, Music.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
-
-
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Music result) {
             msg = new Message();
-            msg.what = UPDATEDATACODE;
-            msg.obj = music;
-            dkhandler.sendMessageDelayed(msg, 1500);
+            if (result != null) {
+                msg.what = UPDATEDATACODE;
+                msg.obj = result;
+            } else {
+                msg.what = NODATACODE;
+            }
+            loadDialog.dismiss();
+            dkhandler.sendMessage(msg);
         }
     }
-
 
 }
