@@ -16,7 +16,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,6 +24,7 @@ import soft.me.ldc.adapter.QueryMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.QueryMusicBean;
 import soft.me.ldc.service.MusicService;
+import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRSearchToolbar;
 import soft.me.ldc.view.GRToastView;
@@ -47,7 +47,6 @@ public class QueryMusicActivity extends RootActivity {
     //
     LinearLayoutManager llm = null;
     QueryMusicAdapter queryMusicAdapter = null;
-    QueryMusicBean rootData = null;
     List<QueryMusicBean.ResultBean.SongInfoBean.SongListBean> mData = null;
 
     //
@@ -67,14 +66,14 @@ public class QueryMusicActivity extends RootActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESHCODE:
-                    RunRefreshTask("" + mToolbar.getSearchEt().toString());
+                    RunRefreshTask(mToolbar.getKey());
                     break;
                 case LOADMORECODE:
-                    RunRefreshTask("" + mToolbar.getSearchEt().toString());
+                    RunRefreshTask(mToolbar.getKey());
                     break;
                 case UPDATEVIEWCODE:
                     QueryMusicBean data = (QueryMusicBean) msg.obj;
-                    if (data == null) {
+                    if (data != null) {
                         if (data.result.song_info.song_list != null && data.result.song_info.song_list.size() > 0) {
 
                             if (queryMusicAdapter != null) {
@@ -114,7 +113,6 @@ public class QueryMusicActivity extends RootActivity {
     @Override
     protected void Main() {
         {
-            mToolbar.setColor(R.color.colorAccent);
             mToolbar.setLeftImg(R.mipmap.back_icon);
             mToolbar.setSearchHint("请输入关键字");
             mToolbar.setRightImg(R.mipmap.search_icon);
@@ -127,7 +125,7 @@ public class QueryMusicActivity extends RootActivity {
             mToolbar.setRightBtnListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GRToastView.show(ctx, "" + mToolbar.getSearchEt().getText().toString(), Toast.LENGTH_SHORT);
+                    RunRefreshTask(mToolbar.getKey());
                 }
             });
         }
@@ -136,19 +134,17 @@ public class QueryMusicActivity extends RootActivity {
             smartrefreshlayout.setOnLoadmoreListener(new RefreshListener());
             smartrefreshlayout.setEnableAutoLoadmore(false);
         }
-        if (rootData == null)
-            rootData = new QueryMusicBean();
         if (llm == null)
             llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
         if (queryMusicAdapter == null)
             queryMusicAdapter = new QueryMusicAdapter();
-        queryMusicAdapter.pushData(rootData.result.song_info.song_list);
-
+        queryMusicAdapter.pushData(null);
 
         mList.setLayoutManager(llm);
         mList.setHasFixedSize(true);
         mList.setLayoutFrozen(true);
         mList.setAdapter(queryMusicAdapter);
+        //加载任务
         dkhandler.sendEmptyMessage(REFRESHCODE);
 
 
@@ -213,7 +209,7 @@ public class QueryMusicActivity extends RootActivity {
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
                 loadDialog.dismiss();
-            GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("", true);
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("", true);
         }
 
         @Override
@@ -236,7 +232,7 @@ public class QueryMusicActivity extends RootActivity {
         @Override
         protected void onPostExecute(QueryMusicBean queryMusicBean) {
             msg = new Message();
-            if (queryMusicBean == null) {
+            if (queryMusicBean != null) {
                 msg.what = UPDATEVIEWCODE;
                 msg.obj = queryMusicBean;
             } else {
@@ -262,7 +258,7 @@ public class QueryMusicActivity extends RootActivity {
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
                 loadDialog.dismiss();
-            GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("", true);
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("", true);
         }
 
         @Override
@@ -285,7 +281,7 @@ public class QueryMusicActivity extends RootActivity {
         @Override
         protected void onPostExecute(QueryMusicBean queryMusicBean) {
             msg = new Message();
-            if (queryMusicBean == null) {
+            if (queryMusicBean != null) {
                 msg.what = UPDATEVIEWCODE;
                 msg.obj = queryMusicBean;
             } else {

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu1"
+        android:id="@+id/menu_search"
         android:enabled="true"
-        android:title="测试1"
-        android:tooltipText="测试" />
+        android:icon="@mipmap/search_icon"
+        android:iconTintMode="multiply"
+        android:orderInCategory="90"
+        android:title="搜索"
+        android:tooltipText="搜索"
+        app:showAsAction="always" />
 
 </menu>

@@ -174,6 +174,7 @@ public class MusicListActivity extends RootActivity {
         }
     }
 
+    //item事件
     class ItemListener implements MusicListAdapter.OnItemListener {
 
 
@@ -208,7 +209,7 @@ public class MusicListActivity extends RootActivity {
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
                 loadDialog.dismiss();
-            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.Blue).show("数据加载中···", true);
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("数据加载中···", true);
         }
 
         @Override
@@ -247,7 +248,7 @@ public class MusicListActivity extends RootActivity {
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
                 loadDialog.dismiss();
-            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.Blue).show("数据加载中···", true);
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("数据加载中···", true);
         }
 
         @Override

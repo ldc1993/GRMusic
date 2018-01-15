@@ -1,5 +1,6 @@
 package soft.me.ldc;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -25,8 +28,9 @@ import butterknife.BindView;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.MusicFragment;
-import soft.me.ldc.layout.Main2Fragment;
+import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.layout.Main3Fragment;
+import soft.me.ldc.layout.QueryMusicActivity;
 import soft.me.ldc.view.GRToastView;
 
 public class LauncherUI extends RootActivity {
@@ -115,11 +119,11 @@ public class LauncherUI extends RootActivity {
             fragments = new ArrayList<>();
         //标题
         titles.add("发现");
-        titles.add("音乐");
+        titles.add("电台");
         titles.add("我的");
         //页面
         fragments.add(new MusicFragment());
-        fragments.add(new Main2Fragment());
+        fragments.add(new RadioStationFragment());
         fragments.add(new Main3Fragment());
 
         if (uiViewPagerAdapter == null)
@@ -150,6 +154,7 @@ public class LauncherUI extends RootActivity {
         }
     }
 
+    //tabLayout选择事件
     class TabLayoutListener implements TabLayout.OnTabSelectedListener {
 
 
@@ -169,4 +174,22 @@ public class LauncherUI extends RootActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_xml, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                Intent it = new Intent();
+                it.setClass(ctx, QueryMusicActivity.class);
+                startActivity(it);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -71,10 +71,18 @@ public class GRSearchToolbar extends Toolbar {
             rightIv.setVisibility(GONE);
         if (params == null)
             params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setContentInsetsRelative(10, 10);
+        this.setContentInsetsRelative(0, 0);
         this.setTitleMargin(0, 0, 0, 0);
         this.addView(mainView, params);
 
+    }
+
+    public String getKey() {
+        if (this.titleEt != null) {
+            return StringUtil.isNotBlank(String.valueOf(titleEt.getText())) ? String.valueOf(titleEt.getText()) : "\"\"";
+        } else {
+            return "\"\"";
+        }
     }
 
     public void setColor(int color) {
@@ -191,13 +199,6 @@ public class GRSearchToolbar extends Toolbar {
         }
     }
 
-    public AppCompatEditText getSearchEt() {
-        if (this.titleEt != null) {
-            return this.titleEt;
-        } else {
-            return null;
-        }
-    }
 
     public void setRightText(String txt) {
         if (this.rightTv != null) {

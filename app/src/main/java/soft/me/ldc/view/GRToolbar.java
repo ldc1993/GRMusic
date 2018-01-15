@@ -72,7 +72,7 @@ public class GRToolbar extends Toolbar {
             rightIv.setVisibility(GONE);
         if (params == null)
             params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setContentInsetsRelative(10, 10);
+        this.setContentInsetsRelative(0, 0);
         this.setTitleMargin(0, 0, 0, 0);
         this.addView(mainView, params);
 

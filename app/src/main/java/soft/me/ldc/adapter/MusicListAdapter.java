@@ -13,6 +13,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.MusicListViewHolder;
 import soft.me.ldc.base.RootRecyclerViewAdapter;
 import soft.me.ldc.model.MusicListBean;
+import soft.me.ldc.utils.StringUtil;
 
 /**
  * Created by ldc45 on 2018/1/13.
@@ -45,7 +46,8 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
         holder.mCountry.setText("" + data.country);
         holder.mCompany.setText("" + data.si_proxycompany);
         holder.mLanguage.setText("" + data.language);
-        Picasso.with(ctx).load(data.pic_big).resize(96, 96).centerInside().into(holder.mIcon);
+        if (StringUtil.isNotBlank(data.pic_big))
+            Picasso.with(ctx).load(data.pic_big).resize(45, 45).centerCrop().into(holder.mIcon);
 
     }
 

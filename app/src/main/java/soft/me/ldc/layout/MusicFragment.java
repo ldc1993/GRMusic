@@ -24,8 +24,6 @@ import soft.me.ldc.view.GRToastView;
 
 public class MusicFragment extends RootFragment {
 
-    @BindView(R.id.searchView)
-    GRSearchView searchView;
     @BindView(R.id.musicTypeList)
     RecyclerView musicTypeList;
 
@@ -52,9 +50,6 @@ public class MusicFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
-        searchView.setHint("请输入关键字");
-        searchView.setHintColor("#ffffff");
-        searchView.setSearchBtnListener(new SearchListener());
         initData();//初始化数据
     }
 
@@ -78,17 +73,6 @@ public class MusicFragment extends RootFragment {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-
-    // TODO: 2018/1/12 搜索事件
-    class SearchListener implements GRSearchView.onSearchListener {
-
-        @Override
-        public void onSearchClick(View view, String key) {
-            Intent it = new Intent();
-            it.setClass(ctx, QueryMusicActivity.class);
-            startActivity(it);
-        }
-    }
 
     // TODO: 2018/1/13 初始化数据
     private void initData() {

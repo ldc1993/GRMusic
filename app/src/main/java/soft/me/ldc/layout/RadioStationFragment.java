@@ -14,9 +14,10 @@ import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.view.GRToastView;
 
 /**
+ * 电台
  * A simple {@link Fragment} subclass.
  */
-public class Main2Fragment extends RootFragment {
+public class RadioStationFragment extends RootFragment {
 
 
     @Override
@@ -26,7 +27,7 @@ public class Main2Fragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_main2, null,false);
+        return inflater.inflate(R.layout.fragment_main2, null, false);
     }
 
     @Override

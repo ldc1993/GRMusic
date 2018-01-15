@@ -13,6 +13,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.QueryMusicViewHolder;
 import soft.me.ldc.base.RootRecyclerViewAdapter;
 import soft.me.ldc.model.QueryMusicBean;
+import soft.me.ldc.utils.StringUtil;
 
 /**
  * Created by liudi on 2018/1/15.
@@ -42,11 +43,12 @@ public class QueryMusicAdapter extends RootRecyclerViewAdapter<QueryMusicViewHol
         holder.itemView.setTag(data);
         //设置
         holder.mCountry.setText("国家");
-        holder.mTitle.setText(data.title);
-        holder.mCompany.setText(data.si_proxycompany);
-        holder.mAuthor.setText(data.author);
-        holder.mAlbum.setText(data.album_title);
-        Picasso.with(ctx).load(data.pic_small).resize(90, 90).centerCrop().into(holder.mIcon);
+        holder.mTitle.setText(data.title + "");
+        holder.mCompany.setText(data.si_proxycompany + "");
+        holder.mAuthor.setText(data.author + "");
+        holder.mAlbum.setText(data.album_title + "");
+        if (StringUtil.isNotBlank(data.pic_small))
+            Picasso.with(ctx).load(data.pic_small).resize(96, 96).centerCrop().into(holder.mIcon);
 
     }
 

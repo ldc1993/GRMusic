@@ -9,6 +9,7 @@ import java.util.List;
  */
 
 public class MusicListBean implements Serializable {
+    static long serialVersionUID = 1L;
 
 
     /**
@@ -17,9 +18,9 @@ public class MusicListBean implements Serializable {
      * error_code : 22000
      */
 
-    public BillboardBean billboard=new BillboardBean();
+    public BillboardBean billboard = new BillboardBean();
     public int error_code;
-    public List<SongListBean> song_list=new ArrayList<>();
+    public List<SongListBean> song_list = new ArrayList<>();
 
     public static class BillboardBean {
         /**

@@ -92,11 +92,44 @@ public class MusicService {
             request.add("version", "5.6.5.0");//版本
             request.add("format", "json");//返回格式
             request.add("query", query);//关键字
-            request.add("page_on", page_on);//页数
+            request.add("page_no", page_on);//页数
             request.add("page_size", page_size);//分页大小
             request.add("data_source", "0");
             request.add("use_cluster", "1");
             request.add("type", "-1");
+
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+
+        } catch (Exception e) {
+            resultStr = null;
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
+
+
+    /**
+     * @return String
+     */
+    public String RadioStation() {
+        resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+            request.add("method", "baidu.ting.radio.getCategoryList");//方法
+            request.add("from", "android");//平台
+            request.add("version", "2.1.0");//版本
+            request.add("format", "json");//返回格式
 
             Response<String> response = NoHttp.startRequestSync(request);
             if (response != null && response.isSucceed()) {
