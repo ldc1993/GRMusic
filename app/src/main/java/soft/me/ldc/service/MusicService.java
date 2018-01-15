@@ -87,13 +87,16 @@ public class MusicService {
         try {
             if (request == null)
                 request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
-            request.add("method", "baidu.ting.search.common");//方法
+            request.add("method", "baidu.ting.search.merge");//方法
             request.add("from", "android");//平台
-            request.add("version", "2.1.0");//版本
+            request.add("version", "5.6.5.0");//版本
             request.add("format", "json");//返回格式
             request.add("query", query);//关键字
             request.add("page_on", page_on);//页数
             request.add("page_size", page_size);//分页大小
+            request.add("data_source", "0");
+            request.add("use_cluster", "1");
+            request.add("type", "-1");
 
             Response<String> response = NoHttp.startRequestSync(request);
             if (response != null && response.isSucceed()) {

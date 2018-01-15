@@ -1,6 +1,7 @@
 package soft.me.ldc.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,9 +17,9 @@ public class MusicListBean implements Serializable {
      * error_code : 22000
      */
 
-    public BillboardBean billboard;
+    public BillboardBean billboard=new BillboardBean();
     public int error_code;
-    public List<SongListBean> song_list;
+    public List<SongListBean> song_list=new ArrayList<>();
 
     public static class BillboardBean {
         /**
