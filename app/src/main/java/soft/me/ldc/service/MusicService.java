@@ -149,4 +149,39 @@ public class MusicService {
 
     }
 
+    /**
+     * @return String
+     */
+    public String RadioStationSong(String channelname, String page_on, String page_size) {
+        resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+            request.add("method", "baidu.ting.radio.getChannelSong");//方法
+            request.add("from", "android");//平台
+            request.add("version", "2.1.0");//版本
+            request.add("format", "json");//返回格式
+            request.add("channelname", channelname);
+            request.add("pn", page_on);//分页数
+            request.add("rn", page_size);//分页大小
+
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+
+        } catch (Exception e) {
+            resultStr = null;
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
+
 }

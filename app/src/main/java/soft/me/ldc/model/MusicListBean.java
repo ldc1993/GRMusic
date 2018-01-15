@@ -22,7 +22,8 @@ public class MusicListBean implements Serializable {
     public int error_code;
     public List<SongListBean> song_list = new ArrayList<>();
 
-    public static class BillboardBean {
+    public static class BillboardBean implements Serializable{
+        static long serialVersionUID=1L;
         /**
          * billboard_type : 1
          * billboard_no : 2438
@@ -56,7 +57,8 @@ public class MusicListBean implements Serializable {
 
     }
 
-    public static class SongListBean {
+    public static class SongListBean implements Serializable{
+        static long serialVersionUID=1L;
         /**
          * artist_id : 1641
          * language : 国语

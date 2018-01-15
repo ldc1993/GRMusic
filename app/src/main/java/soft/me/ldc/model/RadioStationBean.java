@@ -18,7 +18,8 @@ public class RadioStationBean implements Serializable {
     public List<ResultBean> result;
 
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
+        static long serialVersionUID=1L;
         /**
          * title : 公共频道
          * cid : 1
@@ -29,7 +30,8 @@ public class RadioStationBean implements Serializable {
         public int cid;
         public List<ChannellistBean> channellist;
 
-        public static class ChannellistBean {
+        public static class ChannellistBean implements Serializable{
+            static long serialVersionUID=1L;
             /**
              * name : 漫步春天
              * channelid : 62

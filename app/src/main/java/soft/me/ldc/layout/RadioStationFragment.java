@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,10 +106,11 @@ public class RadioStationFragment extends RootFragment {
     protected void Main() throws Exception {
         {
             if (sglm == null)
-                sglm =  new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             if (radioStationAdapter == null)
                 radioStationAdapter = new RadioStationAdapter();
             radioStationAdapter.pushData(null);
+            radioStationAdapter.setListener(new ItemListener());
         }
         mList.setLayoutManager(sglm);
         mList.setLayoutFrozen(true);
@@ -179,6 +181,25 @@ public class RadioStationFragment extends RootFragment {
             }
             dkhandler.sendMessage(msg);
             loadDialog.dismiss();
+        }
+    }
+
+    //点击事件
+    class ItemListener implements RadioStationAdapter.OnItemListener {
+
+        @Override
+        public void itemClick(View view, RadioStationBean.ResultBean.ChannellistBean type) {
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type", type);
+                Intent it = new Intent();
+                it.setClass(ctx, RadioStationSongActivity.class);
+                it.putExtras(bundle);
+                startActivity(it);
+            } catch (Exception e) {
+                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
+                e.printStackTrace();
+            }
         }
     }
 

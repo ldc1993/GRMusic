@@ -30,7 +30,8 @@
             android:ellipsize="middle"
             android:gravity="center"
             android:padding="1dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mCate_sname"
@@ -39,7 +40,8 @@
             android:ellipsize="middle"
             android:gravity="center"
             android:padding="1dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="9sp" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 
