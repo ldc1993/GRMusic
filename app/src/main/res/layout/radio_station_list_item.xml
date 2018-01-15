@@ -30,8 +30,7 @@
             android:ellipsize="middle"
             android:gravity="center"
             android:padding="1dp"
-            android:singleLine="true"
-            android:textSize="14sp" />
+            android:singleLine="true" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mCate_sname"
