@@ -7,7 +7,7 @@ import java.util.List;
  * Created by ldc45 on 2018/1/13.
  */
 
-public class Music implements Serializable {
+public class MusicListBean implements Serializable {
 
 
     /**

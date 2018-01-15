@@ -17,7 +17,7 @@ import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicTypeListAdapter;
 import soft.me.ldc.base.RootFragment;
-import soft.me.ldc.model.MusicType;
+import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.view.GRSearchView;
 import soft.me.ldc.view.GRToastView;
 
@@ -36,7 +36,7 @@ public class MusicFragment extends RootFragment {
     Bundle bundle = null;
 
     //数据
-    List<MusicType> mData = null;
+    List<MusicTypeBean> mData = null;
 
 
     @Override
@@ -95,16 +95,16 @@ public class MusicFragment extends RootFragment {
         if (mData == null)
             mData = new ArrayList<>();
         mData.clear();//清空数据
-        mData.add(new MusicType("1", "新歌", R.mipmap.ic_launcher));
-        mData.add(new MusicType("1", "热歌", R.mipmap.ic_launcher));
-        mData.add(new MusicType("11", "摇滚", R.mipmap.ic_launcher));
-        mData.add(new MusicType("12", "爵士", R.mipmap.ic_launcher));
-        mData.add(new MusicType("16", "流行", R.mipmap.ic_launcher));
-        mData.add(new MusicType("21", "欧美金曲", R.mipmap.ic_launcher));
-        mData.add(new MusicType("22", "金典老歌", R.mipmap.ic_launcher));
-        mData.add(new MusicType("23", "情歌对唱", R.mipmap.ic_launcher));
-        mData.add(new MusicType("24", "影视金曲", R.mipmap.ic_launcher));
-        mData.add(new MusicType("25", "网络歌曲", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("1", "新歌", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("1", "热歌", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("11", "摇滚", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("12", "爵士", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("16", "流行", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("21", "欧美金曲", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("22", "金典老歌", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("23", "情歌对唱", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("24", "影视金曲", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("25", "网络歌曲", R.mipmap.ic_launcher));
 
     }
 
@@ -112,7 +112,7 @@ public class MusicFragment extends RootFragment {
     class OnItemListener implements MusicTypeListAdapter.OnItemListener {
 
         @Override
-        public void onItem(View view, MusicType type) {
+        public void onItem(View view, MusicTypeBean type) {
             try {
                 if (bundle == null)
                     bundle = new Bundle();

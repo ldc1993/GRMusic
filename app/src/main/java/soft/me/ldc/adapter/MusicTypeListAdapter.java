@@ -9,17 +9,17 @@ import java.util.List;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.MusicTypeListViewHolder;
 import soft.me.ldc.base.RootRecyclerViewAdapter;
-import soft.me.ldc.model.MusicType;
+import soft.me.ldc.model.MusicTypeBean;
 
 /**
  * Created by ldc45 on 2018/1/13.
  */
 
 public class MusicTypeListAdapter extends RootRecyclerViewAdapter<MusicTypeListViewHolder> implements View.OnClickListener {
-    List<MusicType> mData = null;
+    List<MusicTypeBean> mData = null;
     OnItemListener listener = null;
 
-    public void pushData(List<MusicType> mData) {
+    public void pushData(List<MusicTypeBean> mData) {
         this.mData = mData;
     }
 
@@ -33,7 +33,7 @@ public class MusicTypeListAdapter extends RootRecyclerViewAdapter<MusicTypeListV
     @Override
     public void onBindViewHolder(MusicTypeListViewHolder holder, int position) {
 
-        MusicType type = mData.get(position);
+        MusicTypeBean type = mData.get(position);
         holder.itemView.setTag(type);
         setAnimator(holder.itemView);
         holder.icon.setImageResource(type.typeIcon);
@@ -49,14 +49,14 @@ public class MusicTypeListAdapter extends RootRecyclerViewAdapter<MusicTypeListV
     @Override
     public void onClick(View v) {
         if (this.listener != null) {
-            this.listener.onItem(v, (MusicType) v.getTag());
+            this.listener.onItem(v, (MusicTypeBean) v.getTag());
         }
 
     }
 
     //接口
     public interface OnItemListener {
-        void onItem(View view, MusicType type);
+        void onItem(View view, MusicTypeBean type);
     }
 
     //暴露接口

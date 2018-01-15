@@ -39,12 +39,13 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //网络请求
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
-    //gson-json解析
-    compile 'com.google.code.gson:gson:2.8.2'
-    //上下拉刷新
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    //图片处理
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    //
+    //nohttp网络框架 okhttp作为网络底层
     implementation 'com.yanzhenjie.nohttp:okhttp:1.1.8'
+    //gson-json解析
+    implementation 'com.google.code.gson:gson:2.8.2'
+    //上下拉刷新
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    //图片处理
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
 }

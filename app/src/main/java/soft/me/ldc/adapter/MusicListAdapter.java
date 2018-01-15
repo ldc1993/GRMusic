@@ -12,19 +12,18 @@ import java.util.List;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.MusicListViewHolder;
 import soft.me.ldc.base.RootRecyclerViewAdapter;
-import soft.me.ldc.model.Music;
-import soft.me.ldc.model.MusicType;
+import soft.me.ldc.model.MusicListBean;
 
 /**
  * Created by ldc45 on 2018/1/13.
  */
 
 public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolder> implements View.OnClickListener {
-    List<Music.SongListBean> mData = null;
+    List<MusicListBean.SongListBean> mData = null;
     OnItemListener listener = null;
     Context ctx = null;
 
-    public void pushData(List<Music.SongListBean> mData) {
+    public void pushData(List<MusicListBean.SongListBean> mData) {
         this.mData = mData;
     }
 
@@ -38,7 +37,7 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
 
     @Override
     public void onBindViewHolder(MusicListViewHolder holder, int position) {
-        Music.SongListBean data = mData.get(position);
+        MusicListBean.SongListBean data = mData.get(position);
         holder.itemView.setTag(data);
         setAnimator(holder.itemView);
         holder.mTitle.setText("" + data.title);
@@ -58,13 +57,13 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
     @Override
     public void onClick(View v) {
         if (this.listener != null) {
-            this.listener.onItem(v, (Music.SongListBean) v.getTag());
+            this.listener.onItem(v, (MusicListBean.SongListBean) v.getTag());
         }
     }
 
     //接口
     public interface OnItemListener {
-        void onItem(View view, Music.SongListBean type);
+        void onItem(View view, MusicListBean.SongListBean type);
     }
 
     //暴露接口

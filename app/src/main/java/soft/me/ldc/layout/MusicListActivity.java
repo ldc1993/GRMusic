@@ -15,22 +15,13 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.JsonObjectRequest;
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Response;
-import com.yanzhenjie.nohttp.rest.SimpleResponseListener;
-
-import org.json.JSONObject;
 
 import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.config.AppConfig;
-import soft.me.ldc.http.nohttpTool.noHttpQueue;
-import soft.me.ldc.model.Music;
-import soft.me.ldc.model.MusicType;
+import soft.me.ldc.model.MusicListBean;
+import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.service.MusicService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
@@ -46,7 +37,7 @@ public class MusicListActivity extends RootActivity {
     @BindView(R.id.mList)
     RecyclerView mList;
 
-    MusicType musicType = null;
+    MusicTypeBean musicTypeBean = null;
     //分页
     int pageNo = 0;
     //消息
@@ -55,7 +46,7 @@ public class MusicListActivity extends RootActivity {
     RefreshTask refreshTask = null;
     LoadmoreTask loadmoreTask = null;
     //数据
-    Music mData = null;
+    MusicListBean mData = null;
     Gson gson = null;
     //
     LinearLayoutManager llm = null;
@@ -79,7 +70,7 @@ public class MusicListActivity extends RootActivity {
                     LoadmoreTaskRun();
                     break;
                 case UPDATEDATACODE:
-                    mData = (Music) msg.obj;
+                    mData = (MusicListBean) msg.obj;
                     if (mData != null && mData.song_list.size() > 0) {
                         if (musicListAdapter != null) {
                             musicListAdapter.pushData(mData.song_list);
@@ -106,7 +97,7 @@ public class MusicListActivity extends RootActivity {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
-        musicType = (MusicType) getIntent().getSerializableExtra("type");
+        musicTypeBean = (MusicTypeBean) getIntent().getSerializableExtra("type");
     }
 
     @Override
@@ -119,7 +110,7 @@ public class MusicListActivity extends RootActivity {
     protected void Main() {
         {
             mToolbar.setLeftImg(R.mipmap.back_icon);
-            mToolbar.setTitleText("" + musicType.typeName);
+            mToolbar.setTitleText("" + musicTypeBean.typeName);
             mToolbar.setColorRes(R.color.colorPrimary);
             mToolbar.setLeftBtnListener(new View.OnClickListener() {
                 @Override
@@ -140,7 +131,7 @@ public class MusicListActivity extends RootActivity {
         if (llm == null)
             llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
         if (mData == null)
-            mData = new Music();
+            mData = new MusicListBean();
         if (musicListAdapter == null)
             musicListAdapter = new MusicListAdapter();
         musicListAdapter.pushData(mData.song_list);
@@ -187,7 +178,7 @@ public class MusicListActivity extends RootActivity {
 
 
         @Override
-        public void onItem(View view, Music.SongListBean type) {
+        public void onItem(View view, MusicListBean.SongListBean type) {
             GRToastView.show(ctx, type.title, Toast.LENGTH_SHORT);
         }
     }
@@ -212,7 +203,7 @@ public class MusicListActivity extends RootActivity {
 
 
     //下拉刷新
-    class RefreshTask extends AsyncTask<Void, Void, Music> {
+    class RefreshTask extends AsyncTask<Void, Void, MusicListBean> {
         @Override
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
@@ -221,14 +212,14 @@ public class MusicListActivity extends RootActivity {
         }
 
         @Override
-        protected Music doInBackground(Void... voids) {
-            Music result = null;
+        protected MusicListBean doInBackground(Void... voids) {
+            MusicListBean result = null;
             try {
                 pageNo = 0;
-                String str = MusicService.Instance(ctx).MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                String str = MusicService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
-                result = gson.fromJson(str, Music.class);
+                result = gson.fromJson(str, MusicListBean.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
@@ -237,7 +228,7 @@ public class MusicListActivity extends RootActivity {
         }
 
         @Override
-        protected void onPostExecute(Music result) {
+        protected void onPostExecute(MusicListBean result) {
             msg = new Message();
             if (result != null) {
                 msg.what = UPDATEDATACODE;
@@ -251,7 +242,7 @@ public class MusicListActivity extends RootActivity {
     }
 
     //上拉刷新
-    class LoadmoreTask extends AsyncTask<Void, Void, Music> {
+    class LoadmoreTask extends AsyncTask<Void, Void, MusicListBean> {
         @Override
         protected void onPreExecute() {
             if (loadDialog != null && loadDialog.isShow())
@@ -260,14 +251,14 @@ public class MusicListActivity extends RootActivity {
         }
 
         @Override
-        protected Music doInBackground(Void... voids) {
-            Music result = null;
+        protected MusicListBean doInBackground(Void... voids) {
+            MusicListBean result = null;
             try {
                 pageNo++;
-                String str = MusicService.Instance(ctx).MusicList(musicType.typeCode, 20 + "", pageNo + "");
+                String str = MusicService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
-                result = gson.fromJson(str, Music.class);
+                result = gson.fromJson(str, MusicListBean.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
@@ -276,7 +267,7 @@ public class MusicListActivity extends RootActivity {
         }
 
         @Override
-        protected void onPostExecute(Music result) {
+        protected void onPostExecute(MusicListBean result) {
             msg = new Message();
             if (result != null) {
                 msg.what = UPDATEDATACODE;

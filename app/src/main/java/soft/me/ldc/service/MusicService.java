@@ -47,15 +47,55 @@ public class MusicService {
      */
     public String MusicList(String type, String size, String offset) {
         resultStr = "";
-        Request<String> jorequest = null;
+        Request<String> request = null;
         try {
-            if (jorequest == null)
-                jorequest = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
-            jorequest.add("method", "baidu.ting.billboard.billList");
-            jorequest.add("type", type);
-            jorequest.add("size", size);
-            jorequest.add("offset", offset);
-            Response<String> response = NoHttp.startRequestSync(jorequest);
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+            request.add("method", "baidu.ting.billboard.billList");
+            request.add("type", type);
+            request.add("size", size);
+            request.add("offset", offset);
+            request.add("version", "2.1.0");
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+
+        } catch (Exception e) {
+            resultStr = null;
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
+
+
+    /**
+     * @param query     关键字
+     * @param page_size 分页大小
+     * @param page_on   页数
+     * @return
+     */
+    public String QueryMusic(String query, String page_on, String page_size) {
+        resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+            request.add("method", "baidu.ting.search.common");//方法
+            request.add("from", "android");//平台
+            request.add("version", "2.1.0");//版本
+            request.add("format", "json");//返回格式
+            request.add("query", query);//关键字
+            request.add("page_on", page_on);//页数
+            request.add("page_size", page_size);//分页大小
+
+            Response<String> response = NoHttp.startRequestSync(request);
             if (response != null && response.isSucceed()) {
 
                 Headers headers = response.getHeaders();
