@@ -87,13 +87,12 @@ public class PlayService extends Service implements IPlayMusic {
     public void Stop() {
         // 当player对象不为空时
         if (player != null) {
-            try {
-                player.seekTo(0);
-                player.stop();//停止播放
-                player.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+           try{
+               player.reset();
+               player.prepare();
+           }catch (Exception e){
+               e.printStackTrace();
+           }
         }
     }
 

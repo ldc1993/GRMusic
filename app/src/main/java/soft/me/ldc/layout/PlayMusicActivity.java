@@ -72,6 +72,8 @@ public class PlayMusicActivity extends RootActivity {
             playServiceIt.setClass(ctx, PlayService.class);
         }
 
+        //
+        mStop.setEnabled(false);
     }
 
     @Override
