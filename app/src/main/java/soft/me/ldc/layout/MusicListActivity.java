@@ -22,7 +22,7 @@ import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
-import soft.me.ldc.service.MusicService;
+import soft.me.ldc.service.HttpService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -217,7 +217,7 @@ public class MusicListActivity extends RootActivity {
             MusicListBean result = null;
             try {
                 pageNo = 0;
-                String str = MusicService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
+                String str = HttpService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);
@@ -256,7 +256,7 @@ public class MusicListActivity extends RootActivity {
             MusicListBean result = null;
             try {
                 pageNo++;
-                String str = MusicService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
+                String str = HttpService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);

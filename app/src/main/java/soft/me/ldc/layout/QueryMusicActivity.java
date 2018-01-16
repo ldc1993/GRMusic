@@ -23,8 +23,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.QueryMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.QueryMusicBean;
-import soft.me.ldc.service.MusicService;
-import soft.me.ldc.utils.StringUtil;
+import soft.me.ldc.service.HttpService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRSearchToolbar;
 import soft.me.ldc.view.GRToastView;
@@ -220,7 +219,7 @@ public class QueryMusicActivity extends RootActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNO = 0;
-                String str = MusicService.Instance(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
+                String str = HttpService.Instance(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {
@@ -269,7 +268,7 @@ public class QueryMusicActivity extends RootActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNO++;
-                String str = MusicService.Instance(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
+                String str = HttpService.Instance(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {

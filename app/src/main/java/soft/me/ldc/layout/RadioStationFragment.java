@@ -24,7 +24,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.RadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
-import soft.me.ldc.service.MusicService;
+import soft.me.ldc.service.HttpService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 
@@ -160,7 +160,7 @@ public class RadioStationFragment extends RootFragment {
             try {
                 if (gson == null)
                     gson = new Gson();
-                String str = MusicService.Instance(ctx).RadioStation();
+                String str = HttpService.Instance(ctx).RadioStation();
                 radioStationBean = gson.fromJson(str, RadioStationBean.class);
 
             } catch (Exception e) {

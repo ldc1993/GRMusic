@@ -1,5 +1,6 @@
 package soft.me.ldc.layout;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,13 +18,13 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.RadioStationSongAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.model.RadioStationSongBean;
-import soft.me.ldc.service.MusicService;
+import soft.me.ldc.service.HttpService;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -169,7 +170,9 @@ public class RadioStationSongActivity extends RootActivity {
 
         @Override
         public void itemClick(View view, RadioStationSongBean.ResultBean.SonglistBean type) {
-            GRToastView.show(ctx, type.title, Toast.LENGTH_SHORT);
+            Intent it = new Intent(ctx, PlayMusicActivity.class);
+            it.putExtra("title", type.title);
+            startActivity(it);
         }
     }
 
@@ -216,7 +219,7 @@ public class RadioStationSongActivity extends RootActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNo = 0;
-                String str = MusicService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
+                String str = HttpService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {
@@ -264,7 +267,7 @@ public class RadioStationSongActivity extends RootActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNo++;
-                String str = MusicService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
+                String str = HttpService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {

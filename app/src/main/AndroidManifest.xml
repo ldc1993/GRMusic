@@ -25,7 +25,10 @@
         </activity>
         <activity android:name=".layout.MusicListActivity" />
         <activity android:name=".layout.QueryMusicActivity" />
-        <activity android:name=".layout.RadioStationSongActivity"></activity>
+        <activity android:name=".layout.RadioStationSongActivity" />
+        <activity android:name=".layout.PlayMusicActivity" />
+
+        <service android:name=".service.PlayService" />
     </application>
 
 </manifest>

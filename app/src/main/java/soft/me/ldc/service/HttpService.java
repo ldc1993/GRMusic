@@ -7,33 +7,30 @@ import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
-import com.yanzhenjie.nohttp.rest.StringRequest;
 
 import soft.me.ldc.config.AppConfig;
-import soft.me.ldc.http.nohttpTool.accsess.noHttpResultListener;
-import soft.me.ldc.http.nohttpTool.noHttpQueue;
 
 /**
  * Created by ldc45 on 2018/1/13.
  */
 
-public class MusicService {
+public class HttpService {
 
-    private static MusicService instance = null;
+    private static HttpService instance = null;
     private Context ctx = null;
 
-    public static MusicService Instance(Context ctx) {
+    public static HttpService Instance(Context ctx) {
 
-        synchronized (MusicService.class) {
+        synchronized (HttpService.class) {
             if (instance == null) {
-                instance = new MusicService(ctx);
+                instance = new HttpService(ctx);
             }
 
         }
         return instance;
     }
 
-    private MusicService(Context ctx) {
+    private HttpService(Context ctx) {
         this.ctx = ctx;
     }
 
