@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
-import soft.me.ldc.animotion.DepthPageTransformer;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.MusicFragment;
@@ -34,6 +32,7 @@ import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.QueryMusicActivity;
 import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.GRViewPager;
 
 public class LauncherUI extends RootActivity {
 
@@ -55,7 +54,7 @@ public class LauncherUI extends RootActivity {
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
-    ViewPager viewPager;
+    GRViewPager viewPager;
     //toolbar 设置
     private ActionBarDrawerToggle mDrawerToggle;
     // 页面
@@ -136,6 +135,7 @@ public class LauncherUI extends RootActivity {
         viewPager.setAdapter(uiViewPagerAdapter);
         viewPager.setCurrentItem(0);
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        viewPager.setScrollEnable(true);
         //
         tabLayout.setupWithViewPager(viewPager, true);
         tabLayout.addOnTabSelectedListener(new TabLayoutListener());
