@@ -40,6 +40,6 @@ public class GRViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item) {
-        super.setCurrentItem(item, iScroll);
+        super.setCurrentItem(item, true);
     }
 }

@@ -14,8 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mList"
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/mViewContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -3,16 +3,19 @@ package soft.me.ldc;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,19 +23,14 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
-import soft.me.ldc.animotion.ZoomOutPageTransformer;
+import butterknife.ButterKnife;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.layout.MusicFragment;
-import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.layout.Main3Fragment;
+import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.QueryMusicActivity;
+import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.view.GRToastView;
-import soft.me.ldc.view.GRViewPager;
 
 public class LauncherUI extends RootActivity {
 
@@ -52,15 +50,9 @@ public class LauncherUI extends RootActivity {
     @BindView(R.id.switchBtn)
     AppCompatCheckBox switchBtn;
     @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.view_pager)
-    GRViewPager viewPager;
+    BottomNavigationView tabLayout;
     //toolbar 设置
     private ActionBarDrawerToggle mDrawerToggle;
-    // 页面
-    List<Fragment> fragments = null;
-    List<String> titles = null;
-    LauncherUIViewPagerAdapter uiViewPagerAdapter = null;
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
@@ -114,31 +106,9 @@ public class LauncherUI extends RootActivity {
 
     // TODO: 2018/1/12
     private void initTabLayout() {
-        if (titles == null)
-            titles = new ArrayList<>();
-        if (fragments == null)
-            fragments = new ArrayList<>();
-        //标题
-        titles.add("发现");
-        titles.add("电台");
-        titles.add("我的");
-        //页面
-        fragments.add(new MusicFragment());
-        fragments.add(new RadioStationFragment());
-        fragments.add(new Main3Fragment());
-
-        if (uiViewPagerAdapter == null)
-            uiViewPagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
-        uiViewPagerAdapter.pushData(fragments, titles);
-        //
-        viewPager.setOffscreenPageLimit(2);
-        viewPager.setAdapter(uiViewPagerAdapter);
-        viewPager.setCurrentItem(0);
-        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        viewPager.setScrollEnable(true);
-        //
-        tabLayout.setupWithViewPager(viewPager, true);
-        tabLayout.addOnTabSelectedListener(new TabLayoutListener());
+        //tab点击点击事件
+        SwitchPager(new MusicFragment());//默认显示第一页
+        tabLayout.setOnNavigationItemSelectedListener(new TabLayoutListener());
     }
 
 
@@ -158,26 +128,39 @@ public class LauncherUI extends RootActivity {
     }
 
     //tabLayout选择事件
-    class TabLayoutListener implements TabLayout.OnTabSelectedListener {
-
-
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-
-        }
+    class TabLayoutListener implements BottomNavigationView.OnNavigationItemSelectedListener {
+        volatile boolean callback = false;
 
         @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-            //没有选中
-        }
-
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-            //再次选择
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.tab_item1:
+                    callback = true;
+                    SwitchPager(new MusicFragment());
+                    break;
+                case R.id.tab_item2:
+                    callback = true;
+                    SwitchPager(new RadioStationFragment());
+                    break;
+                case R.id.tab_item3:
+                    callback = true;
+                    SwitchPager(new Main3Fragment());
+                    break;
+                default:
+                    callback = false;
+                    break;
+            }
+            return callback;
         }
     }
 
+    // TODO: 2018/1/17 页面切换
+    private void SwitchPager(Fragment fragment) {
+        if (fragment != null)
+            fragmentManager.beginTransaction().replace(R.id.view_content, fragment).commitNow();
+    }
 
+    //菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_xml, menu);

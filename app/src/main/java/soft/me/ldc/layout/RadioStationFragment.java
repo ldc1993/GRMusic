@@ -6,9 +6,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import butterknife.BindView;
 import soft.me.ldc.R;
-import soft.me.ldc.adapter.RadioStationAdapter;
+import soft.me.ldc.adapter.PublicRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.service.HttpService;
@@ -35,8 +36,8 @@ import soft.me.ldc.view.GRToastView;
 public class RadioStationFragment extends RootFragment {
 
 
-    @BindView(R.id.mList)
-    RecyclerView mList;
+    @BindView(R.id.mViewContent)
+    LinearLayoutCompat mViewContent;
     @BindView(R.id.smartrefreshlayout)
     SmartRefreshLayout smartrefreshlayout;
     //
@@ -47,9 +48,6 @@ public class RadioStationFragment extends RootFragment {
     RefreshTask refreshTask = null;
     //消息
     Message msg = null;
-    //
-    StaggeredGridLayoutManager sglm = null;
-    RadioStationAdapter radioStationAdapter = null;
 
     static final int REFRESHCODE = 0x000;//刷新
     static final int UPDATEVIEWCODE = 0x001;//更新数据
@@ -66,10 +64,9 @@ public class RadioStationFragment extends RootFragment {
                     RadioStationBean data = (RadioStationBean) msg.obj;
                     if (data != null) {
                         if (data.result != null && data.result.size() > 0 && data.result.get(0).channellist != null && data.result.get(0).channellist.size() > 0) {
-                            if (radioStationAdapter == null)
-                                return;
-                            radioStationAdapter.pushData(data.result.get(0).channellist);
-                            radioStationAdapter.notifyDataSetChanged();
+                            PublicRadioFragment fragment = new PublicRadioFragment();
+                            fragment.pushData(data.result.get(0).channellist);
+                            SwitchPager(fragment);
                         } else {
                             dkhandler.sendEmptyMessage(NODATACODE);
                         }
@@ -104,18 +101,7 @@ public class RadioStationFragment extends RootFragment {
 
     @Override
     protected void Main() throws Exception {
-        {
-            if (sglm == null)
-                sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-            if (radioStationAdapter == null)
-                radioStationAdapter = new RadioStationAdapter();
-            radioStationAdapter.pushData(null);
-            radioStationAdapter.setListener(new ItemListener());
-        }
-        mList.setLayoutManager(sglm);
-        mList.setLayoutFrozen(true);
-        mList.setHasFixedSize(true);
-        mList.setAdapter(radioStationAdapter);
+
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
@@ -126,6 +112,13 @@ public class RadioStationFragment extends RootFragment {
     }
 
 
+    // TODO: 2018/1/17 页面切换
+    private void SwitchPager(Fragment fragment) {
+        if (fragment != null)
+            fragmentManager.beginTransaction().replace(R.id.mViewContent, fragment).commitNow();
+    }
+
+    //刷新事件
     class RefreshListener implements OnRefreshListener {
 
         @Override
@@ -184,23 +177,5 @@ public class RadioStationFragment extends RootFragment {
         }
     }
 
-    //点击事件
-    class ItemListener implements RadioStationAdapter.OnItemListener {
-
-        @Override
-        public void itemClick(View view, RadioStationBean.ResultBean.ChannellistBean type) {
-            try {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("type", type);
-                Intent it = new Intent();
-                it.setClass(ctx, RadioStationSongActivity.class);
-                it.putExtras(bundle);
-                startActivity(it);
-            } catch (Exception e) {
-                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
-                e.printStackTrace();
-            }
-        }
-    }
 
 }

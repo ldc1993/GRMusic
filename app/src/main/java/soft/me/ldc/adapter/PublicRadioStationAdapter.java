@@ -19,7 +19,7 @@ import soft.me.ldc.utils.StringUtil;
  * Created by liudi on 2018/1/15.
  */
 
-public class RadioStationAdapter extends RootRecyclerViewAdapter<RadioStationViewHolder> implements View.OnClickListener {
+public class PublicRadioStationAdapter extends RootRecyclerViewAdapter<RadioStationViewHolder> implements View.OnClickListener {
     List<RadioStationBean.ResultBean.ChannellistBean> mData = null;
     Context ctx = null;
     OnItemListener listener = null;

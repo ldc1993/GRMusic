@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public abstract class RootFragment extends Fragment {
     protected Context ctx = null;
     protected Activity act = null;
     protected View rootView = null;
+    protected FragmentManager fragmentManager = null;
     private Unbinder unbinder = null;
 
     @Override
@@ -30,7 +32,7 @@ public abstract class RootFragment extends Fragment {
             this.ctx = getContext();
             this.act = getActivity();
             NewCreate(savedInstanceState);
-
+            this.fragmentManager = getChildFragmentManager();
         } catch (Exception e) {
             Exception(e);
         }

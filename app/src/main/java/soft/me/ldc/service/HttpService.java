@@ -37,6 +37,8 @@ public class HttpService {
     String resultStr = null;
 
     /**
+     * 音乐分类
+     *
      * @param type   音乐类型
      * @param size   返回数量
      * @param offset 偏移 分页
@@ -73,6 +75,8 @@ public class HttpService {
 
 
     /**
+     * 歌曲搜索
+     *
      * @param query     关键字
      * @param page_size 分页大小
      * @param page_on   页数
@@ -115,6 +119,8 @@ public class HttpService {
 
 
     /**
+     * 电台列表
+     *
      * @return String
      */
     public String RadioStation() {
@@ -147,6 +153,8 @@ public class HttpService {
     }
 
     /**
+     * 电台歌曲列表
+     *
      * @return String
      */
     public String RadioStationSong(String channelname, String page_on, String page_size) {
@@ -162,6 +170,42 @@ public class HttpService {
             request.add("channelname", channelname);
             request.add("pn", page_on);//分页数
             request.add("rn", page_size);//分页大小
+
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+
+        } catch (Exception e) {
+            resultStr = null;
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
+
+    /**
+     * 歌曲详情
+     *
+     * @return String
+     */
+    public String PlayMusicSong(String songId) {
+        resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+            request.add("method", "baidu.ting.song.getInfos");//方法
+            request.add("from", "qianqian");//平台
+            request.add("version", "2.1.0");//版本
+            request.add("format", "json");//返回格式
+            request.add("songid", songId);//歌曲id
+            request.add("e", "JoN56kTXnnbEpd9MVczkYJCSx%2FE1mkLx%2BPMIkTcOEu4%3D");//固定参数
 
             Response<String> response = NoHttp.startRequestSync(request);
             if (response != null && response.isSucceed()) {
