@@ -26,6 +26,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
+import soft.me.ldc.animotion.DepthPageTransformer;
+import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
@@ -133,6 +135,7 @@ public class LauncherUI extends RootActivity {
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(uiViewPagerAdapter);
         viewPager.setCurrentItem(0);
+        viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         //
         tabLayout.setupWithViewPager(viewPager, true);
         tabLayout.addOnTabSelectedListener(new TabLayoutListener());
