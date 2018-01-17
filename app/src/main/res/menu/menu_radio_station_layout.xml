@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/radio_item1"
+        android:iconTintMode="screen"
+        android:title="公共电台" />
+    <item
+        android:id="@+id/radio_item2"
+        android:iconTintMode="screen"
+        android:title="音乐人电台" />
+</menu>

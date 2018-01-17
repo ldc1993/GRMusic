@@ -1,18 +1,19 @@
 package soft.me.ldc.layout;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -20,9 +21,12 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import soft.me.ldc.R;
-import soft.me.ldc.adapter.PublicRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.service.HttpService;
@@ -48,11 +52,17 @@ public class RadioStationFragment extends RootFragment {
     RefreshTask refreshTask = null;
     //消息
     Message msg = null;
+    //数据
+    volatile List<RadioStationBean.ResultBean.ChannellistBean> public_data = null;//公共频道
+    volatile List<RadioStationBean.ResultBean.ChannellistBean> musical_data = null;//音乐人频道
 
     static final int REFRESHCODE = 0x000;//刷新
     static final int UPDATEVIEWCODE = 0x001;//更新数据
     static final int NODATACODE = 0x002;//没有数据
     static final int ERRORCODE = 0x003;//错误
+    @BindView(R.id.mSelect)
+    BottomNavigationView mSelect;
+    Unbinder unbinder;
     private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -67,6 +77,12 @@ public class RadioStationFragment extends RootFragment {
                             PublicRadioFragment fragment = new PublicRadioFragment();
                             fragment.pushData(data.result.get(0).channellist);
                             SwitchPager(fragment);
+                            if (public_data != null)
+                                public_data.clear();
+                            if (musical_data != null)
+                                musical_data.clear();
+                            public_data = data.result.get(0).channellist;
+                            musical_data = data.result.get(1).channellist;
                         } else {
                             dkhandler.sendEmptyMessage(NODATACODE);
                         }
@@ -101,7 +117,7 @@ public class RadioStationFragment extends RootFragment {
 
     @Override
     protected void Main() throws Exception {
-
+        mSelect.setOnNavigationItemSelectedListener(new SelectListener());
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
@@ -116,6 +132,30 @@ public class RadioStationFragment extends RootFragment {
     private void SwitchPager(Fragment fragment) {
         if (fragment != null)
             fragmentManager.beginTransaction().replace(R.id.mViewContent, fragment).commitNow();
+    }
+
+    //选择页面
+    class SelectListener implements BottomNavigationView.OnNavigationItemSelectedListener {
+        volatile boolean callback = false;
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.radio_item1:
+                    callback = true;
+                    PublicRadioFragment fragment1 = new PublicRadioFragment();
+                    fragment1.pushData(public_data);
+                    SwitchPager(fragment1);
+                    break;
+                case R.id.radio_item2:
+                    callback = true;
+                    MusicalRadioFragment fragment2 = new MusicalRadioFragment();
+                    fragment2.pushData(musical_data);
+                    SwitchPager(fragment2);
+                    break;
+            }
+            return callback;
+        }
     }
 
     //刷新事件

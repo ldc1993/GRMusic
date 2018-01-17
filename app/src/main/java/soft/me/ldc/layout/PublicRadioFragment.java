@@ -68,6 +68,7 @@ public class PublicRadioFragment extends RootFragment {
             else
                 publicRadioStationAdapter.pushData(mData);
             publicRadioStationAdapter.setListener(new ItemListener());
+            publicRadioStationAdapter.notifyDataSetChanged();
         }
         mList.setLayoutManager(sglm);
         mList.setLayoutFrozen(true);

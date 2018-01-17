@@ -11,9 +11,7 @@ import java.util.List;
 
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.viewholder.RadioStationSongViewHolder;
-import soft.me.ldc.adapter.viewholder.RadioStationViewHolder;
 import soft.me.ldc.base.RootRecyclerViewAdapter;
-import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.model.RadioStationSongBean;
 import soft.me.ldc.utils.StringUtil;
 
