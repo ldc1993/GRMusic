@@ -201,7 +201,7 @@ public class HttpService {
             if (request == null)
                 request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.song.getInfos");//方法
-            request.add("from", "qianqian");//平台
+            request.add("from", "android");//平台
             request.add("version", "2.1.0");//版本
             request.add("format", "json");//返回格式
             request.add("songid", songId);//歌曲id
@@ -224,5 +224,4 @@ public class HttpService {
         return resultStr;
 
     }
-
 }

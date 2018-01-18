@@ -170,9 +170,16 @@ public class RadioStationSongActivity extends RootActivity {
 
         @Override
         public void itemClick(View view, RadioStationSongBean.ResultBean.SonglistBean type) {
-            Intent it = new Intent(ctx, PlayMusicActivity.class);
-            it.putExtra("title", type.title);
-            startActivity(it);
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type", type);
+                Intent it = new Intent(ctx, PlayMusicActivity.class);
+                it.putExtras(bundle);
+                startActivity(it);
+            } catch (Exception e) {
+                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
+                e.printStackTrace();
+            }
         }
     }
 

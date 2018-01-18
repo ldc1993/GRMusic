@@ -9,37 +9,35 @@ import java.util.List;
 
 public class PlayMusicSongBean implements Serializable {
     static final long serialVersionUID = 1l;
-
-
-    private SongurlBean songurl;
-    private int error_code;
-    private SonginfoBean songinfo;
+    public SongurlBean songurl;
+    public int error_code;
+    public SonginfoBean songinfo;
 
     public static class SongurlBean implements Serializable {
         static final long serialVersionUID = 1l;
-        private List<UrlBean> url;
+        public List<UrlBean> url;
 
 
         public static class UrlBean implements Serializable {
             static final long serialVersionUID = 1l;
 
 
-            private String show_link;
-            private int down_type;
-            private int original;
-            private int free;
-            private String replay_gain;
-            private int song_file_id;
-            private int file_size;
-            private String file_extension;
-            private int file_duration;
-            private int can_see;
-            private boolean can_load;
-            private int preload;
-            private int file_bitrate;
-            private String file_link;
-            private int is_udition_url;
-            private String hash;
+            public String show_link;
+            public int down_type;
+            public int original;
+            public int free;
+            public String replay_gain;
+            public int song_file_id;
+            public int file_size;
+            public String file_extension;
+            public int file_duration;
+            public int can_see;
+            public boolean can_load;
+            public int preload;
+            public int file_bitrate;
+            public String file_link;
+            public int is_udition_url;
+            public String hash;
 
         }
     }
@@ -47,94 +45,94 @@ public class PlayMusicSongBean implements Serializable {
     public static class SonginfoBean implements Serializable {
         static final long serialVersionUID = 1l;
 
-        private String resource_type_ext;
-        private String resource_type;
-        private String del_status;
-        private int collect_num;
-        private String hot;
-        private String res_reward_flag;
-        private String sound_effect;
-        private String title;
-        private String language;
-        private int play_type;
-        private String country;
-        private String biaoshi;
-        private String bitrate_fee;
-        private String song_source;
-        private int is_first_publish;
-        private String artist_640_1136;
-        private String is_secret;
-        private int charge;
-        private String copy_type;
-        private String share_url;
-        private int has_mv_mobile;
-        private String album_no;
-        private String is_charge;
-        private String pic_radio;
-        private String has_filmtv;
-        private String pic_huge;
-        private String ting_uid;
-        private int expire;
-        private String bitrate;
-        private String si_proxycompany;
-        private String compose;
-        private String toneid;
-        private String area;
-        private String info;
-        private String artist_500_500;
-        private String multiterminal_copytype;
-        private int has_mv;
-        private String total_listen_nums;
-        private String song_id;
-        private String piao_id;
-        private String high_rate;
-        private String compress_status;
-        private int original;
-        private String artist_480_800;
-        private String relate_status;
-        private int learn;
-        private String artist;
-        private String pic_big;
-        private int comment_num;
-        private String songwriting;
-        private String pic_singer;
-        private String album_1000_1000;
-        private String album_id;
-        private int share_num;
-        private String album_500_500;
-        private String aliasname;
-        private String album_title;
-        private String korean_bb_song;
-        private String author;
-        private String all_artist_id;
-        private String file_duration;
-        private String publishtime;
-        private String versions;
-        private String artist_1000_1000;
-        private String res_encryption_flag;
-        private String all_rate;
-        private String artist_id;
-        private String distribution;
-        private String lrclink;
-        private String pic_small;
-        private String original_rate;
-        private int havehigh;
-        private String pic_premium;
-        private List<ArtistListBean> artist_list;
+        public String resource_type_ext;
+        public String resource_type;
+        public String del_status;
+        public int collect_num;
+        public String hot;
+        public String res_reward_flag;
+        public String sound_effect;
+        public String title;
+        public String language;
+        public int play_type;
+        public String country;
+        public String biaoshi;
+        public String bitrate_fee;
+        public String song_source;
+        public int is_first_publish;
+        public String artist_640_1136;
+        public String is_secret;
+        public int charge;
+        public String copy_type;
+        public String share_url;
+        public int has_mv_mobile;
+        public String album_no;
+        public String is_charge;
+        public String pic_radio;
+        public String has_filmtv;
+        public String pic_huge;
+        public String ting_uid;
+        public int expire;
+        public String bitrate;
+        public String si_proxycompany;
+        public String compose;
+        public String toneid;
+        public String area;
+        public String info;
+        public String artist_500_500;
+        public String multiterminal_copytype;
+        public int has_mv;
+        public String total_listen_nums;
+        public String song_id;
+        public String piao_id;
+        public String high_rate;
+        public String compress_status;
+        public int original;
+        public String artist_480_800;
+        public String relate_status;
+        public int learn;
+        public String artist;
+        public String pic_big;
+        public int comment_num;
+        public String songwriting;
+        public String pic_singer;
+        public String album_1000_1000;
+        public String album_id;
+        public int share_num;
+        public String album_500_500;
+        public String aliasname;
+        public String album_title;
+        public String korean_bb_song;
+        public String author;
+        public String all_artist_id;
+        public String file_duration;
+        public String publishtime;
+        public String versions;
+        public String artist_1000_1000;
+        public String res_encryption_flag;
+        public String all_rate;
+        public String artist_id;
+        public String distribution;
+        public String lrclink;
+        public String pic_small;
+        public String original_rate;
+        public int havehigh;
+        public String pic_premium;
+        public List<ArtistListBean> artist_list;
 
 
         public static class ArtistListBean implements Serializable {
             static final long serialVersionUID = 1l;
 
-            private String avatar_mini;
-            private String avatar_s300;
-            private String ting_uid;
-            private String del_status;
-            private String avatar_s500;
-            private String artist_name;
-            private String avatar_small;
-            private String avatar_s180;
-            private String artist_id;
+            public String avatar_mini;
+            public String avatar_s300;
+            public String ting_uid;
+            public String del_status;
+            public String avatar_s500;
+            public String artist_name;
+            public String avatar_small;
+            public String avatar_s180;
+            public String artist_id;
 
         }
     }
