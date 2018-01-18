@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ public class PublicRadioFragment extends RootFragment {
     }
 
     //
-    StaggeredGridLayoutManager sglm = null;
+    GridLayoutManager glm = null;
     PublicRadioStationAdapter publicRadioStationAdapter = null;
 
     @Override
@@ -48,7 +49,7 @@ public class PublicRadioFragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_public_radio, null, false);
+        return inflater.inflate(R.layout.fragment_public_radio, null, true);
     }
 
     @Override
@@ -59,8 +60,8 @@ public class PublicRadioFragment extends RootFragment {
     @Override
     protected void Main() throws Exception {
         {
-            if (sglm == null)
-                sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            if (glm == null)
+                glm = new GridLayoutManager(ctx, 3, GridLayoutManager.VERTICAL, true);
             if (publicRadioStationAdapter == null)
                 publicRadioStationAdapter = new PublicRadioStationAdapter();
             if (mData != null)
@@ -70,7 +71,7 @@ public class PublicRadioFragment extends RootFragment {
             publicRadioStationAdapter.setListener(new ItemListener());
             publicRadioStationAdapter.notifyDataSetChanged();
         }
-        mList.setLayoutManager(sglm);
+        mList.setLayoutManager(glm);
         mList.setLayoutFrozen(true);
         mList.setHasFixedSize(true);
         mList.setAdapter(publicRadioStationAdapter);
