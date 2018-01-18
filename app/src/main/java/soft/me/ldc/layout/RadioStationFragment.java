@@ -5,13 +5,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,11 +23,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.service.HttpService;
+import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 
@@ -40,10 +40,14 @@ import soft.me.ldc.view.GRToastView;
 public class RadioStationFragment extends RootFragment {
 
 
-    @BindView(R.id.mViewContent)
-    LinearLayoutCompat mViewContent;
     @BindView(R.id.smartrefreshlayout)
     SmartRefreshLayout smartrefreshlayout;
+    @BindView(R.id.mleftBtn)
+    AppCompatButton mleftBtn;
+    @BindView(R.id.mrightBtn)
+    AppCompatButton mrightBtn;
+    @BindView(R.id.mViewContent)
+    LinearLayoutCompat mViewContent;
     //
     Gson gson = null;
     //
@@ -60,9 +64,7 @@ public class RadioStationFragment extends RootFragment {
     static final int UPDATEVIEWCODE = 0x001;//更新数据
     static final int NODATACODE = 0x002;//没有数据
     static final int ERRORCODE = 0x003;//错误
-    @BindView(R.id.mSelect)
-    BottomNavigationView mSelect;
-    Unbinder unbinder;
+
     private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -73,16 +75,27 @@ public class RadioStationFragment extends RootFragment {
                 case UPDATEVIEWCODE:
                     RadioStationBean data = (RadioStationBean) msg.obj;
                     if (data != null) {
-                        if (data.result != null && data.result.size() > 0 && data.result.get(0).channellist != null && data.result.get(0).channellist.size() > 0) {
-                            PublicRadioFragment fragment = new PublicRadioFragment();
-                            fragment.pushData(data.result.get(0).channellist);
-                            SwitchPager(fragment);
+                        if (data.result != null && data.result.size() > 0) {
                             if (public_data != null)
                                 public_data.clear();
                             if (musical_data != null)
                                 musical_data.clear();
-                            public_data = data.result.get(0).channellist;
-                            musical_data = data.result.get(1).channellist;
+                            for (RadioStationBean.ResultBean result : data.result) {
+                                if (StringUtil.isNotBlank(result.title) && result.title.equals("公共频道")) {
+                                    public_data = result.channellist;
+                                    mleftBtn.setText(result.title);
+                                    mleftBtn.setVisibility(View.VISIBLE);
+                                    //默认显示公共频道
+                                    PublicRadioFragment fragment1 = new PublicRadioFragment();
+                                    fragment1.pushData(public_data);
+                                    setPager(fragment1);
+                                } else if (StringUtil.isNotBlank(result.title) && result.title.equals("音乐人频道")) {
+                                    musical_data = result.channellist;
+                                    mrightBtn.setText(result.title);
+                                    mrightBtn.setVisibility(View.VISIBLE);
+                                }
+
+                            }
                         } else {
                             dkhandler.sendEmptyMessage(NODATACODE);
                         }
@@ -100,6 +113,29 @@ public class RadioStationFragment extends RootFragment {
         }
     };
 
+    // TODO: 2018/1/17 页面切换
+    private void setPager(Fragment pager) {
+        if (pager != null)
+            fragmentManager.beginTransaction().replace(R.id.mViewContent, pager).commit();
+    }
+
+    // TODO: 2018/1/18 点击事件
+    @OnClick({R.id.mleftBtn, R.id.mrightBtn})
+    public void ClickListener(View view) {
+        switch (view.getId()) {
+            case R.id.mleftBtn:
+                PublicRadioFragment fragment1 = new PublicRadioFragment();
+                fragment1.pushData(public_data);
+                setPager(fragment1);
+                break;
+            case R.id.mrightBtn:
+                MusicalRadioFragment fragment2 = new MusicalRadioFragment();
+                fragment2.pushData(musical_data);
+                setPager(fragment2);
+                break;
+        }
+    }
+
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
 
@@ -112,12 +148,13 @@ public class RadioStationFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
+        mleftBtn.setVisibility(View.GONE);
+        mrightBtn.setVisibility(View.GONE);
         smartrefreshlayout.setOnRefreshListener(new RefreshListener());
     }
 
     @Override
     protected void Main() throws Exception {
-        mSelect.setOnNavigationItemSelectedListener(new SelectListener());
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
@@ -127,36 +164,6 @@ public class RadioStationFragment extends RootFragment {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-
-    // TODO: 2018/1/17 页面切换
-    private void SwitchPager(Fragment fragment) {
-        if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.mViewContent, fragment).commitNow();
-    }
-
-    //选择页面
-    class SelectListener implements BottomNavigationView.OnNavigationItemSelectedListener {
-        volatile boolean callback = false;
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.radio_item1:
-                    callback = true;
-                    PublicRadioFragment fragment1 = new PublicRadioFragment();
-                    fragment1.pushData(public_data);
-                    SwitchPager(fragment1);
-                    break;
-                case R.id.radio_item2:
-                    callback = true;
-                    MusicalRadioFragment fragment2 = new MusicalRadioFragment();
-                    fragment2.pushData(musical_data);
-                    SwitchPager(fragment2);
-                    break;
-            }
-            return callback;
-        }
-    }
 
     //刷新事件
     class RefreshListener implements OnRefreshListener {
