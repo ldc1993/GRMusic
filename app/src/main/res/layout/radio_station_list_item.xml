@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:gravity="center"
-    android:minHeight="110dp"
+    android:minHeight="120dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatImageView

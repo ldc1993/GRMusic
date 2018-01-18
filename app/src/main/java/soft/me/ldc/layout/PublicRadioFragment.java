@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class PublicRadioFragment extends RootFragment {
     }
 
     //
-    GridLayoutManager glm = null;
+    StaggeredGridLayoutManager glm = null;
     PublicRadioStationAdapter publicRadioStationAdapter = null;
 
     @Override
@@ -49,7 +51,9 @@ public class PublicRadioFragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_public_radio, null, true);
+        View mainView= inflater.inflate(R.layout.fragment_public_radio, null, false);
+        mainView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        return mainView;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class PublicRadioFragment extends RootFragment {
     protected void Main() throws Exception {
         {
             if (glm == null)
-                glm = new GridLayoutManager(ctx, 3, GridLayoutManager.VERTICAL, true);
+                glm = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
             if (publicRadioStationAdapter == null)
                 publicRadioStationAdapter = new PublicRadioStationAdapter();
             if (mData != null)

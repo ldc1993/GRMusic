@@ -50,7 +50,9 @@ public class MusicalRadioFragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_musical_radio, null, false);
+        View mainView = inflater.inflate(R.layout.fragment_musical_radio, null, false);
+        mainView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return mainView;
     }
 
     @Override
