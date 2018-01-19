@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -29,6 +30,14 @@ public class PlayMusicActivity extends RootActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
+    @BindView(R.id.mPrev)
+    AppCompatImageView mPrev;
+    @BindView(R.id.mPlayorPause)
+    AppCompatImageView mPlayorPause;
+    @BindView(R.id.mNext)
+    AppCompatImageView mNext;
+    @BindView(R.id.mSeekbar)
+    SeekBar mSeekbar;
     //服务
     Intent playServiceIt = null;
     Bundle bundle = null;
@@ -77,12 +86,6 @@ public class PlayMusicActivity extends RootActivity {
             }
         }
     };
-    @BindView(R.id.mPrev)
-    AppCompatImageView mPrev;
-    @BindView(R.id.mPlayorPause)
-    AppCompatImageView mPlayorPause;
-    @BindView(R.id.mNext)
-    AppCompatImageView mNext;
 
     @Override
     protected void onDestroy() {
@@ -114,10 +117,14 @@ public class PlayMusicActivity extends RootActivity {
                 }
             });
         }
+        //设置滑动
+        mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
+
         if (bundle == null)
             bundle = new Bundle();
 
         {
+            //播放音乐服务
             if (playServiceIt == null)
                 playServiceIt = new Intent();
             playServiceIt.setClass(ctx, PlayService.class);
@@ -163,6 +170,27 @@ public class PlayMusicActivity extends RootActivity {
     }
 
 
+    // TODO: 2018/1/19 滑动事件
+    class OnSeekBarListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            mToolbar.setRightText("" + progress + "%");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            mToolbar.setRightText("开始拖动");
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            mToolbar.setRightText("停止拖动");
+        }
+    }
+
+
+    //执行任务
     private void RunRefreshTask(String qry) {
         if (refreshTask != null && !refreshTask.isCancelled()) {
             refreshTask.cancel(true);
