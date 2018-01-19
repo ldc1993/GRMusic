@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/play_music_bg"
     tools:context="soft.me.ldc.layout.PlayMusicActivity">
 
     <soft.me.ldc.view.GRToolbar
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary" />
+        android:background="@android:color/transparent" />
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -21,24 +21,48 @@
         android:layout_marginRight="5dp"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mPlay"
-            android:layout_width="match_parent"
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:minHeight="50dp"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/mPrev"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:src="@mipmap/ic_launcher"
             android:text="播放" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mPause"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/mPlayorPause"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:src="@mipmap/ic_launcher"
             android:text="暂停" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/mStop"
-            android:layout_width="match_parent"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/mNext"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:src="@mipmap/ic_launcher"
             android:text="停止" />
-
     </android.support.v7.widget.LinearLayoutCompat>
 
 </RelativeLayout>

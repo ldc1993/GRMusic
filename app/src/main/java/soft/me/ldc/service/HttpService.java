@@ -200,12 +200,9 @@ public class HttpService {
         try {
             if (request == null)
                 request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
-            request.add("method", "baidu.ting.song.getInfos");//方法
-            request.add("from", "android");//平台
-            request.add("version", "2.1.0");//版本
-            request.add("format", "json");//返回格式
+            request.add("method", "baidu.ting.song.play");//方法
             request.add("songid", songId);//歌曲id
-            request.add("e", "JoN56kTXnnbEpd9MVczkYJCSx%2FE1mkLx%2BPMIkTcOEu4%3D");//固定参数
+            request.add("format", "json");//返回格式
 
             Response<String> response = NoHttp.startRequestSync(request);
             if (response != null && response.isSucceed()) {

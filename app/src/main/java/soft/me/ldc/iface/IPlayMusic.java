@@ -5,11 +5,11 @@ package soft.me.ldc.iface;
  */
 
 public interface IPlayMusic {
-    void Play();
+    void PlayorPause();
 
-    void Stop();
+    void Prev();
 
-    void Pause();
+    void Next();
 
     void Looping(boolean b);
 }

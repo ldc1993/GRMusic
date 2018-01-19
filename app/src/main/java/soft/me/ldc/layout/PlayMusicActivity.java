@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,12 +29,6 @@ public class PlayMusicActivity extends RootActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
-    @BindView(R.id.mPlay)
-    AppCompatButton mPlay;
-    @BindView(R.id.mPause)
-    AppCompatButton mPause;
-    @BindView(R.id.mStop)
-    AppCompatButton mStop;
     //服务
     Intent playServiceIt = null;
     Bundle bundle = null;
@@ -83,6 +77,12 @@ public class PlayMusicActivity extends RootActivity {
             }
         }
     };
+    @BindView(R.id.mPrev)
+    AppCompatImageView mPrev;
+    @BindView(R.id.mPlayorPause)
+    AppCompatImageView mPlayorPause;
+    @BindView(R.id.mNext)
+    AppCompatImageView mNext;
 
     @Override
     protected void onDestroy() {
@@ -129,9 +129,6 @@ public class PlayMusicActivity extends RootActivity {
 
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHDATACODE);
-
-        //
-        mStop.setEnabled(false);
     }
 
     @Override
@@ -140,41 +137,26 @@ public class PlayMusicActivity extends RootActivity {
     }
 
     // TODO: 2018/1/16 点击事件
-    @OnClick({R.id.mPlay, R.id.mPause, R.id.mStop})
+    @OnClick({R.id.mPrev, R.id.mPlayorPause, R.id.mNext})
     public void ClickListener(View view) {
         switch (view.getId()) {
-            case R.id.mPlay:
-                if (playServiceIt == null) {
-                    playServiceIt = new Intent(ctx, PlayService.class);
-                }
-                if (bundle == null)
-                    bundle = new Bundle();
-                bundle.putInt("command", PlayService.PlayCode);
-                bundle.putString("url", mData.songurl.url.get(0).show_link);
-                playServiceIt.putExtras(bundle);
-                startService(playServiceIt);
+            case R.id.mPrev:
+                GRToastView.show(ctx, "上一首", Toast.LENGTH_SHORT);
                 break;
-            case R.id.mPause:
+            case R.id.mPlayorPause:
                 if (playServiceIt == null) {
                     playServiceIt = new Intent(ctx, PlayService.class);
                 }
                 if (bundle == null)
                     bundle = new Bundle();
-                bundle.putInt("command", PlayService.PauseCode);
-                bundle.putString("url", mData.songurl.url.get(0).show_link);
+                bundle.putInt("command", PlayService.PlayorPauseCode);
+                bundle.putString("url", mData.bitrate.show_link);
                 playServiceIt.putExtras(bundle);
                 startService(playServiceIt);
+                GRToastView.show(ctx, "播放/暂停", Toast.LENGTH_SHORT);
                 break;
-            case R.id.mStop:
-                if (playServiceIt == null) {
-                    playServiceIt = new Intent(ctx, PlayService.class);
-                }
-                if (bundle == null)
-                    bundle = new Bundle();
-                bundle.putInt("command", PlayService.StopCode);
-                bundle.putString("url", mData.songurl.url.get(0).show_link);
-                playServiceIt.putExtras(bundle);
-                startService(playServiceIt);
+            case R.id.mNext:
+                GRToastView.show(ctx, "下一首", Toast.LENGTH_SHORT);
                 break;
 
         }

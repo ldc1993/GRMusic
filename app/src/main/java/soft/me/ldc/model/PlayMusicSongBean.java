@@ -1,7 +1,6 @@
 package soft.me.ldc.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by ldc45 on 2018/1/17.
@@ -9,131 +8,121 @@ import java.util.List;
 
 public class PlayMusicSongBean implements Serializable {
     static final long serialVersionUID = 1l;
-    public SongurlBean songurl;
-    public int error_code;
+
+    /**
+     * songinfo : {"special_type":0,"pic_huge":"","ting_uid":"1100","pic_premium":"http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_500","havehigh":2,"si_proxycompany":"正东音乐娱乐咨询（北京）有限公司","author":"Beyond","toneid":"600902000004240302","has_mv":1,"song_id":"877578","title":"海阔天空","artist_id":"130","lrclink":"http://qukufile2.qianqian.com/data2/lrc/238975978/238975978.lrc","relate_status":"1","learn":1,"pic_big":"http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_150","play_type":0,"album_id":"197864","pic_radio":"http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_300","bitrate_fee":"{\"0\":\"0|0\",\"1\":\"0|0\"}","song_source":"web","all_artist_id":"130","all_artist_ting_uid":"1100","piao_id":"0","charge":0,"copy_type":"0","all_rate":"64,128,192,256,320,flac","korean_bb_song":"0","is_first_publish":0,"has_mv_mobile":0,"album_title":"海阔天空","pic_small":"http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_90","album_no":"1","resource_type_ext":"0","resource_type":"0"}
+     * error_code : 22000
+     * bitrate : {"show_link":"http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e","free":1,"song_file_id":42783748,"file_size":2679447,"file_extension":"mp3","file_duration":322,"file_bitrate":64,"file_link":"http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e","hash":"74d926076dc8f2f857ffaa403d79935a65f80dec"}
+     */
+
     public SonginfoBean songinfo;
+    public int error_code;
+    public BitrateBean bitrate;
 
-    public static class SongurlBean implements Serializable {
-        static final long serialVersionUID = 1l;
-        public List<UrlBean> url;
-
-
-        public static class UrlBean implements Serializable {
-            static final long serialVersionUID = 1l;
-
-
-            public String show_link;
-            public int down_type;
-            public int original;
-            public int free;
-            public String replay_gain;
-            public int song_file_id;
-            public int file_size;
-            public String file_extension;
-            public int file_duration;
-            public int can_see;
-            public boolean can_load;
-            public int preload;
-            public int file_bitrate;
-            public String file_link;
-            public int is_udition_url;
-            public String hash;
-
-        }
-    }
+   
 
     public static class SonginfoBean implements Serializable {
         static final long serialVersionUID = 1l;
+        /**
+         * special_type : 0
+         * pic_huge : 
+         * ting_uid : 1100
+         * pic_premium : http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_500
+         * havehigh : 2
+         * si_proxycompany : 正东音乐娱乐咨询（北京）有限公司
+         * author : Beyond
+         * toneid : 600902000004240302
+         * has_mv : 1
+         * song_id : 877578
+         * title : 海阔天空
+         * artist_id : 130
+         * lrclink : http://qukufile2.qianqian.com/data2/lrc/238975978/238975978.lrc
+         * relate_status : 1
+         * learn : 1
+         * pic_big : http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_150
+         * play_type : 0
+         * album_id : 197864
+         * pic_radio : http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_300
+         * bitrate_fee : {"0":"0|0","1":"0|0"}
+         * song_source : web
+         * all_artist_id : 130
+         * all_artist_ting_uid : 1100
+         * piao_id : 0
+         * charge : 0
+         * copy_type : 0
+         * all_rate : 64,128,192,256,320,flac
+         * korean_bb_song : 0
+         * is_first_publish : 0
+         * has_mv_mobile : 0
+         * album_title : 海阔天空
+         * pic_small : http://qukufile2.qianqian.com/data2/pic/88582702/88582702.jpg@s_0,w_90
+         * album_no : 1
+         * resource_type_ext : 0
+         * resource_type : 0
+         */
 
-        public String resource_type_ext;
-        public String resource_type;
-        public String del_status;
-        public int collect_num;
-        public String hot;
-        public String res_reward_flag;
-        public String sound_effect;
-        public String title;
-        public String language;
-        public int play_type;
-        public String country;
-        public String biaoshi;
-        public String bitrate_fee;
-        public String song_source;
-        public int is_first_publish;
-        public String artist_640_1136;
-        public String is_secret;
-        public int charge;
-        public String copy_type;
-        public String share_url;
-        public int has_mv_mobile;
-        public String album_no;
-        public String is_charge;
-        public String pic_radio;
-        public String has_filmtv;
+        public int special_type;
         public String pic_huge;
         public String ting_uid;
-        public int expire;
-        public String bitrate;
+        public String pic_premium;
+        public int havehigh;
         public String si_proxycompany;
-        public String compose;
+        public String author;
         public String toneid;
-        public String area;
-        public String info;
-        public String artist_500_500;
-        public String multiterminal_copytype;
         public int has_mv;
-        public String total_listen_nums;
         public String song_id;
-        public String piao_id;
-        public String high_rate;
-        public String compress_status;
-        public int original;
-        public String artist_480_800;
+        public String title;
+        public String artist_id;
+        public String lrclink;
         public String relate_status;
         public int learn;
-        public String artist;
         public String pic_big;
-        public int comment_num;
-        public String songwriting;
-        public String pic_singer;
-        public String album_1000_1000;
+        public int play_type;
         public String album_id;
-        public int share_num;
-        public String album_500_500;
-        public String aliasname;
-        public String album_title;
-        public String korean_bb_song;
-        public String author;
+        public String pic_radio;
+        public String bitrate_fee;
+        public String song_source;
         public String all_artist_id;
-        public String file_duration;
-        public String publishtime;
-        public String versions;
-        public String artist_1000_1000;
-        public String res_encryption_flag;
+        public String all_artist_ting_uid;
+        public String piao_id;
+        public int charge;
+        public String copy_type;
         public String all_rate;
-        public String artist_id;
-        public String distribution;
-        public String lrclink;
+        public String korean_bb_song;
+        public int is_first_publish;
+        public int has_mv_mobile;
+        public String album_title;
         public String pic_small;
-        public String original_rate;
-        public int havehigh;
-        public String pic_premium;
-        public List<ArtistListBean> artist_list;
+        public String album_no;
+        public String resource_type_ext;
+        public String resource_type;
 
+       
+    }
 
-        public static class ArtistListBean implements Serializable {
-            static final long serialVersionUID = 1l;
+    public static class BitrateBean implements Serializable {
+        static final long serialVersionUID = 1l;
+        /**
+         * show_link : http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e
+         * free : 1
+         * song_file_id : 42783748
+         * file_size : 2679447
+         * file_extension : mp3
+         * file_duration : 322
+         * file_bitrate : 64
+         * file_link : http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e
+         * hash : 74d926076dc8f2f857ffaa403d79935a65f80dec
+         */
 
-            public String avatar_mini;
-            public String avatar_s300;
-            public String ting_uid;
-            public String del_status;
-            public String avatar_s500;
-            public String artist_name;
-            public String avatar_small;
-            public String avatar_s180;
-            public String artist_id;
-
-        }
+        public String show_link;
+        public int free;
+        public int song_file_id;
+        public int file_size;
+        public String file_extension;
+        public int file_duration;
+        public int file_bitrate;
+        public String file_link;
+        public String hash;
+        
     }
 }

@@ -19,10 +19,10 @@ public class PlayService extends Service implements IPlayMusic {
     Uri uri = null;
     Bundle bundle = null;
     //标识
-    public final static int PlayCode = 0x001;
-    public final static int PauseCode = 0x002;
-    public final static int StopCode = 0x003;
-    volatile int musicFlag = StopCode;
+    public final static int PrevCode = 0x001;
+    public final static int PlayorPauseCode = 0x002;
+    public final static int NextCode = 0x003;
+    volatile int musicFlag = NextCode;
     volatile String musicUrl = "";
 
     @Nullable
@@ -35,7 +35,7 @@ public class PlayService extends Service implements IPlayMusic {
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         try {
             bundle = intent.getExtras();
-            musicFlag = bundle.getInt("command", StopCode);
+            musicFlag = bundle.getInt("command", NextCode);
             musicUrl = bundle.getString("url", "");
             uri = Uri.parse(musicUrl);
             if (player == null)
@@ -43,19 +43,19 @@ public class PlayService extends Service implements IPlayMusic {
             player.setLooping(false);
 
         } catch (Exception e) {
-            musicFlag = StopCode;
+            musicFlag = NextCode;
             e.printStackTrace();
         }
 
         switch (musicFlag) {
-            case PlayCode:
-                Play();
+            case PlayorPauseCode:
+                PlayorPause();
                 break;
-            case PauseCode:
-                Pause();
+            case PrevCode:
+                Prev();
                 break;
-            case StopCode:
-                Stop();
+            case NextCode:
+                Next();
                 break;
         }
         return START_STICKY;
@@ -76,28 +76,29 @@ public class PlayService extends Service implements IPlayMusic {
     //音乐操作
 
     @Override
-    public void Play() {
+    public void PlayorPause() {
         if (player != null && !player.isPlaying()) {
             player.start();//开始播放音乐
-
+        } else if (player.isPlaying() && player != null) {
+            player.pause();//暂停播放音乐
         }
     }
 
     @Override
-    public void Stop() {
+    public void Prev() {
         // 当player对象不为空时
         if (player != null) {
-           try{
-               player.reset();
-               player.prepare();
-           }catch (Exception e){
-               e.printStackTrace();
-           }
+            try {
+                player.reset();
+                player.prepare();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
-    public void Pause() {
+    public void Next() {
         // 当player对象正在播放时并且player对象不为空时
         if (player.isPlaying() && player != null) {
             player.pause();//暂停播放音乐
