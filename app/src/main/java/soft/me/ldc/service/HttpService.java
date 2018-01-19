@@ -190,7 +190,7 @@ public class HttpService {
     }
 
     /**
-     * 歌曲详情
+     * 歌曲详情,音乐播放
      *
      * @return String
      */
