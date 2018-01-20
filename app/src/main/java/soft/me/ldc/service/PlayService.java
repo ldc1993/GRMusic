@@ -1,113 +1,132 @@
 package soft.me.ldc.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import java.io.IOException;
+
+import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
+import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.thread.service.MultiThreadService;
 
 /**
  * Created by ldc45 on 2018/1/16.
  */
 
-public class PlayService extends Service implements IPlayMusic {
-    MediaPlayer player = null;
-    Uri uri = null;
-    Bundle bundle = null;
-    //标识
-    public final static int PrevCode = 0x001;
-    public final static int PlayorPauseCode = 0x002;
-    public final static int NextCode = 0x003;
-    volatile int musicFlag = NextCode;
-    volatile String musicUrl = "";
+public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
 
-    @Nullable
+
+    MusicPlayer player = null;
+
+
     @Override
     public IBinder onBind(Intent intent) {
+        player = MusicPlayer.newInstance(PlayService.this);
+        return new ServiceBind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+        this.startService(new Intent(this, PlayService.class));
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        return false;
+    }
+
+    @Override
+    public void Data(PlayMusicSongBean mData) {
+        try {
+            player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
+            player.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void Play() {
+        if (!player.isPlaying())
+            player.start();
+    }
+
+    @Override
+    public void Pause() {
+        if (player.isPlaying())
+            player.pause();
+    }
+
+    @Override
+    public void SeekTo(int sec) {
+        player.seekTo(sec);
+    }
+
+    @Override
+    public String getDuration() {
         return null;
     }
 
     @Override
-    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        try {
-            bundle = intent.getExtras();
-            musicFlag = bundle.getInt("command", NextCode);
-            musicUrl = bundle.getString("url", "");
-            uri = Uri.parse(musicUrl);
-            if (player == null)
-                player = MediaPlayer.create(this, uri);
-            player.setLooping(false);
-
-        } catch (Exception e) {
-            musicFlag = NextCode;
-            e.printStackTrace();
-        }
-
-        switch (musicFlag) {
-            case PlayorPauseCode:
-                PlayorPause();
-                break;
-            case PrevCode:
-                Prev();
-                break;
-            case NextCode:
-                Next();
-                break;
-        }
-        return START_STICKY;
-    }
-
-    //销毁服务
-    @Override
-    public void onDestroy() {
-        if (player != null) {
-            player.stop();//停止播放
-            player.release();//释放资源
-            player = null;//把player对象设置为null
-        }
-        super.onDestroy();
-    }
-
-
-    //音乐操作
-
-    @Override
-    public void PlayorPause() {
-        if (player != null && !player.isPlaying()) {
-            player.start();//开始播放音乐
-        } else if (player.isPlaying() && player != null) {
-            player.pause();//暂停播放音乐
-        }
+    public int getCurrentPosition() {
+        return 0;
     }
 
     @Override
     public void Prev() {
-        // 当player对象不为空时
-        if (player != null) {
-            try {
-                player.reset();
-                player.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        player.reset();
+
     }
 
     @Override
     public void Next() {
-        // 当player对象正在播放时并且player对象不为空时
-        if (player.isPlaying() && player != null) {
-            player.pause();//暂停播放音乐
+        player.reset();
+    }
+
+    @Override
+    public void Stop() {
+        player.stop();
+        try {
+            player.prepare();
+            player.seekTo(0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
+    public void Reset() {
+        player.reset();
+    }
+
+    @Override
     public void Looping(boolean b) {
-        if (player != null)
-            player.setLooping(b);
+        player.setLooping(b);
+    }
+
+    @Override
+    public MusicPlayer Player() {
+        return player;
+    }
+
+    // TODO: 2018/1/20  绑定服务
+    public class ServiceBind extends Binder {
+
+
+        //获取服务
+        public PlayService Service() {
+            return PlayService.this;
+        }
+
+
     }
 }

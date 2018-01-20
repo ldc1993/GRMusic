@@ -28,7 +28,9 @@
         <activity android:name=".layout.RadioStationSongActivity" />
         <activity android:name=".layout.PlayMusicActivity" />
 
-        <service android:name=".service.PlayService" />
+        <service
+            android:name=".service.PlayService"
+            android:exported="true" />
         <!--多线程服务-->
         <service
             android:name=".thread.service.MultiThreadService"

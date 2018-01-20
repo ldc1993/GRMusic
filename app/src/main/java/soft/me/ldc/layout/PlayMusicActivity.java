@@ -1,13 +1,12 @@
 package soft.me.ldc.layout;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -21,11 +20,11 @@ import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.model.RadioStationSongBean;
 import soft.me.ldc.service.HttpService;
-import soft.me.ldc.task.PlayMusicTask;
-import soft.me.ldc.thread.pool.MultiThreadPool;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
+import soft.me.ldc.view.GRViewPager;
 
 public class PlayMusicActivity extends RootActivity {
 
@@ -40,6 +39,12 @@ public class PlayMusicActivity extends RootActivity {
     AppCompatImageView mNext;
     @BindView(R.id.mSeekbar)
     SeekBar mSeekbar;
+    @BindView(R.id.mViewPager)
+    GRViewPager mViewPager;
+    @BindView(R.id.mSongCurr)
+    AppCompatTextView mSongCurr;
+    @BindView(R.id.mSongSize)
+    AppCompatTextView mSongSize;
     //要接收的数据
     volatile RadioStationSongBean.ResultBean.SonglistBean songlistBean = null;
     //数据
@@ -50,8 +55,6 @@ public class PlayMusicActivity extends RootActivity {
     GRLoadDialog loadDialog = null;
     //消息
     Message msg = null;
-    //播放音乐任务
-    PlayMusicTask task = null;
     //持久任务
     RefreshTask refreshTask = null;
 
@@ -112,15 +115,14 @@ public class PlayMusicActivity extends RootActivity {
                 }
             });
         }
+        //加载数据
+        dkhandler.sendEmptyMessage(REFRESHDATACODE);
+        if (gson == null)
+            gson = new Gson();
         //设置滑动
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
-        if (gson == null)
-            gson = new Gson();
 
-
-        //加载数据
-        dkhandler.sendEmptyMessage(REFRESHDATACODE);
     }
 
     @Override
@@ -133,13 +135,11 @@ public class PlayMusicActivity extends RootActivity {
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.mPrev:
-                GRToastView.show(ctx, "上一首", Toast.LENGTH_SHORT);
+                playService.Pause();
                 break;
             case R.id.mPlayorPause:
-                GRToastView.show(ctx, "播放/暂停", Toast.LENGTH_SHORT);
-                task = PlayMusicTask.newInstance(ctx, 1);
-                task.pushData(PlayMusicTask.PlayorPauseCode, mData);
-                MultiThreadPool.newInsance().pushThread(task);
+                playService.Data(mData);
+                playService.Play();
                 break;
             case R.id.mNext:
                 GRToastView.show(ctx, "下一首", Toast.LENGTH_SHORT);

@@ -45,6 +45,7 @@
             android:padding="5dp">
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/mSongCurr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -60,6 +61,7 @@
                 android:layout_weight="1" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/mSongSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
