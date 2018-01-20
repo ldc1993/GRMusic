@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 
+import java.io.IOException;
+
 import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.thread.ThreadTask;
@@ -70,20 +72,23 @@ public class PlayMusicTask extends ThreadTask implements IPlayMusic {
         MusicCode = Code;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void doRun() {
-        if (mData == null)
-            return;
-        if (player == null) {
-            player = MediaPlayer.create(ctx, Uri.parse(mData.bitrate.show_link));
-        } else {
-            player.setNextMediaPlayer(MediaPlayer.create(ctx, Uri.parse(mData.bitrate.show_link)));
+
+        try {
+            if (mData == null)
+                return;
+            if (player == null) {
+                player = MediaPlayer.create(ctx, Uri.parse(mData.bitrate.show_link));
+            } else {
+                player.setDataSource(ctx, Uri.parse(mData.bitrate.show_link));
+            }
+            player.setLooping(false);
+
+            dkhandler.sendEmptyMessage(MusicCode);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        player.setLooping(false);
-
-        dkhandler.sendEmptyMessage(MusicCode);
-
 
     }
 
