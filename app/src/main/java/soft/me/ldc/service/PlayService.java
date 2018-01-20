@@ -49,6 +49,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         try {
             if (player.isPlaying()) {
                 player.reset();
+                player.seekTo(0);
             }
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
             player.prepare();
