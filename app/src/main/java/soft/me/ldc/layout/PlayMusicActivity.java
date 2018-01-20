@@ -134,9 +134,11 @@ public class PlayMusicActivity extends RootActivity {
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.mPrev:
+                GRToastView.show(ctx, "暂停", Toast.LENGTH_SHORT);
                 playService.Pause();
                 break;
             case R.id.mPlayorPause:
+                GRToastView.show(ctx, "播放", Toast.LENGTH_SHORT);
                 playService.Data(mData);
                 playService.Play();
                 break;
@@ -158,12 +160,11 @@ public class PlayMusicActivity extends RootActivity {
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-            mToolbar.setRightText("开始拖动");
+
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            mToolbar.setRightText("停止拖动");
         }
     }
 

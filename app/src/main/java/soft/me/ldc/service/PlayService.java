@@ -47,6 +47,9 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     @Override
     public void Data(PlayMusicSongBean mData) {
         try {
+            if (player.isPlaying()) {
+                player.reset();
+            }
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
             player.prepare();
         } catch (Exception e) {
