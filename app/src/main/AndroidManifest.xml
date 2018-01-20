@@ -29,6 +29,10 @@
         <activity android:name=".layout.PlayMusicActivity" />
 
         <service android:name=".service.PlayService" />
+        <!--多线程服务-->
+        <service
+            android:name=".thread.service.MultiThreadService"
+            android:exported="true" />
     </application>
 
 </manifest>

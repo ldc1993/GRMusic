@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
-import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +21,8 @@ import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.model.RadioStationSongBean;
 import soft.me.ldc.service.HttpService;
-import soft.me.ldc.service.PlayService;
+import soft.me.ldc.task.PlayMusicTask;
+import soft.me.ldc.thread.pool.MultiThreadPool;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -38,9 +40,6 @@ public class PlayMusicActivity extends RootActivity {
     AppCompatImageView mNext;
     @BindView(R.id.mSeekbar)
     SeekBar mSeekbar;
-    //服务
-    Intent playServiceIt = null;
-    Bundle bundle = null;
     //要接收的数据
     volatile RadioStationSongBean.ResultBean.SonglistBean songlistBean = null;
     //数据
@@ -51,6 +50,8 @@ public class PlayMusicActivity extends RootActivity {
     GRLoadDialog loadDialog = null;
     //消息
     Message msg = null;
+    //播放音乐任务
+    PlayMusicTask task = null;
     //持久任务
     RefreshTask refreshTask = null;
 
@@ -87,12 +88,6 @@ public class PlayMusicActivity extends RootActivity {
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        if (playServiceIt != null)
-            stopService(playServiceIt);
-        super.onDestroy();
-    }
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
@@ -120,16 +115,6 @@ public class PlayMusicActivity extends RootActivity {
         //设置滑动
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
-        if (bundle == null)
-            bundle = new Bundle();
-
-        {
-            //播放音乐服务
-            if (playServiceIt == null)
-                playServiceIt = new Intent();
-            playServiceIt.setClass(ctx, PlayService.class);
-        }
-
         if (gson == null)
             gson = new Gson();
 
@@ -151,16 +136,10 @@ public class PlayMusicActivity extends RootActivity {
                 GRToastView.show(ctx, "上一首", Toast.LENGTH_SHORT);
                 break;
             case R.id.mPlayorPause:
-                if (playServiceIt == null) {
-                    playServiceIt = new Intent(ctx, PlayService.class);
-                }
-                if (bundle == null)
-                    bundle = new Bundle();
-                bundle.putInt("command", PlayService.PlayorPauseCode);
-                bundle.putString("url", mData.bitrate.show_link);
-                playServiceIt.putExtras(bundle);
-                startService(playServiceIt);
                 GRToastView.show(ctx, "播放/暂停", Toast.LENGTH_SHORT);
+                task = PlayMusicTask.newInstance(ctx, 1);
+                task.pushData(PlayMusicTask.PlayorPauseCode, mData);
+                MultiThreadPool.newInsance().pushThread(task);
                 break;
             case R.id.mNext:
                 GRToastView.show(ctx, "下一首", Toast.LENGTH_SHORT);

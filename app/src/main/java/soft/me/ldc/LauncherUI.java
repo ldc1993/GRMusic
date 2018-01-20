@@ -30,6 +30,7 @@ import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.QueryMusicActivity;
 import soft.me.ldc.layout.RadioStationFragment;
+import soft.me.ldc.thread.service.MultiThreadService;
 import soft.me.ldc.view.GRToastView;
 
 public class LauncherUI extends RootActivity {
@@ -54,6 +55,9 @@ public class LauncherUI extends RootActivity {
     //toolbar 设置
     private ActionBarDrawerToggle mDrawerToggle;
 
+    //
+    Intent multiTSIt = null;
+
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
 
@@ -67,6 +71,10 @@ public class LauncherUI extends RootActivity {
 
     @Override
     protected void Main() {
+        if (multiTSIt == null)
+            multiTSIt = new Intent(ctx, MultiThreadService.class);
+        // TODO: 2018/1/20  持久层任务//多线程
+        startService(multiTSIt);
         initToolbar();
         switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
         initTabLayout();
@@ -177,5 +185,12 @@ public class LauncherUI extends RootActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (multiTSIt != null)
+            stopService(multiTSIt);
     }
 }

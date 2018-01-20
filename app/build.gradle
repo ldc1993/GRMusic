@@ -47,5 +47,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     //图片处理
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    //歌词显示
+    compile 'me.wcy:lrcview:2.0.1'
 
 }
