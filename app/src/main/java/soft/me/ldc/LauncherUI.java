@@ -3,28 +3,28 @@ package soft.me.ldc;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
+import soft.me.ldc.animotion.DepthPageTransformer;
+import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
@@ -32,12 +32,13 @@ import soft.me.ldc.layout.QueryMusicActivity;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.thread.service.MultiThreadService;
 import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.GRToolbar;
 
 public class LauncherUI extends RootActivity {
 
 
     @BindView(R.id.mToolbar)
-    Toolbar mToolbar;
+    GRToolbar mToolbar;
     @BindView(R.id.mImage)
     AppCompatImageView mImage;
     @BindView(R.id.menuList)
@@ -50,13 +51,16 @@ public class LauncherUI extends RootActivity {
     AppCompatTextView switchText;
     @BindView(R.id.switchBtn)
     AppCompatCheckBox switchBtn;
-    @BindView(R.id.tab_layout)
-    BottomNavigationView tabLayout;
-    //toolbar 设置
-    private ActionBarDrawerToggle mDrawerToggle;
-
+    @BindView(R.id.mViewPager)
+    ViewPager mViewPager;
+    @BindView(R.id.musicbar)
+    LinearLayoutCompat musicbar;
     //
     Intent multiTSIt = null;
+    //页面
+    List<Fragment> fragments = null;
+    LauncherUIViewPagerAdapter pagerAdapter = null;
+    volatile int ScrollPosition = 0;
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
@@ -76,8 +80,25 @@ public class LauncherUI extends RootActivity {
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);
         initToolbar();
+        {
+            if (fragments == null)
+                fragments = new ArrayList<>();
+            fragments.clear();
+
+            fragments.add(new MusicFragment());
+            fragments.add(new RadioStationFragment());
+            fragments.add(new Main3Fragment());
+            if (pagerAdapter == null)
+                pagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
+            pagerAdapter.pushData(fragments);
+        }
+
+        mViewPager.setCurrentItem(0);
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        mViewPager.addOnPageChangeListener(new PagerViewListener());
+        mViewPager.setAdapter(pagerAdapter);
         switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
-        initTabLayout();
 
     }
 
@@ -90,37 +111,36 @@ public class LauncherUI extends RootActivity {
     // TODO: 2018/1/11 标题栏
     private void initToolbar() {
         {
-            mToolbar.setTitle("首页");
+            mToolbar.setLeftImg(R.mipmap.menu_icon);
+            mToolbar.setTitleText("音乐播放器");
             mToolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            mToolbar.setLeftBtnListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+                        mToolbar.setLeftImg(R.mipmap.menu_icon);
+                    } else {
+                        mDrawerLayout.openDrawer(Gravity.LEFT);
+                        mToolbar.setLeftImg(R.mipmap.back_icon);
+                    }
+                }
+            });
+            mToolbar.setRightImg(R.mipmap.search_icon);
+            mToolbar.setRightBtnListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent();
+                    it.setClass(ctx, QueryMusicActivity.class);
+                    startActivity(it);
+                }
+            });
             setSupportActionBar(mToolbar);
-            getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        //动画
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(mDrawerLayout);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(mDrawerLayout);
-            }
-        };
-        mDrawerToggle.syncState();//同步状态
-        mDrawerLayout.addDrawerListener(mDrawerToggle); //设置侧滑监听
-    }
-
-    // TODO: 2018/1/12
-    private void initTabLayout() {
-        //tab点击点击事件
-        SwitchPager(new MusicFragment());//默认显示第一页
-        tabLayout.setOnNavigationItemSelectedListener(new TabLayoutListener());
     }
 
 
-    // TODO: 2018/1/12 选择系统
+    // TODO: 2018/1/12 选择主题
     class switchBtnListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override
@@ -135,56 +155,37 @@ public class LauncherUI extends RootActivity {
         }
     }
 
-    //tabLayout选择事件
-    class TabLayoutListener implements BottomNavigationView.OnNavigationItemSelectedListener {
-        volatile boolean callback = false;
+    //页面滑动
+    class PagerViewListener implements ViewPager.OnPageChangeListener {
+
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.tab_item1:
-                    callback = true;
-                    SwitchPager(new MusicFragment());
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            switch (position) {
+                case 0:
+                    mToolbar.setTitleText("发 现");
                     break;
-                case R.id.tab_item2:
-                    callback = true;
-                    SwitchPager(new RadioStationFragment());
+                case 1:
+                    mToolbar.setTitleText("电 台");
                     break;
-                case R.id.tab_item3:
-                    callback = true;
-                    SwitchPager(new Main3Fragment());
-                    break;
-                default:
-                    callback = false;
+                case 2:
+                    mToolbar.setTitleText("我 的");
                     break;
             }
-            return callback;
         }
-    }
 
-    // TODO: 2018/1/17 页面切换
-    private void SwitchPager(Fragment fragment) {
-        if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.view_content, fragment).commitNow();
-    }
-
-    //菜单
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_xml, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_search:
-                Intent it = new Intent();
-                it.setClass(ctx, QueryMusicActivity.class);
-                startActivity(it);
-                break;
+        @Override
+        public void onPageSelected(int position) {
+            ScrollPosition = position;
         }
-        return super.onOptionsItemSelected(item);
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                mViewPager.setCurrentItem(ScrollPosition, false);
+            }
+
+        }
     }
 
     @Override

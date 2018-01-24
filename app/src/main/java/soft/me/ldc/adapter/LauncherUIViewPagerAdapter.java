@@ -1,5 +1,6 @@
 package soft.me.ldc.adapter;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 
 public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
-    List<String> titles = null;
+    Context ctx = null;
     List<Fragment> fragments = null;
 
 
@@ -19,9 +20,8 @@ public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    public void pushData(List<Fragment> fragments, List<String> titles) {
+    public void pushData(List<Fragment> fragments) {
         this.fragments = fragments;
-        this.titles = titles;
     }
 
     @Override
@@ -31,11 +31,6 @@ public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return titles != null && fragments != null ? titles.size() >= fragments.size() ? fragments.size() : titles.size() : 0;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titles.get(position);
+        return fragments == null ? 0 : fragments.size();
     }
 }
