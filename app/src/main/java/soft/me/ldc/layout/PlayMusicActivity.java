@@ -139,7 +139,7 @@ public class PlayMusicActivity extends RootActivity {
                 break;
             case R.id.mPlayorPause:
                 GRToastView.show(ctx, "播放", Toast.LENGTH_SHORT);
-                playService.Data(mData);
+                playService.PushData(mData);
                 playService.Play();
                 break;
             case R.id.mNext:

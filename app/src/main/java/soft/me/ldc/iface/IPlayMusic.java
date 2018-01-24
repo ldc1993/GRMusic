@@ -8,7 +8,7 @@ import soft.me.ldc.model.PlayMusicSongBean;
  */
 
 public interface IPlayMusic {
-    void Data(PlayMusicSongBean mData);
+    void PushData(PlayMusicSongBean mData);
 
     void Play();
 
@@ -29,6 +29,8 @@ public interface IPlayMusic {
     void Reset();
 
     void Looping(boolean b);
+
+    PlayMusicSongBean MusicBean();
 
     MusicPlayer Player();
 }

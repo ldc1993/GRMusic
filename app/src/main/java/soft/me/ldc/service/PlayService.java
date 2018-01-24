@@ -1,30 +1,23 @@
 package soft.me.ldc.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-
-import java.io.IOException;
 
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
-import soft.me.ldc.thread.service.MultiThreadService;
 
 /**
  * Created by ldc45 on 2018/1/16.
  */
 
 public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
-
-
     MusicPlayer player = null;
-
+    PlayMusicSongBean mData = null;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,8 +38,10 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     }
 
     @Override
-    public void Data(PlayMusicSongBean mData) {
+    public void PushData(PlayMusicSongBean mData) {
         try {
+            this.mData = mData;
+            //资源准备
             if (player.isPlaying()) {
                 player.reset();
                 player.seekTo(0);
@@ -70,21 +65,25 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
             player.pause();
     }
 
+    //滑动
     @Override
     public void SeekTo(int sec) {
         player.seekTo(sec);
     }
 
+    //当前播放长度
     @Override
     public String getDuration() {
         return null;
     }
 
+    //回去当前进度条
     @Override
     public int getCurrentPosition() {
         return 0;
     }
 
+    //上一首
     @Override
     public void Prev() {
         player.reset();
@@ -117,6 +116,12 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         player.setLooping(b);
     }
 
+    //音乐资源
+    @Override
+    public PlayMusicSongBean MusicBean() {
+        return mData;
+    }
+
     @Override
     public MusicPlayer Player() {
         return player;
@@ -124,8 +129,6 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
 
     // TODO: 2018/1/20  绑定服务
     public class ServiceBind extends Binder {
-
-
         //获取服务
         public PlayService Service() {
             return PlayService.this;

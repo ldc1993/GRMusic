@@ -16,20 +16,24 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
-import soft.me.ldc.animotion.DepthPageTransformer;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.QueryMusicActivity;
 import soft.me.ldc.layout.RadioStationFragment;
+import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.thread.service.MultiThreadService;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -55,12 +59,26 @@ public class LauncherUI extends RootActivity {
     ViewPager mViewPager;
     @BindView(R.id.musicbar)
     LinearLayoutCompat musicbar;
+    @BindView(R.id.music_title)
+    AppCompatTextView musicTitle;
+    @BindView(R.id.music_start)
+    AppCompatTextView musicStart;
+    @BindView(R.id.seekbar)
+    SeekBar seekbar;
+    @BindView(R.id.music_stop)
+    AppCompatTextView musicStop;
+    @BindView(R.id.music_play)
+    AppCompatImageView musicPlay;
     //
     Intent multiTSIt = null;
     //页面
     List<Fragment> fragments = null;
     LauncherUIViewPagerAdapter pagerAdapter = null;
     volatile int ScrollPosition = 0;
+    //获取后台播放数据
+    PlayMusicSongBean playMusicSongBean = null;
+    @BindView(R.id.music_icon)
+    AppCompatImageView musicIcon;
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
@@ -100,6 +118,9 @@ public class LauncherUI extends RootActivity {
         mViewPager.setAdapter(pagerAdapter);
         switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
 
+        //初始化
+        GetMusic();
+
     }
 
 
@@ -136,6 +157,15 @@ public class LauncherUI extends RootActivity {
                 }
             });
             setSupportActionBar(mToolbar);
+        }
+    }
+
+    // TODO: 2018/1/24 获取后台播放数据
+    private void GetMusic() {
+        playMusicSongBean = playService.MusicBean();
+        if (playMusicSongBean != null) {
+            musicTitle.setText(playMusicSongBean.songinfo.title);
+            Picasso.with(ctx).load(playMusicSongBean.songinfo.pic_big).resize(50, 50).centerCrop().into(musicIcon);
         }
     }
 
@@ -186,6 +216,14 @@ public class LauncherUI extends RootActivity {
             }
 
         }
+    }
+    // TODO: 2018/1/24 生命周期
+
+
+    @Override
+    protected void onPause() {
+        GetMusic();
+        super.onPause();
     }
 
     @Override
