@@ -115,6 +115,9 @@ public class QueryMusicFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
+        mSearcView.setIconifiedByDefault(false);//展开
+        mSearcView.setQueryHint("请输入关键词");
+        mSearcView.setQuery("生日快乐", false);
         mSearcView.setOnQueryTextListener(new QueryListener());
         {
             smartrefreshlayout.setOnRefreshListener(new RefreshListener());
