@@ -79,7 +79,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     //回去当前进度条
     @Override
     public int getCurrentPosition() {
-        return 0;
+        return player.getCurrentPosition();
     }
 
     //上一首

@@ -1,6 +1,5 @@
 package soft.me.ldc.layout;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,8 +11,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +20,6 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
-import soft.me.ldc.model.RadioStationSongBean;
-import soft.me.ldc.service.HttpService;
-import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
@@ -59,37 +53,23 @@ public class PlayMusicActivity extends RootActivity {
     //
     PlayMusicAdapter playMusicAdapter = null;
     List<Fragment> fragments = null;
-    //
-    volatile boolean isPlay = false;
 
-    static final int REFRESHDATACODE = 0x000;//刷新数据
-    static final int UPDATEDATACODE = 0x001;//更新数据
-    static final int NOTDATACODE = 0x002;//没有数据
+    static final int PlaySongCode = 0x000;//播放音乐
     static final int ERRORCODE = 0x003;//错误
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case REFRESHDATACODE:
-                    if (mData != null && mData.songinfo != null) {
-
+                case PlaySongCode:
+                    if (mData != null) {
+                        playService.PushData(mData);
+                        playService.Play();
                     } else {
                         dkhandler.sendEmptyMessage(ERRORCODE);
                     }
                     break;
-                case UPDATEDATACODE:
-                    mData = (PlayMusicSongBean) msg.obj;
-                    if (mData != null) {
-
-                    } else {
-                        dkhandler.sendEmptyMessage(NOTDATACODE);
-                    }
-                    break;
-                case NOTDATACODE:
-                    GRToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
-                    break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
+                    GRToastView.show(ctx, "播放错误", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -140,9 +120,11 @@ public class PlayMusicActivity extends RootActivity {
             mViewPager.setOffscreenPageLimit(2);
 
         }
-        //加载数据
-        dkhandler.sendEmptyMessage(REFRESHDATACODE);
+        //播放歌曲
+        dkhandler.sendEmptyMessage(PlaySongCode);
         //设置滑动
+        mSongCurr.setText(playService.getCurrentPosition()+"");
+        mSongSize.setText(playService.getDuration()+"");
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
 
@@ -158,16 +140,13 @@ public class PlayMusicActivity extends RootActivity {
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.mPrev:
-                GRToastView.show(ctx, "暂停", Toast.LENGTH_SHORT);
                 playService.Pause();
                 break;
             case R.id.mPlayorPause:
-                GRToastView.show(ctx, "播放", Toast.LENGTH_SHORT);
                 playService.PushData(mData);
                 playService.Play();
                 break;
             case R.id.mNext:
-                GRToastView.show(ctx, "下一首", Toast.LENGTH_SHORT);
                 break;
 
         }

@@ -46,7 +46,7 @@ public class MusicalRadioStationAdapter extends RootRecyclerViewAdapter<MusicalR
         holder.mName.setText("" + data.name);
         holder.mCate_sname.setText(null);
         if (StringUtil.isNotBlank(data.avatar))
-            Picasso.with(ctx).load(data.avatar).resize(90, 90).centerCrop().into(holder.mIcon);
+            Picasso.with(ctx).load(data.avatar).resize(500, 500).centerCrop().into(holder.mIcon);
 
     }
 

@@ -46,7 +46,7 @@ public class RadioStationSongAdapter extends RootRecyclerViewAdapter<RadioStatio
             holder.mTitle.setText("" + data.title);
             holder.mArtist.setText("" + data.artist);
             if (StringUtil.isNotBlank(data.thumb))
-                Picasso.with(ctx).load(data.thumb).resize(90, 90).centerCrop().into(holder.mIcon);
+                Picasso.with(ctx).load(data.thumb).resize(300, 300).centerCrop().into(holder.mIcon);
 
         }
     }

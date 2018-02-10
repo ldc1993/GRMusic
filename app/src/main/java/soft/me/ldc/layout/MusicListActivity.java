@@ -23,6 +23,8 @@ import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.service.HttpService;
+import soft.me.ldc.task.PlayMusicTask;
+import soft.me.ldc.thread.pool.MultiThreadPool;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -176,11 +178,11 @@ public class MusicListActivity extends RootActivity {
 
     //item事件
     class ItemListener implements MusicListAdapter.OnItemListener {
-
-
         @Override
         public void onItem(View view, MusicListBean.SongListBean type) {
-            GRToastView.show(ctx, type.title, Toast.LENGTH_SHORT);
+            PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
+            playMusicTask.pushData(type.song_id);
+            MultiThreadPool.newInsance().pushThread(playMusicTask);
         }
     }
 

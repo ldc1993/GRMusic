@@ -46,7 +46,7 @@ public class QueryMusicAdapter extends RootRecyclerViewAdapter<QueryMusicViewHol
         holder.mAuthor.setText("作者 - " + data.author + "");
         holder.mAlbum.setText("专辑 - " + data.album_title + "");
         if (StringUtil.isNotBlank(data.pic_small))
-            Picasso.with(ctx).load(data.pic_small).resize(56, 56).centerInside().into(holder.mIcon);
+            Picasso.with(ctx).load(data.pic_small).resize(300, 300).centerInside().into(holder.mIcon);
 
     }
 

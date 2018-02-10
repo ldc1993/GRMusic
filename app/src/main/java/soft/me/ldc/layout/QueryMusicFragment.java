@@ -26,6 +26,8 @@ import soft.me.ldc.adapter.QueryMusicAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.QueryMusicBean;
 import soft.me.ldc.service.HttpService;
+import soft.me.ldc.task.PlayMusicTask;
+import soft.me.ldc.thread.pool.MultiThreadPool;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
@@ -134,6 +136,7 @@ public class QueryMusicFragment extends RootFragment {
         if (queryMusicAdapter == null)
             queryMusicAdapter = new QueryMusicAdapter();
         queryMusicAdapter.pushData(null);
+        queryMusicAdapter.setListener(new ItemListener());
         //设置属性
         mList.setLayoutManager(llm);
         mList.setHasFixedSize(true);
@@ -165,6 +168,18 @@ public class QueryMusicFragment extends RootFragment {
             refreshlayout.finishRefresh(2000);
         }
     }
+
+    //查询列表item点击事件
+    class ItemListener implements QueryMusicAdapter.OnItemListener {
+
+        @Override
+        public void ItemClick(View view, QueryMusicBean.ResultBean.SongInfoBean.SongListBean type) {
+            PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
+            playMusicTask.pushData(type.song_id);
+            MultiThreadPool.newInsance().pushThread(playMusicTask);
+        }
+    }
+
 
     //查询事件
     class QueryListener implements SearchView.OnQueryTextListener {
