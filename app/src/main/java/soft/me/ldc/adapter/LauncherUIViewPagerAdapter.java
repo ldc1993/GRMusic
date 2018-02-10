@@ -14,6 +14,7 @@ import java.util.List;
 public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
     Context ctx = null;
     List<Fragment> fragments = null;
+    List<String> titles = null;
 
 
     public LauncherUIViewPagerAdapter(FragmentManager fm) {
@@ -24,6 +25,10 @@ public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
         this.fragments = fragments;
     }
 
+    public void pustTitle(List<String> titles) {
+        this.titles = titles;
+    }
+
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);
@@ -32,5 +37,10 @@ public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragments == null ? 0 : fragments.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles.get(position);
     }
 }

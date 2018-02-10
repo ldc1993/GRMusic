@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,88 +7,14 @@
         android:id="@+id/mViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/line_view"
-        android:layout_alignBaseline="@+id/musicbar" />
+        android:layout_alignParentTop="true">
 
-    <View
-        android:id="@+id/line_view"
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_above="@+id/musicbar"
-        android:layout_alignBaseline="@+id/musicbar"
-        android:background="@color/gray" />
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/musicbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center_vertical"
-        android:minHeight="50dp"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/music_icon"
-            android:layout_width="50dp"
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/tab_title"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:adjustViewBounds="false"
-            android:minHeight="50dp"
-            android:minWidth="50dp"
-            android:src="@mipmap/ic_launcher" />
+            android:minHeight="50dp" />
 
-        <android.support.v7.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/music_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left|center_vertical"
-                android:text="播放音乐" />
-
-            <android.support.v7.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:minHeight="30dp"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/music_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="20dp"
-                    android:text="0:0" />
-
-                <SeekBar
-                    android:id="@+id/seekbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/music_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="20dp"
-                    android:text="0:0" />
-            </android.support.v7.widget.LinearLayoutCompat>
-
-        </android.support.v7.widget.LinearLayoutCompat>
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/music_play"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:minHeight="50dp"
-            android:minWidth="50dp"
-            android:src="@mipmap/ic_launcher" />
-    </android.support.v7.widget.LinearLayoutCompat>
-
+    </android.support.v4.view.ViewPager>
 
 </RelativeLayout>
