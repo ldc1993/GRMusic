@@ -36,13 +36,64 @@
         </android.support.v7.widget.LinearLayoutCompat>
 
 
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/line_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/mPrev"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                android:text="播放" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/mPlayorPause"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="50dp"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                android:text="暂停" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/mNext"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="50dp"
+                android:adjustViewBounds="false"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher"
+                android:text="停止" />
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/mSongCurr"
@@ -71,50 +122,6 @@
                 android:textSize="10sp" />
 
         </android.support.v7.widget.LinearLayoutCompat>
+
     </android.support.v7.widget.LinearLayoutCompat>
-
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/line_3"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:minHeight="70dp"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/mPrev"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="false"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:text="播放" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/mPlayorPause"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:adjustViewBounds="false"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:text="暂停" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/mNext"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="50dp"
-            android:adjustViewBounds="false"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:text="停止" />
-    </android.support.v7.widget.LinearLayoutCompat>
-
 </RelativeLayout>

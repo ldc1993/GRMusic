@@ -16,7 +16,7 @@ public interface IPlayMusic {
 
     void SeekTo(int sec);
 
-    String getDuration();
+    int getDuration();
 
     int getCurrentPosition();
 

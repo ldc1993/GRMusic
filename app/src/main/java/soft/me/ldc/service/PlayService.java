@@ -2,6 +2,7 @@ package soft.me.ldc.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
@@ -42,10 +43,8 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         try {
             this.mData = mData;
             //资源准备
-            if (player.isPlaying()) {
-                player.reset();
-                player.seekTo(0);
-            }
+            player.reset();
+            player.seekTo(0);
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
             player.prepare();
         } catch (Exception e) {
@@ -73,8 +72,8 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
 
     //当前播放长度
     @Override
-    public String getDuration() {
-        return null;
+    public int getDuration() {
+        return player.getDuration();
     }
 
     //回去当前进度条
@@ -104,6 +103,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
+        player.release();//释放资源
     }
 
     @Override

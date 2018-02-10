@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
@@ -13,9 +14,13 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import soft.me.ldc.R;
+import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.model.RadioStationSongBean;
@@ -56,6 +61,9 @@ public class PlayMusicActivity extends RootActivity {
     Message msg = null;
     //持久任务
     RefreshTask refreshTask = null;
+    //
+    PlayMusicAdapter playMusicAdapter = null;
+    List<Fragment> fragments = null;
 
     static final int REFRESHDATACODE = 0x000;//刷新数据
     static final int UPDATEDATACODE = 0x001;//更新数据
@@ -104,6 +112,8 @@ public class PlayMusicActivity extends RootActivity {
 
     @Override
     protected void Main() {
+        if (gson == null)
+            gson = new Gson();
         {
             mToolbar.setTitleText("" + songlistBean.title);
             mToolbar.setLeftImg(R.mipmap.back_icon);
@@ -114,10 +124,24 @@ public class PlayMusicActivity extends RootActivity {
                 }
             });
         }
+        {
+            if (playMusicAdapter == null)
+                playMusicAdapter = new PlayMusicAdapter(fragmentManager);
+            if (fragments == null)
+                fragments = new ArrayList<>();
+            fragments.add(new PlayMusicCoverFragment());
+            fragments.add(new PlayMusicLyricFragment());
+            //添加数据
+            playMusicAdapter.pushData(fragments);
+            //
+            mViewPager.setAdapter(playMusicAdapter);
+            mViewPager.setCurrentItem(0);
+            mViewPager.setScrollEnable(true);
+            mViewPager.setOffscreenPageLimit(2);
+
+        }
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHDATACODE);
-        if (gson == null)
-            gson = new Gson();
         //设置滑动
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
