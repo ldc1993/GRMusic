@@ -25,6 +25,8 @@ import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.model.RadioStationSongBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.service.PlayService;
+import soft.me.ldc.task.PlayMusicTask;
+import soft.me.ldc.thread.pool.MultiThreadPool;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -171,11 +173,9 @@ public class RadioStationSongActivity extends RootActivity {
         @Override
         public void itemClick(View view, RadioStationSongBean.ResultBean.SonglistBean type) {
             try {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("type", type);
-                Intent it = new Intent(ctx, PlayMusicActivity.class);
-                it.putExtras(bundle);
-                startActivity(it);
+                PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
+                playMusicTask.pushData(type.songid);
+                MultiThreadPool.newInsance().pushThread(playMusicTask);
             } catch (Exception e) {
                 GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
                 e.printStackTrace();

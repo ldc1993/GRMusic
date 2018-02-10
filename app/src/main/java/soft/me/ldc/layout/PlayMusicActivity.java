@@ -49,21 +49,18 @@ public class PlayMusicActivity extends RootActivity {
     AppCompatTextView mSongCurr;
     @BindView(R.id.mSongSize)
     AppCompatTextView mSongSize;
-    //要接收的数据
-    volatile RadioStationSongBean.ResultBean.SonglistBean songlistBean = null;
     //数据
     volatile PlayMusicSongBean mData = null;
-    //
-    Gson gson = null;
-    //
-    GRLoadDialog loadDialog = null;
     //消息
     Message msg = null;
-    //持久任务
-    RefreshTask refreshTask = null;
+    //
+    PlayMusicCoverFragment playMusicCoverFragment = null;
+    PlayMusicLyricFragment playMusicLyricFragment = null;
     //
     PlayMusicAdapter playMusicAdapter = null;
     List<Fragment> fragments = null;
+    //
+    volatile boolean isPlay = false;
 
     static final int REFRESHDATACODE = 0x000;//刷新数据
     static final int UPDATEDATACODE = 0x001;//更新数据
@@ -74,8 +71,8 @@ public class PlayMusicActivity extends RootActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESHDATACODE:
-                    if (songlistBean != null) {
-                        RunRefreshTask(songlistBean.songid);
+                    if (mData != null && mData.songinfo != null) {
+
                     } else {
                         dkhandler.sendEmptyMessage(ERRORCODE);
                     }
@@ -102,7 +99,7 @@ public class PlayMusicActivity extends RootActivity {
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
         //接受数据
-        songlistBean = (RadioStationSongBean.ResultBean.SonglistBean) getIntent().getSerializableExtra("type");
+        mData = (PlayMusicSongBean) getIntent().getSerializableExtra("play");
     }
 
     @Override
@@ -112,10 +109,8 @@ public class PlayMusicActivity extends RootActivity {
 
     @Override
     protected void Main() {
-        if (gson == null)
-            gson = new Gson();
         {
-            mToolbar.setTitleText("" + songlistBean.title);
+            mToolbar.setTitleText("" + mData.songinfo.title);
             mToolbar.setLeftImg(R.mipmap.back_icon);
             mToolbar.setLeftBtnListener(new View.OnClickListener() {
                 @Override
@@ -125,12 +120,17 @@ public class PlayMusicActivity extends RootActivity {
             });
         }
         {
+            if (playMusicCoverFragment == null)
+                playMusicCoverFragment = new PlayMusicCoverFragment();
+            playMusicCoverFragment.pushData(mData);
+            if (playMusicLyricFragment == null)
+                playMusicLyricFragment = new PlayMusicLyricFragment();
             if (playMusicAdapter == null)
                 playMusicAdapter = new PlayMusicAdapter(fragmentManager);
             if (fragments == null)
                 fragments = new ArrayList<>();
-            fragments.add(new PlayMusicCoverFragment());
-            fragments.add(new PlayMusicLyricFragment());
+            fragments.add(playMusicCoverFragment);
+            fragments.add(playMusicLyricFragment);
             //添加数据
             playMusicAdapter.pushData(fragments);
             //
@@ -192,60 +192,5 @@ public class PlayMusicActivity extends RootActivity {
         }
     }
 
-
-    //执行任务
-    private void RunRefreshTask(String qry) {
-        if (refreshTask != null && !refreshTask.isCancelled()) {
-            refreshTask.cancel(true);
-        }
-        refreshTask = new RefreshTask();
-        refreshTask.pushData(qry);
-        refreshTask.execute();
-
-    }
-
-    //加载数据
-    class RefreshTask extends AsyncTask<Void, Void, PlayMusicSongBean> {
-        String qry = "";
-
-        public void pushData(String qry) {
-            this.qry = qry;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if (loadDialog != null && loadDialog.isShow())
-                loadDialog.dismiss();
-            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("数据加载中···", true);
-        }
-
-        @Override
-        protected PlayMusicSongBean doInBackground(Void... voids) {
-            PlayMusicSongBean bean = null;
-            try {
-                if (gson == null)
-                    gson = new Gson();
-                String str = HttpService.Instance(ctx).PlayMusicSong(songlistBean.songid);
-                bean = gson.fromJson(str, PlayMusicSongBean.class);
-            } catch (Exception e) {
-                dkhandler.sendEmptyMessage(ERRORCODE);
-                e.printStackTrace();
-            }
-            return bean;
-        }
-
-        @Override
-        protected void onPostExecute(PlayMusicSongBean result) {
-            msg = new Message();
-            if (result != null) {
-                msg.what = UPDATEDATACODE;
-                msg.obj = result;
-            } else {
-                msg.what = NOTDATACODE;
-            }
-            loadDialog.dismiss();
-            dkhandler.sendMessageDelayed(msg, 1000);
-        }
-    }
 
 }

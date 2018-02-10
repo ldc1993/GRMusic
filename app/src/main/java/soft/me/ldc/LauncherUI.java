@@ -80,13 +80,12 @@ public class LauncherUI extends RootActivity {
             multiTSIt = new Intent(ctx, MultiThreadService.class);
         //
 
-        tabTitle.setBackgroundColor(Color.parseColor("#303F9F"));
-        tabTitle.setGravity(Gravity.CENTER);
-        tabTitle.setDrawFullUnderline(false);//是否显示下划线
-        tabTitle.setTabIndicatorColor(Color.parseColor("#FF4081"));//指示器颜色
+        tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
+        tabTitle.setGravity(Gravity.CENTER_VERTICAL);
+        tabTitle.setDrawFullUnderline(true);//是否显示下划线
+        tabTitle.setTabIndicatorColor(Color.parseColor("#F44236"));//指示器颜色
         tabTitle.setTextColor(Color.parseColor("#ffffff"));
         tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP , 18);
-        tabTitle.setTextSpacing(10);
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);
         {
