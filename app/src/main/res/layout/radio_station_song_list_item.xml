@@ -20,17 +20,16 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/mIcon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:minHeight="64dp"
-            android:minWidth="64dp"
-            android:scaleType="centerCrop" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
+            android:minWidth="56dp" />
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
@@ -44,9 +43,9 @@
                 android:ellipsize="middle"
                 android:gravity="left"
                 android:padding="1dp"
-                android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
 
@@ -57,9 +56,8 @@
                 android:ellipsize="middle"
                 android:gravity="left"
                 android:padding="1dp"
-                android:paddingLeft="5dp"
                 android:singleLine="true"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
         </android.support.v7.widget.LinearLayoutCompat>

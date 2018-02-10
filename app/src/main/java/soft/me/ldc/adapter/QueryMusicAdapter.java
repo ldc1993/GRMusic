@@ -42,13 +42,11 @@ public class QueryMusicAdapter extends RootRecyclerViewAdapter<QueryMusicViewHol
         QueryMusicBean.ResultBean.SongInfoBean.SongListBean data = mData.get(position);
         holder.itemView.setTag(data);
         //设置
-        holder.mCountry.setText("国家");
         holder.mTitle.setText(data.title + "");
-        holder.mCompany.setText(data.si_proxycompany + "");
-        holder.mAuthor.setText(data.author + "");
-        holder.mAlbum.setText(data.album_title + "");
+        holder.mAuthor.setText("作者 - " + data.author + "");
+        holder.mAlbum.setText("专辑 - " + data.album_title + "");
         if (StringUtil.isNotBlank(data.pic_small))
-            Picasso.with(ctx).load(data.pic_small).resize(96, 96).centerCrop().into(holder.mIcon);
+            Picasso.with(ctx).load(data.pic_small).resize(56, 56).centerInside().into(holder.mIcon);
 
     }
 

@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -84,7 +85,7 @@ public class LauncherUI extends RootActivity {
         tabTitle.setDrawFullUnderline(false);//是否显示下划线
         tabTitle.setTabIndicatorColor(Color.parseColor("#FF4081"));//指示器颜色
         tabTitle.setTextColor(Color.parseColor("#ffffff"));
-        tabTitle.setTextSize(0, 50);
+        tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP , 18);
         tabTitle.setTextSpacing(10);
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);

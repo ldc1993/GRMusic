@@ -23,12 +23,6 @@ public class MusicListViewHolder extends RecyclerView.ViewHolder {
     public AppCompatTextView mTitle;
     @BindView(R.id.mAuthor)
     public AppCompatTextView mAuthor;
-    @BindView(R.id.mCountry)
-    public AppCompatTextView mCountry;
-    @BindView(R.id.mCompany)
-    public AppCompatTextView mCompany;
-    @BindView(R.id.mLanguage)
-    public AppCompatTextView mLanguage;
 
     public MusicListViewHolder(View itemView) {
         super(itemView);

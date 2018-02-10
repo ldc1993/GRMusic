@@ -43,11 +43,8 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
         setAnimator(holder.itemView);
         holder.mTitle.setText("" + data.title);
         holder.mAuthor.setText("" + data.author);
-        holder.mCountry.setText("" + data.country);
-        holder.mCompany.setText("" + data.si_proxycompany);
-        holder.mLanguage.setText("" + data.language);
         if (StringUtil.isNotBlank(data.pic_big))
-            Picasso.with(ctx).load(data.pic_big).resize(45, 45).centerCrop().into(holder.mIcon);
+            Picasso.with(ctx).load(data.pic_big).resize(56, 56).centerInside().into(holder.mIcon);
 
     }
 
