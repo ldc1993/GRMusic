@@ -53,7 +53,6 @@ public class QueryMusicFragment extends RootFragment {
 
     //
     int PageNO = 0;
-
     //
     Message msg = null;
     //

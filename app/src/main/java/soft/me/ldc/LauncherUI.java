@@ -113,10 +113,10 @@ public class LauncherUI extends RootActivity {
         }
 
         mViewPager.setCurrentItem(0);
-        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
         mViewPager.addOnPageChangeListener(new PagerViewListener());
         mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);//预加载界面
         switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
 
 
