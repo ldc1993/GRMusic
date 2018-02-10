@@ -48,6 +48,8 @@ public class RadioStationFragment extends RootFragment {
     AppCompatButton mrightBtn;
     @BindView(R.id.mViewContent)
     LinearLayoutCompat mViewContent;
+    @BindView(R.id.llc_switch)
+    LinearLayoutCompat mllc_switch;
     //
     Gson gson = null;
     //
@@ -148,6 +150,7 @@ public class RadioStationFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
+        mllc_switch.setVisibility(View.GONE);
         mleftBtn.setVisibility(View.GONE);
         mrightBtn.setVisibility(View.GONE);
         smartrefreshlayout.setOnRefreshListener(new RefreshListener());

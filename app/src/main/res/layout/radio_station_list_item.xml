@@ -11,8 +11,8 @@
         android:id="@+id/mIcon"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:minHeight="96dp"
-        android:minWidth="96dp"
+        android:minHeight="56dp"
+        android:minWidth="56dp"
         android:scaleType="centerCrop" />
 
     <android.support.v7.widget.LinearLayoutCompat
@@ -30,7 +30,8 @@
             android:ellipsize="middle"
             android:gravity="center"
             android:padding="1dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@android:color/black" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/mCate_sname"

@@ -45,7 +45,7 @@ public class PublicRadioStationAdapter extends RootRecyclerViewAdapter<PublicRad
         holder.mName.setText("" + data.name);
         holder.mCate_sname.setText("" + data.cate_sname);
         if (StringUtil.isNotBlank(data.thumb))
-            Picasso.with(ctx).load(data.thumb).resize(56, 56).centerInside().into(holder.mIcon);
+            Picasso.with(ctx).load(data.thumb).resize(90, 56).centerInside().into(holder.mIcon);
 
     }
 
