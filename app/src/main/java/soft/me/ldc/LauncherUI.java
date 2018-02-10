@@ -28,6 +28,7 @@ import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
+import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.thread.service.MultiThreadService;
 import soft.me.ldc.view.GRToastView;
@@ -97,10 +98,12 @@ public class LauncherUI extends RootActivity {
             //添加页面
             fragments.add(new MusicFragment());
             fragments.add(new RadioStationFragment());
+            fragments.add(new QueryMusicFragment());
             fragments.add(new Main3Fragment());
             //添加标题
             titles.add("发现");
             titles.add("电台");
+            titles.add("音乐搜索");
             titles.add("我的");
 
             if (pagerAdapter == null)

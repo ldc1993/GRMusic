@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="soft.me.ldc.layout.QueryMusicActivity">
+    android:layout_height="match_parent">
 
-    <soft.me.ldc.view.GRSearchToolbar
-        android:id="@+id/mToolbar"
+    <android.support.v7.widget.SearchView
+        android:id="@+id/mSearcView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
@@ -14,7 +12,7 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mToolbar"
+        android:layout_below="@+id/mSearcView"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
 
