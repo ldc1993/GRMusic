@@ -203,8 +203,6 @@ public class PlayMusicActivity extends RootActivity {
     private void RunThread() {
         if (scheduledThreadPoolExecutor != null)
             scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 2, TimeUnit.SECONDS);
-
-
     }
 
     //单线程
