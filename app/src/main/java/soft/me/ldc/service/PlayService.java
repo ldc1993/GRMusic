@@ -3,15 +3,16 @@ package soft.me.ldc.service;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.TimedMetaData;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
@@ -21,11 +22,28 @@ import soft.me.ldc.model.PlayMusicSongBean;
  * Created by ldc45 on 2018/1/16.
  */
 
-public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
+public class PlayService extends Service implements IPlayMusic {
     volatile MusicPlayer player = null;
     volatile PlayMusicSongBean mData = null;
-    volatile float CurrSize = 0;
-    volatile float AllSize = 0;
+    volatile float currSize = 0;
+    volatile float allSize = 0;
+    ScheduledExecutorService timeThread = null;
+
+    //实例化播放器
+    private void initMediaPlay() {
+        player = MusicPlayer.newInstance(PlayService.this);
+        if (timeThread == null)
+            timeThread = Executors.newSingleThreadScheduledExecutor();//实例化线程池
+    }
+
+    //定时查询离线数据数据
+    private void GetCurrSize() {
+        if (timeThread != null && timeThread.isShutdown()) {
+            timeThread.shutdownNow();
+        }
+        timeThread.scheduleAtFixedRate(new CurrPlayPositionThread(), 1, 1, TimeUnit.SECONDS);
+
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,7 +54,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     public class ServiceBind extends Binder {
         // TODO: 2018/2/11  获取服务 并实例化播放器
         public PlayService Service() {
-            player = MusicPlayer.newInstance(PlayService.this);
+            initMediaPlay();
             return PlayService.this;
         }
     }
@@ -49,11 +67,6 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     }
 
     @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
-        return false;
-    }
-
-    @Override
     public void PushData(PlayMusicSongBean mData) {
         try {
             this.mData = mData;
@@ -62,7 +75,8 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
             player.seekTo(0);
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
             player.prepare();
-            AllSize = player.getDuration();
+            allSize = player.getDuration();//获取文件大小
+            GetCurrSize();//获取当前文件进度
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,13 +104,15 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     //当前播放长度
     @Override
     public int getDuration() {
-        return (int) AllSize;
+        return (int) allSize;
     }
 
     //回去当前进度条
     @Override
-    public int getCurrentPosition() {
-        return (int) CurrSize;
+    public Message getCurrentPosition() {
+        Message msg = new Message();
+        msg.obj = currSize;
+        return msg;
     }
 
     //上一首
@@ -151,18 +167,12 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         return player;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    class MediaPlayLisener implements
-            MediaPlayer.OnCompletionListener {
 
+    class CurrPlayPositionThread implements Runnable {
 
-        //播放完成
         @Override
-        public void onCompletion(MediaPlayer mp) {
-            if (!mp.isLooping()) {
-                mp.reset();
-                mp.seekTo(0);
-            }
+        public void run() {
+            currSize = player.getCurrentPosition();
         }
     }
 }

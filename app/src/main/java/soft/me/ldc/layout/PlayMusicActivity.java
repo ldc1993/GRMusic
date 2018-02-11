@@ -8,12 +8,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,6 +54,8 @@ public class PlayMusicActivity extends RootActivity {
     //消息
     Message msg = null;
     //
+    ScheduledExecutorService scheduledThreadPoolExecutor = null;
+    //
     PlayMusicCoverFragment playMusicCoverFragment = null;
     PlayMusicLyricFragment playMusicLyricFragment = null;
     //
@@ -56,9 +63,10 @@ public class PlayMusicActivity extends RootActivity {
     List<Fragment> fragments = null;
     //是否播放新歌
     volatile boolean play_New_Song = false;
-
+    //
     static final int PlaySongCode = 0x000;//播放音乐
     static final int ShowPlayInfo = 0x001;//显示信息
+    static final int UpdatePlayProgressCode = 0x002;//更新进度
     static final int ERRORCODE = 0x004;//错误
     Handler dkhandler = new Handler() {
         @Override
@@ -93,6 +101,11 @@ public class PlayMusicActivity extends RootActivity {
                     mSongSize.setText(playService.getDuration() + "");
                     mSeekbar.setMax(playService.getDuration());
                     break;
+                case UpdatePlayProgressCode:
+                    int number = (Integer) msg.obj;
+                    mSongCurr.setText(number + "");
+                    mSeekbar.setProgress(number);
+                    break;
             }
         }
     };
@@ -112,6 +125,8 @@ public class PlayMusicActivity extends RootActivity {
 
     @Override
     protected void Main() {
+        if (scheduledThreadPoolExecutor == null)
+            scheduledThreadPoolExecutor = Executors.newSingleThreadScheduledExecutor();
         {
             mToolbar.setTitleText("" + mData.songinfo.title);
             mToolbar.setLeftImg(R.mipmap.back_icon);
@@ -145,6 +160,8 @@ public class PlayMusicActivity extends RootActivity {
         }
         //播放歌曲
         dkhandler.sendEmptyMessage(PlaySongCode);
+        //
+        RunThread();
         //滑动事件
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
@@ -159,6 +176,26 @@ public class PlayMusicActivity extends RootActivity {
     //获取服务
     protected PlayService getPlayService() {
         return playService;
+    }
+
+    private void RunThread() {
+        if (scheduledThreadPoolExecutor != null && scheduledThreadPoolExecutor.isShutdown()) {
+            scheduledThreadPoolExecutor.shutdownNow();
+        }
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 2, TimeUnit.SECONDS);
+
+
+    }
+
+    //单线程
+    class SingleThread extends Thread {
+
+        @Override
+        public void run() {
+            msg = playService.getCurrentPosition();
+            msg.what = UpdatePlayProgressCode;
+            dkhandler.sendMessage(msg);
+        }
     }
 
     // TODO: 2018/1/16 点击事件
@@ -192,7 +229,7 @@ public class PlayMusicActivity extends RootActivity {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (playService.Player() != null && playService.Player().isPlaying())
+            if (playService.Player() != null && playService.Player().isPlaying() && fromUser)
                 playService.Player().seekTo(progress);
         }
 
