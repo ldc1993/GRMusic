@@ -2,28 +2,33 @@ package soft.me.ldc;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
@@ -31,7 +36,9 @@ import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
+import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.thread.service.MultiThreadService;
+import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
 public class LauncherUI extends RootActivity {
@@ -53,17 +60,58 @@ public class LauncherUI extends RootActivity {
     ViewPager mViewPager;
     @BindView(R.id.tab_title)
     PagerTabStrip tabTitle;
-    //
+    @BindView(R.id.playIcon)
+    AppCompatImageView playIcon;
+    @BindView(R.id.playTitle)
+    AppCompatTextView playTitle;
+    @BindView(R.id.playAuthor)
+    AppCompatTextView playAuthor;
+    @BindView(R.id.playList)
+    ImageButton playList;
+    @BindView(R.id.playOrpause)
+    ImageButton playOrpause;
+    @BindView(R.id.playNext)
+    ImageButton playNext;
+    @BindView(R.id.playBar)
+    LinearLayoutCompat playBar;
+    //启动多线程意图
     Intent multiTSIt = null;
     //页面
     List<Fragment> fragments = null;
     //标题
     List<String> titles = null;
     LauncherUIViewPagerAdapter pagerAdapter = null;
+    //滑动位置
     volatile int ScrollPosition = 0;
+    //消息
+    Message msg = null;
+    //
+    GetPlayMusicTask getPlayMusicTask = null;
+    //
+    final static int SuccessCode = 0x001;
+    final static int ErrorCode = 0x000;
+    final static int GetPlayMusicCode = 0x002;
+    Handler dkhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case GetPlayMusicCode:
+                    RunPlayMusicTask();
+                    break;
+                case SuccessCode:
+                    PlayMusicSongBean data = (PlayMusicSongBean) msg.obj;
+                    refreshPlayMusic(data);
+                    break;
+                case ErrorCode:
+                    GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
+
 
     }
 
@@ -78,16 +126,17 @@ public class LauncherUI extends RootActivity {
         //音乐后台服务
         if (multiTSIt == null)
             multiTSIt = new Intent(ctx, MultiThreadService.class);
-        //
-
-        tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
-        tabTitle.setGravity(Gravity.CENTER_VERTICAL);
-        tabTitle.setDrawFullUnderline(true);//是否显示下划线
-        tabTitle.setTabIndicatorColor(Color.parseColor("#F44236"));//指示器颜色
-        tabTitle.setTextColor(Color.parseColor("#ffffff"));
-        tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP , 18);
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);
+        //指示器
+        {
+            tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
+            tabTitle.setGravity(Gravity.CENTER_VERTICAL);
+            tabTitle.setDrawFullUnderline(true);//是否显示下划线
+            tabTitle.setTabIndicatorColor(Color.parseColor("#F44236"));//指示器颜色
+            tabTitle.setTextColor(Color.parseColor("#ffffff"));
+            tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+        }
         {
             if (fragments == null)
                 fragments = new ArrayList<>();
@@ -110,16 +159,16 @@ public class LauncherUI extends RootActivity {
                 pagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
             pagerAdapter.pushData(fragments);
             pagerAdapter.pustTitle(titles);
+            //
+            mViewPager.setCurrentItem(0);
+            mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+            mViewPager.addOnPageChangeListener(new PagerViewListener());
+            mViewPager.setAdapter(pagerAdapter);
+            mViewPager.setOffscreenPageLimit(3);//预加载界面
+            switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
         }
-
-        mViewPager.setCurrentItem(0);
-        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mViewPager.addOnPageChangeListener(new PagerViewListener());
-        mViewPager.setAdapter(pagerAdapter);
-        mViewPager.setOffscreenPageLimit(3);//预加载界面
-        switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
-
-
+        //显示播放
+        dkhandler.sendEmptyMessage(GetPlayMusicCode);
     }
 
 
@@ -144,7 +193,7 @@ public class LauncherUI extends RootActivity {
         }
     }
 
-    //页面滑动
+    //页面滑动监听
     class PagerViewListener implements ViewPager.OnPageChangeListener {
 
 
@@ -176,12 +225,64 @@ public class LauncherUI extends RootActivity {
 
         }
     }
+
+    //获取刷新播放数据
+    private void refreshPlayMusic(PlayMusicSongBean music) {
+        if (music == null)
+            return;
+        if (StringUtil.isNotBlank(music.songinfo.pic_premium))
+            Picasso.with(ctx).load(music.songinfo.pic_premium).resize(500, 500).centerInside().into(playIcon);
+        playTitle.setText(music.songinfo.title);
+        playAuthor.setText(music.songinfo.author);
+
+
+    }
+
+    //执行任务
+    private void RunPlayMusicTask() {
+        if (getPlayMusicTask != null && !getPlayMusicTask.isCancelled()) {
+            getPlayMusicTask.cancel(true);
+        }
+        getPlayMusicTask = new GetPlayMusicTask();
+        getPlayMusicTask.execute();
+
+    }
+
+    //任务
+    class GetPlayMusicTask extends AsyncTask<Void, Void, PlayMusicSongBean> {
+
+        @Override
+        protected PlayMusicSongBean doInBackground(Void... voids) {
+            PlayMusicSongBean bean = null;
+            try {
+                bean = playService.MusicBean();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bean;
+        }
+
+        @Override
+        protected void onPostExecute(PlayMusicSongBean result) {
+            super.onPostExecute(result);
+            msg = new Message();
+            if (result != null) {
+                msg.what = SuccessCode;
+                msg.obj = result;
+            } else {
+                msg.what = ErrorCode;
+            }
+            dkhandler.sendMessage(msg);
+        }
+    }
+
     // TODO: 2018/1/24 生命周期
 
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onResume() {
+        super.onResume();
+        dkhandler.sendEmptyMessage(GetPlayMusicCode);
     }
 
     @Override
@@ -190,4 +291,6 @@ public class LauncherUI extends RootActivity {
         if (multiTSIt != null)
             stopService(multiTSIt);
     }
+
+
 }

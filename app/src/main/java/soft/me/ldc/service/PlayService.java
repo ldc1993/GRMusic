@@ -18,7 +18,7 @@ import soft.me.ldc.model.PlayMusicSongBean;
 
 public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
     MusicPlayer player = null;
-    PlayMusicSongBean mData = null;
+    volatile PlayMusicSongBean mData = null;
 
     @Override
     public IBinder onBind(Intent intent) {

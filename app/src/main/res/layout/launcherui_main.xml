@@ -7,7 +7,7 @@
         android:id="@+id/mViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_above="@+id/playBar">
 
         <android.support.v4.view.PagerTabStrip
             android:id="@+id/tab_title"
@@ -16,5 +16,102 @@
             android:minHeight="50dp" />
 
     </android.support.v4.view.ViewPager>
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/playBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:minHeight="50dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.01dp"
+            android:src="@color/colorPrimary" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/playIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:minWidth="60dp" />
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:minWidth="150dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/playTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/playAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textSize="12sp" />
+
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/playList"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_launcher" />
+
+                <ImageButton
+                    android:id="@+id/playOrpause"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_launcher" />
+
+                <ImageButton
+                    android:id="@+id/playNext"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_launcher" />
+
+
+            </android.support.v7.widget.LinearLayoutCompat>
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </RelativeLayout>

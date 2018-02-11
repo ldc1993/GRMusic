@@ -43,14 +43,14 @@ public abstract class RootActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
+            this.ctx = this;
+            this.act = this;
+            this.fragmentManager = this.getSupportFragmentManager();
             //音乐服务
             bindService(new Intent(this, PlayService.class), serviceConnection, BIND_AUTO_CREATE);
             NewCreate(savedInstanceState);
             setContentView(UI());
             unbinder = ButterKnife.bind(this);
-            this.ctx = this;
-            this.act = this;
-            this.fragmentManager = this.getSupportFragmentManager();
             Main();
         } catch (Exception e) {
             Error(e);
