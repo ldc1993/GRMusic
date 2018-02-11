@@ -109,10 +109,10 @@ public class PlayService extends Service implements IPlayMusic {
 
     //回去当前进度条
     @Override
-    public Message getCurrentPosition() {
-        Message msg = new Message();
-        msg.obj = currSize;
-        return msg;
+    public int getCurrentPosition() {
+
+        return (int) currSize;
+
     }
 
     //上一首

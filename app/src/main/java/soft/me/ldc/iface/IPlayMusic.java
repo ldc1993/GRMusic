@@ -20,7 +20,7 @@ public interface IPlayMusic {
 
     int getDuration();
 
-    Message getCurrentPosition();
+    int getCurrentPosition();
 
     void Prev();
 

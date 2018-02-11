@@ -192,8 +192,8 @@ public class PlayMusicActivity extends RootActivity {
 
         @Override
         public void run() {
-            msg = playService.getCurrentPosition();
-            msg.what = UpdatePlayProgressCode;
+            msg = dkhandler.obtainMessage(UpdatePlayProgressCode);
+            msg.obj = playService.getCurrentPosition();
             dkhandler.sendMessage(msg);
         }
     }
