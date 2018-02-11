@@ -1,7 +1,6 @@
 package soft.me.ldc;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,8 +40,7 @@ import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
-import soft.me.ldc.service.PlayService;
-import soft.me.ldc.thread.service.MultiThreadService;
+import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 

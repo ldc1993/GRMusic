@@ -1,4 +1,4 @@
-package soft.me.ldc.thread.service;
+package soft.me.ldc.common.service;
 
 import android.app.IntentService;
 import android.app.Service;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import soft.me.ldc.thread.pool.MultiThreadPool;
+import soft.me.ldc.common.pool.MultiThreadPool;
 
 
 // TODO: 2017/12/8 多线程执行任务 线程

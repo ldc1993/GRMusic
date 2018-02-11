@@ -32,7 +32,7 @@
             android:exported="true" />
         <!--多线程服务-->
         <service
-            android:name=".thread.service.MultiThreadService"
+            android:name=".common.service.MultiThreadService"
             android:exported="true" />
     </application>
 

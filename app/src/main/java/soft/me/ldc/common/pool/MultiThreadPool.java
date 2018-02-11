@@ -1,4 +1,4 @@
-package soft.me.ldc.thread.pool;
+package soft.me.ldc.common.pool;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -6,7 +6,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import soft.me.ldc.thread.ThreadTask;
+import soft.me.ldc.common.ThreadTask;
 
 /**
  * Created by LDC on 2017/8/15.

@@ -24,7 +24,7 @@ import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
-import soft.me.ldc.thread.pool.MultiThreadPool;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;

@@ -1,4 +1,4 @@
-package soft.me.ldc.thread;
+package soft.me.ldc.common;
 
 import android.support.annotation.NonNull;
 

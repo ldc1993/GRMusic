@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.HttpService;
-import soft.me.ldc.thread.ThreadTask;
+import soft.me.ldc.common.ThreadTask;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
