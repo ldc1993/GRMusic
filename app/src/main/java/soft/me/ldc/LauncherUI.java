@@ -235,7 +235,7 @@ public class LauncherUI extends RootActivity {
                 if (mData != null) {
                     bundle = new Bundle();
                     bundle.putSerializable("play", mData);
-                    bundle.putBoolean("state", false);
+                    bundle.putBoolean("play_new_song", false);
                     Intent it = new Intent(ctx, PlayMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);

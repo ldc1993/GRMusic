@@ -53,7 +53,7 @@ public class PlayMusicActivity extends RootActivity {
     PlayMusicAdapter playMusicAdapter = null;
     List<Fragment> fragments = null;
     //是否播放新歌
-    volatile boolean playNewSong = false;
+    volatile boolean play_New_Song = false;
 
     static final int PlaySongCode = 0x000;//播放音乐
     static final int ERRORCODE = 0x003;//错误
@@ -64,9 +64,11 @@ public class PlayMusicActivity extends RootActivity {
                 case PlaySongCode:
                     if (playService.Player() != null) {
                         if (mData != null) {
-                            playService.PushData(mData);
-                            playService.Play();
-
+                            //播放新歌
+                            if (play_New_Song) {
+                                playService.PushData(mData);
+                                playService.Play();
+                            }
                         } else {
                             dkhandler.sendEmptyMessage(ERRORCODE);
                         }
@@ -84,7 +86,7 @@ public class PlayMusicActivity extends RootActivity {
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
         //接受数据
         mData = (PlayMusicSongBean) getIntent().getSerializableExtra("play");
-        playNewSong = getIntent().getExtras().getBoolean("play_new_song");
+        play_New_Song = getIntent().getExtras().getBoolean("play_new_song");
     }
 
     @Override
@@ -129,7 +131,7 @@ public class PlayMusicActivity extends RootActivity {
         dkhandler.sendEmptyMessage(PlaySongCode);
         //设置滑动
         //mSongCurr.setText(playService.getCurrentPosition()+"");
-        mSongSize.setText(playService.getDuration() + "");
+        //mSongSize.setText(playService.getDuration() + "");
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
 
