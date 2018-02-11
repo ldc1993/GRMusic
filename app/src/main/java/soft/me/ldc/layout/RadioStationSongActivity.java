@@ -175,6 +175,7 @@ public class RadioStationSongActivity extends RootActivity {
             try {
                 PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
                 playMusicTask.pushData(type.songid);
+                playMusicTask.pushPlayState(true);
                 MultiThreadPool.newInsance().pushThread(playMusicTask);
             } catch (Exception e) {
                 GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);

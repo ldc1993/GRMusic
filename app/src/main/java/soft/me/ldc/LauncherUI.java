@@ -37,6 +37,7 @@ import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.Main3Fragment;
 import soft.me.ldc.layout.MusicFragment;
+import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -92,6 +93,10 @@ public class LauncherUI extends RootActivity {
     //
     GetPlayMusicTask getPlayMusicTask = null;
     //
+    Bundle bundle = null;
+    //
+    volatile PlayMusicSongBean mData = null;
+    //
     final static int SuccessCode = 0x001;
     final static int ErrorCode = 0x000;
     final static int GetPlayMusicCode = 0x002;
@@ -103,10 +108,11 @@ public class LauncherUI extends RootActivity {
                     RunPlayMusicTask();
                     break;
                 case SuccessCode:
-                    PlayMusicSongBean data = (PlayMusicSongBean) msg.obj;
-                    refreshPlayMusic(data);
+                    mData = (PlayMusicSongBean) msg.obj;
+
+                    refreshPlayMusic(mData);
                     //更新播放图标
-                    if (playService.Player() != null && data != null) {
+                    if (playService.Player() != null && mData != null) {
                         if (playService.Player().isPlaying()) {
                             playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
                         } else {
@@ -206,7 +212,7 @@ public class LauncherUI extends RootActivity {
     }
 
     //点击事件
-    @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext})
+    @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext, R.id.playBar})
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.playList:
@@ -224,6 +230,18 @@ public class LauncherUI extends RootActivity {
 
                 break;
             case R.id.playNext:
+                break;
+            case R.id.playBar:
+                if (mData != null) {
+                    bundle = new Bundle();
+                    bundle.putSerializable("play", mData);
+                    bundle.putBoolean("state", false);
+                    Intent it = new Intent(ctx, PlayMusicActivity.class);
+                    it.putExtras(bundle);
+                    startActivity(it);
+                } else {
+                    GRToastView.show(ctx, "没有可播放音乐哦", Toast.LENGTH_SHORT);
+                }
                 break;
         }
     }

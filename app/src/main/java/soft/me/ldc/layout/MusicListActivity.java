@@ -182,6 +182,7 @@ public class MusicListActivity extends RootActivity {
         public void onItem(View view, MusicListBean.SongListBean type) {
             PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
             playMusicTask.pushData(type.song_id);
+            playMusicTask.pushPlayState(true);
             MultiThreadPool.newInsance().pushThread(playMusicTask);
         }
     }

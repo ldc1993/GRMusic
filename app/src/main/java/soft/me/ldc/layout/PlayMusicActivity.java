@@ -26,7 +26,6 @@ import soft.me.ldc.view.GRViewPager;
 
 public class PlayMusicActivity extends RootActivity {
 
-
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
     @BindView(R.id.mPrev)
@@ -53,6 +52,8 @@ public class PlayMusicActivity extends RootActivity {
     //
     PlayMusicAdapter playMusicAdapter = null;
     List<Fragment> fragments = null;
+    //是否播放新歌
+    volatile boolean playNewSong = false;
 
     static final int PlaySongCode = 0x000;//播放音乐
     static final int ERRORCODE = 0x003;//错误
@@ -61,15 +62,18 @@ public class PlayMusicActivity extends RootActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PlaySongCode:
-                    if (mData != null) {
-                        playService.PushData(mData);
-                        playService.Play();
-                    } else {
-                        dkhandler.sendEmptyMessage(ERRORCODE);
+                    if (playService.Player() != null) {
+                        if (mData != null) {
+                            playService.PushData(mData);
+                            playService.Play();
+
+                        } else {
+                            dkhandler.sendEmptyMessage(ERRORCODE);
+                        }
                     }
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "播放错误", Toast.LENGTH_SHORT);
+                    GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -80,6 +84,7 @@ public class PlayMusicActivity extends RootActivity {
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
         //接受数据
         mData = (PlayMusicSongBean) getIntent().getSerializableExtra("play");
+        playNewSong = getIntent().getExtras().getBoolean("play_new_song");
     }
 
     @Override
@@ -124,7 +129,7 @@ public class PlayMusicActivity extends RootActivity {
         dkhandler.sendEmptyMessage(PlaySongCode);
         //设置滑动
         //mSongCurr.setText(playService.getCurrentPosition()+"");
-        mSongSize.setText(playService.getDuration()+"");
+        mSongSize.setText(playService.getDuration() + "");
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
 

@@ -17,7 +17,7 @@ import soft.me.ldc.model.PlayMusicSongBean;
  */
 
 public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
-    MusicPlayer player = null;
+    volatile MusicPlayer player = null;
     volatile PlayMusicSongBean mData = null;
 
     @Override

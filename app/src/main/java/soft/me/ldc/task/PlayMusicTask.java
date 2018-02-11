@@ -33,6 +33,8 @@ public class PlayMusicTask extends ThreadTask {
     Message msg = null;
     //
     Bundle bundle = null;
+    //
+    volatile boolean IsNewPlay = true;
 
     public static PlayMusicTask Instance(Context ctx, int priority) {
         synchronized (PlayMusicTask.class) {
@@ -55,6 +57,7 @@ public class PlayMusicTask extends ThreadTask {
                     if (mData != null) {
                         bundle = new Bundle();
                         bundle.putSerializable("play", mData);
+                        bundle.putBoolean("play_new_song", IsNewPlay);
                         Intent it = new Intent();
                         it.putExtras(bundle);
                         it.setClass(ctx, PlayMusicActivity.class);
@@ -81,6 +84,10 @@ public class PlayMusicTask extends ThreadTask {
 
     public void pushData(String songid) {
         this.songid = songid;
+    }
+
+    public void pushPlayState(boolean newPlay) {
+        this.IsNewPlay = newPlay;
     }
 
     @Override
