@@ -2,11 +2,14 @@ package soft.me.ldc.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.media.TimedMetaData;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -21,11 +24,21 @@ import soft.me.ldc.model.PlayMusicSongBean;
 public class PlayService extends Service implements MusicPlayer.OnErrorListener, IPlayMusic {
     volatile MusicPlayer player = null;
     volatile PlayMusicSongBean mData = null;
+    volatile float CurrSize = 0;
+    volatile float AllSize = 0;
 
     @Override
     public IBinder onBind(Intent intent) {
-        player = MusicPlayer.newInstance(PlayService.this);
         return new ServiceBind();
+    }
+
+    // TODO: 2018/1/20  绑定服务
+    public class ServiceBind extends Binder {
+        // TODO: 2018/2/11  获取服务 并实例化播放器
+        public PlayService Service() {
+            player = MusicPlayer.newInstance(PlayService.this);
+            return PlayService.this;
+        }
     }
 
     @Override
@@ -49,6 +62,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
             player.seekTo(0);
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
             player.prepare();
+            AllSize = player.getDuration();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,8 +70,9 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
 
     @Override
     public void Play() {
-        if (!player.isPlaying())
+        if (!player.isPlaying()) {
             player.start();
+        }
     }
 
     @Override
@@ -75,13 +90,13 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
     //当前播放长度
     @Override
     public int getDuration() {
-        return player.getDuration();
+        return (int) AllSize;
     }
 
     //回去当前进度条
     @Override
     public int getCurrentPosition() {
-        return player.getCurrentPosition();
+        return (int) CurrSize;
     }
 
     //上一首
@@ -114,7 +129,7 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
             player.reset();
             player.seekTo(0);
             player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
-            player.prepare();
+            player.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,13 +151,18 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
         return player;
     }
 
-    // TODO: 2018/1/20  绑定服务
-    public class ServiceBind extends Binder {
-        //获取服务
-        public PlayService Service() {
-            return PlayService.this;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    class MediaPlayLisener implements
+            MediaPlayer.OnCompletionListener {
+
+
+        //播放完成
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if (!mp.isLooping()) {
+                mp.reset();
+                mp.seekTo(0);
+            }
         }
-
-
     }
 }

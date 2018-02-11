@@ -58,7 +58,8 @@ public class PlayMusicActivity extends RootActivity {
     volatile boolean play_New_Song = false;
 
     static final int PlaySongCode = 0x000;//播放音乐
-    static final int ERRORCODE = 0x003;//错误
+    static final int ShowPlayInfo = 0x001;//显示信息
+    static final int ERRORCODE = 0x004;//错误
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,6 +79,8 @@ public class PlayMusicActivity extends RootActivity {
                             } else {
                                 mPlayorPause.setImageResource(R.drawable.play_state_play);
                             }
+                            //显示数据
+                            dkhandler.sendEmptyMessage(ShowPlayInfo);
                         } else {
                             dkhandler.sendEmptyMessage(ERRORCODE);
                         }
@@ -85,6 +88,10 @@ public class PlayMusicActivity extends RootActivity {
                     break;
                 case ERRORCODE:
                     GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
+                    break;
+                case ShowPlayInfo:
+                    mSongSize.setText(playService.getDuration() + "");
+                    mSeekbar.setMax(playService.getDuration());
                     break;
             }
         }
@@ -138,7 +145,7 @@ public class PlayMusicActivity extends RootActivity {
         }
         //播放歌曲
         dkhandler.sendEmptyMessage(PlaySongCode);
-        //设置滑动
+        //滑动事件
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
 
@@ -185,7 +192,8 @@ public class PlayMusicActivity extends RootActivity {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            mToolbar.setRightText("" + progress + "%");
+            if (playService.Player() != null && playService.Player().isPlaying())
+                playService.Player().seekTo(progress);
         }
 
         @Override
