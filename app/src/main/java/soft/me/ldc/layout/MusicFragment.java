@@ -56,7 +56,7 @@ public class MusicFragment extends RootFragment {
     @Override
     protected void Main() throws Exception {
         if (sglm == null)
-            sglm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            sglm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         if (musicTypeListAdapter == null)
             musicTypeListAdapter = new MusicTypeListAdapter();
         musicTypeListAdapter.pushData(mData);
