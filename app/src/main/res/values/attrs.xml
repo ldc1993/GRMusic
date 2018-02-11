@@ -2,8 +2,6 @@
 <resources>
     <declare-styleable name="GRSearchView">
         <attr name="TextSize" format="dimension" />
-        <attr name="BackGround" format="reference" />
-        <attr name="TextColor" format="color" />
         <attr name="TextHint" format="string" />
         <attr name="TextHintColor" format="color" />
     </declare-styleable>

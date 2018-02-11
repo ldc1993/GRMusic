@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -24,12 +23,13 @@ import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.QueryMusicAdapter;
 import soft.me.ldc.base.RootFragment;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.QueryMusicBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
-import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
+import soft.me.ldc.view.GRSearchView;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -38,7 +38,7 @@ import soft.me.ldc.view.GRToastView;
 public class QueryMusicFragment extends RootFragment {
 
     @BindView(R.id.mSearcView)
-    SearchView mSearcView;
+    GRSearchView mSearcView;
     @BindView(R.id.mList)
     RecyclerView mList;
     @BindView(R.id.smartrefreshlayout)
@@ -70,10 +70,10 @@ public class QueryMusicFragment extends RootFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESHCODE:
-                    RunRefreshTask(mSearcView.getQuery().toString());
+                    RunRefreshTask(mSearcView.getKey().toString());
                     break;
                 case LOADMORECODE:
-                    RunRefreshTask(mSearcView.getQuery().toString());
+                    RunRefreshTask(mSearcView.getKey().toString());
                     break;
                 case UPDATEVIEWCODE:
                     QueryMusicBean data = (QueryMusicBean) msg.obj;
@@ -82,8 +82,8 @@ public class QueryMusicFragment extends RootFragment {
 
                             if (queryMusicAdapter != null) {
                                 queryMusicAdapter.pushData(data.result.song_info.song_list);
+                                queryMusicAdapter.notifyDataSetChanged();
                             }
-                            queryMusicAdapter.notifyDataSetChanged();
                         } else {
                             dkhandler.sendEmptyMessage(NODATACODE);
                         }
@@ -117,10 +117,9 @@ public class QueryMusicFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
-        mSearcView.setIconifiedByDefault(true);//展开
-        mSearcView.setQueryHint("请输入关键词");
-        mSearcView.setQuery("生日快乐", false);
-        mSearcView.setOnQueryTextListener(new QueryListener());
+        mSearcView.setHint("请输入关键词");
+        mSearcView.setKey("生日快乐");
+        mSearcView.setSearchBtnListener(new QueryListener());
         {
             smartrefreshlayout.setOnRefreshListener(new RefreshListener());
             smartrefreshlayout.setOnLoadmoreListener(new RefreshListener());
@@ -183,21 +182,15 @@ public class QueryMusicFragment extends RootFragment {
 
 
     //查询事件
-    class QueryListener implements SearchView.OnQueryTextListener {
+    class QueryListener implements GRSearchView.onSearchListener {
 
         @Override
-        public boolean onQueryTextSubmit(String query) {
-            if (StringUtil.isNotBlank(query)) {
-                RunLoadmoreTask(query);
+        public void onSearchClick(View view, String key) {
+            if (StringUtil.isNotBlank(key)) {
+                RunLoadmoreTask(key);
             } else {
                 RunRefreshTask("");
             }
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            return false;
         }
     }
 

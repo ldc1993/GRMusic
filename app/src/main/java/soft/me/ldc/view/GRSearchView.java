@@ -1,7 +1,6 @@
 package soft.me.ldc.view;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageButton;
@@ -25,13 +24,10 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
     LinearLayoutCompat searchLine = null;
     LinearLayoutCompat.LayoutParams layoutParams = null;
     onSearchListener listener = null;
-    TypedArray typedArray = null;
     //
-    float textsize = 12.0f;
-    int textcolor = Color.BLACK;
-    int texthintcolor = Color.GREEN;
+    float textsize = 15.0f;
+    int textcolor = Color.WHITE;
     String texthint = "请输入关键字";
-    int background = R.drawable.gr_searchview_bg;
 
 
     public GRSearchView(Context context) {
@@ -53,25 +49,12 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
         searchLine = mainView.findViewById(R.id.searchLine);
         searchBtn = mainView.findViewById(R.id.searchBtn);
         searchEt = mainView.findViewById(R.id.searchEt);
-
-        try {
-            if (typedArray == null)
-                typedArray = context.obtainStyledAttributes(attrs, R.styleable.GRSearchView);
-            textsize = typedArray.getDimension(R.styleable.GRSearchView_TextSize, 12);
-            textcolor = typedArray.getColor(R.styleable.GRSearchView_TextColor, Color.WHITE);
-            texthintcolor = typedArray.getColor(R.styleable.GRSearchView_TextHintColor, Color.GREEN);
-            texthint = typedArray.getString(R.styleable.GRSearchView_TextHint);
-            background = typedArray.getResourceId(R.styleable.GRSearchView_BackGround, R.drawable.gr_searchview_bg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            typedArray.recycle();
-        }
+        //
         searchEt.setTextSize(textsize);
         searchEt.setHint(texthint);
         searchEt.setTextColor(textcolor);
-        searchEt.setHintTextColor(texthintcolor);
-        searchLine.setBackgroundColor(background);
+        searchEt.setHintTextColor(Color.parseColor("#f9f9f9"));
+        searchLine.setBackgroundColor(Color.parseColor("#F44236"));
         if (searchBtn != null)
             searchBtn.setOnClickListener(this);
         //布局
