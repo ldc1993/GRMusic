@@ -21,7 +21,6 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
     View mainView = null;
     AppCompatEditText searchEt = null;
     AppCompatImageButton searchBtn = null;
-    LinearLayoutCompat searchLine = null;
     LinearLayoutCompat.LayoutParams layoutParams = null;
     onSearchListener listener = null;
     //
@@ -46,7 +45,6 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
     // TODO: 2018/1/12 初始化
     private void init(Context context, AttributeSet attrs) {
         mainView = LayoutInflater.from(context).inflate(R.layout.gr_searchview, null);
-        searchLine = mainView.findViewById(R.id.searchLine);
         searchBtn = mainView.findViewById(R.id.searchBtn);
         searchEt = mainView.findViewById(R.id.searchEt);
         //
@@ -54,7 +52,6 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
         searchEt.setHint(texthint);
         searchEt.setTextColor(textcolor);
         searchEt.setHintTextColor(Color.parseColor("#f9f9f9"));
-        searchLine.setBackgroundColor(Color.parseColor("#F44236"));
         if (searchBtn != null)
             searchBtn.setOnClickListener(this);
         //布局

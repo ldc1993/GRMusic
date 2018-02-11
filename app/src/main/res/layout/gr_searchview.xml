@@ -10,6 +10,7 @@
         android:id="@+id/searchLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/grsearch_view"
         android:gravity="center"
         android:minHeight="45dp"
         android:orientation="horizontal"
