@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -24,6 +27,7 @@ import soft.me.ldc.view.GRToastView;
  * A simple {@link Fragment} subclass.
  */
 public class PlayMusicCoverFragment extends RootFragment {
+    volatile PlayService playService = null;
     volatile PlayMusicSongBean mData = null;
     @BindView(R.id.song_icon)
     AppCompatImageView micon;
@@ -31,15 +35,19 @@ public class PlayMusicCoverFragment extends RootFragment {
     AppCompatTextView title;
     @BindView(R.id.author)
     AppCompatTextView author;
+    @BindView(R.id.replay)
+    AppCompatImageView replay;
 
     //构造函数
     public void pushData(PlayMusicSongBean mData) {
         this.mData = mData;
     }
 
+
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
-
+        PlayMusicActivity playMusicActivity = (PlayMusicActivity) act;
+        playService = playMusicActivity.getPlayService();
     }
 
     @Override
@@ -60,6 +68,13 @@ public class PlayMusicCoverFragment extends RootFragment {
 
     @Override
     protected void Main() throws Exception {
+        if (playService.Player() != null) {
+            if (playService.Player().isLooping()) {
+                replay.setImageResource(R.drawable.ic_play_replay_pre);
+            } else {
+                replay.setImageResource(R.drawable.ic_play_replay);
+            }
+        }
     }
 
     @Override
@@ -67,5 +82,20 @@ public class PlayMusicCoverFragment extends RootFragment {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-
+    @OnClick({R.id.replay})
+    public void ClickListener(View view) {
+        switch (view.getId()) {
+            case R.id.replay:
+                if (playService.Player() != null) {
+                    if (playService.Player().isLooping()) {
+                        playService.Looping(false);
+                        replay.setImageResource(R.drawable.ic_play_replay);
+                    } else {
+                        playService.Looping(true);
+                        replay.setImageResource(R.drawable.ic_play_replay_pre);
+                    }
+                }
+                break;
+        }
+    }
 }

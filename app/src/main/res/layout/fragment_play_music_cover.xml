@@ -9,10 +9,10 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/song_icon"
-        android:src="@mipmap/me"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:src="@mipmap/me" />
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -23,15 +23,31 @@
         android:paddingRight="15dp"
         android:paddingTop="5dp">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/title"
+        <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="2dp"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:textColor="@android:color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/replay"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_play_replay" />
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/author"

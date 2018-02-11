@@ -1,5 +1,6 @@
 package soft.me.ldc.layout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
@@ -137,8 +139,6 @@ public class PlayMusicActivity extends RootActivity {
         //播放歌曲
         dkhandler.sendEmptyMessage(PlaySongCode);
         //设置滑动
-        //mSongCurr.setText(playService.getCurrentPosition()+"");
-        //mSongSize.setText(playService.getDuration() + "");
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
 
@@ -147,6 +147,11 @@ public class PlayMusicActivity extends RootActivity {
     @Override
     protected void Error(Exception e) {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
+    }
+
+    //获取服务
+    protected PlayService getPlayService() {
+        return playService;
     }
 
     // TODO: 2018/1/16 点击事件
@@ -192,6 +197,5 @@ public class PlayMusicActivity extends RootActivity {
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     }
-
 
 }

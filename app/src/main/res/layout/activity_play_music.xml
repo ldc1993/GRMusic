@@ -64,7 +64,7 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="false"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_status_bar_pause_dark" />
+                android:src="@drawable/ic_play_bar_btn_next" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/mPlayorPause"
