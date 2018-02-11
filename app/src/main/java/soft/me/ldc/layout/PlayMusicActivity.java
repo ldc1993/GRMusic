@@ -177,7 +177,7 @@ public class PlayMusicActivity extends RootActivity {
             mViewPager.setAdapter(playMusicAdapter);
             mViewPager.setCurrentItem(0);
             mViewPager.setScrollEnable(true);
-            mViewPager.setOffscreenPageLimit(1);
+            mViewPager.setOffscreenPageLimit(2);
 
         }
         //播放歌曲

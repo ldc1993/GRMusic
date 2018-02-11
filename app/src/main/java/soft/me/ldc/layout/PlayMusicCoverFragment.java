@@ -59,10 +59,12 @@ public class PlayMusicCoverFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
-        if (StringUtil.isNotBlank(mData.songinfo.pic_big))
+        if (StringUtil.isNotBlank(mData.songinfo.pic_premium))
             Picasso.with(ctx).load(mData.songinfo.pic_premium).resize(500, 500).centerCrop().onlyScaleDown().into(micon);
-        title.setText(mData.songinfo.title);
-        author.setText(mData.songinfo.author);
+        if (StringUtil.isNotBlank(mData.songinfo.title))
+            title.setText(mData.songinfo.title);
+        if (StringUtil.isNotBlank(mData.songinfo.author))
+            author.setText(mData.songinfo.author);
 
     }
 
