@@ -103,7 +103,7 @@ public class LauncherUI extends RootActivity {
                     refreshPlayMusic(data);
                     break;
                 case ErrorCode:
-                    GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
+                   // GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -282,6 +282,12 @@ public class LauncherUI extends RootActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        dkhandler.sendEmptyMessage(GetPlayMusicCode);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
     }
 

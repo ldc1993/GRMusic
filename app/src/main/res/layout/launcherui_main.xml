@@ -20,9 +20,9 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/playBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:minHeight="50dp"
+        android:minHeight="60dp"
         android:orientation="vertical">
 
         <ImageView
@@ -34,21 +34,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/playIcon"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:minWidth="60dp" />
+                android:minWidth="50dp"
+                android:src="@mipmap/me" />
 
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:minWidth="150dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/playTitle"
@@ -57,6 +61,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="哈哈哈~~~"
                     android:textColor="@android:color/black"
                     android:textSize="15sp" />
 
@@ -67,6 +72,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
+                    android:text="王紫春~小美女···"
                     android:textSize="12sp" />
 
             </android.support.v7.widget.LinearLayoutCompat>
@@ -74,39 +80,40 @@
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
+                android:minWidth="80dp"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/playList"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
                     android:background="@android:color/transparent"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/ic_play_bar_btn_playlist" />
 
                 <ImageButton
                     android:id="@+id/playOrpause"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
                     android:background="@android:color/transparent"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/ic_play_bar_btn_play" />
 
                 <ImageButton
                     android:id="@+id/playNext"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
                     android:background="@android:color/transparent"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/ic_play_bar_btn_next" />
 
 
             </android.support.v7.widget.LinearLayoutCompat>

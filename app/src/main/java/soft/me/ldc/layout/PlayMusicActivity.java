@@ -123,7 +123,7 @@ public class PlayMusicActivity extends RootActivity {
         //播放歌曲
         dkhandler.sendEmptyMessage(PlaySongCode);
         //设置滑动
-        mSongCurr.setText(playService.getCurrentPosition()+"");
+        //mSongCurr.setText(playService.getCurrentPosition()+"");
         mSongSize.setText(playService.getDuration()+"");
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 

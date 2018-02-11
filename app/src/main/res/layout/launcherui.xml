@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/launcherui_left" />
+    <include layout="@layout/launcherui_left" />
 
 
 </android.support.v7.widget.LinearLayoutCompat>
