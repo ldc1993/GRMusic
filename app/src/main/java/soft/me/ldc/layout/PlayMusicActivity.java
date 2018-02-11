@@ -66,6 +66,7 @@ public class PlayMusicActivity extends RootActivity {
     volatile boolean play_New_Song = false;
     //当前音乐进度
     volatile int lastCurrSize = 0;
+    volatile int laseAllSize = 0;
     //
     static final int PlaySongCode = 0x000;//播放音乐
     static final int ShowPlayInfo = 0x001;//显示信息
@@ -89,10 +90,6 @@ public class PlayMusicActivity extends RootActivity {
                             } else {
                                 mPlayorPause.setImageResource(R.drawable.play_state_play);
                             }
-                            //播放完成复位
-                            if (!playService.Player().isLooping() && (lastCurrSize == playService.getDuration())) {
-                                playService.Reset();
-                            }
                             //显示数据
                             dkhandler.sendEmptyMessage(ShowPlayInfo);
                         } else {
@@ -104,18 +101,36 @@ public class PlayMusicActivity extends RootActivity {
                     GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
                     break;
                 case ShowPlayInfo:
+                    laseAllSize = playService.getDuration();
                     mSongCurr.setText(lastCurrSize + "");
-                    mSongSize.setText(playService.getDuration() + "");
-                    mSeekbar.setMax(playService.getDuration());
+                    mSongSize.setText(laseAllSize + "");
+                    mSeekbar.setMax(laseAllSize);
                     break;
                 case UpdatePlayProgressCode:
-                    lastCurrSize = (Integer) msg.obj;
+                    int progress = (Integer) msg.obj;
+                    boolean ok = IsPlayFnish(progress);
                     mSongCurr.setText(lastCurrSize + "");
                     mSeekbar.setProgress(lastCurrSize);
+                    if (ok) {
+                        playService.Reset();
+                        mPlayorPause.setImageResource(R.drawable.play_state_play);
+                        lastCurrSize = 0;
+                    }
                     break;
             }
         }
     };
+
+
+    //是否播放完成
+    private boolean IsPlayFnish(int number) {
+        boolean success = false;
+        if (number > 0 && lastCurrSize == number) {
+            success = true;
+        }
+        lastCurrSize = number;
+        return success;
+    }
 
 
     @Override
