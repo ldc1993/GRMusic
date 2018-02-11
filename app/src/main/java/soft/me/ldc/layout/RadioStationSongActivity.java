@@ -136,9 +136,9 @@ public class RadioStationSongActivity extends RootActivity {
                 radioStationSongAdapter = new RadioStationSongAdapter();
             radioStationSongAdapter.pushData(null);
             radioStationSongAdapter.setListener(new ItemListener());
+            mList.setLayoutManager(llm);
             mList.setLayoutFrozen(true);
             mList.setHasFixedSize(true);
-            mList.setLayoutManager(llm);
             mList.setAdapter(radioStationSongAdapter);
         }
         //加载数据

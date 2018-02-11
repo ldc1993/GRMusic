@@ -63,6 +63,8 @@ public class PlayMusicActivity extends RootActivity {
     List<Fragment> fragments = null;
     //是否播放新歌
     volatile boolean play_New_Song = false;
+    //当前音乐进度
+    volatile int lastCurrSize = 0;
     //
     static final int PlaySongCode = 0x000;//播放音乐
     static final int ShowPlayInfo = 0x001;//显示信息
@@ -98,13 +100,14 @@ public class PlayMusicActivity extends RootActivity {
                     GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
                     break;
                 case ShowPlayInfo:
+                    mSongCurr.setText(lastCurrSize + "");
                     mSongSize.setText(playService.getDuration() + "");
                     mSeekbar.setMax(playService.getDuration());
                     break;
                 case UpdatePlayProgressCode:
-                    int number = (Integer) msg.obj;
-                    mSongCurr.setText(number + "");
-                    mSeekbar.setProgress(number);
+                    lastCurrSize = (Integer) msg.obj;
+                    mSongCurr.setText(lastCurrSize + "");
+                    mSeekbar.setProgress(lastCurrSize);
                     break;
             }
         }
@@ -155,7 +158,7 @@ public class PlayMusicActivity extends RootActivity {
             mViewPager.setAdapter(playMusicAdapter);
             mViewPager.setCurrentItem(0);
             mViewPager.setScrollEnable(true);
-            mViewPager.setOffscreenPageLimit(2);
+            mViewPager.setOffscreenPageLimit(1);
 
         }
         //播放歌曲
@@ -179,10 +182,8 @@ public class PlayMusicActivity extends RootActivity {
     }
 
     private void RunThread() {
-        if (scheduledThreadPoolExecutor != null && scheduledThreadPoolExecutor.isShutdown()) {
-            scheduledThreadPoolExecutor.shutdownNow();
-        }
-        scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 2, TimeUnit.SECONDS);
+        if (scheduledThreadPoolExecutor != null)
+            scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 2, TimeUnit.SECONDS);
 
 
     }
@@ -242,5 +243,13 @@ public class PlayMusicActivity extends RootActivity {
         public void onStopTrackingTouch(SeekBar seekBar) {
         }
     }
+    // TODO: 2018/2/11 生命周期
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (scheduledThreadPoolExecutor != null && !scheduledThreadPoolExecutor.isTerminated()) {
+            scheduledThreadPoolExecutor.shutdown();
+        }
+    }
 }
