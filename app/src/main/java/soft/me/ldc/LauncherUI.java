@@ -1,6 +1,7 @@
 package soft.me.ldc;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
@@ -37,6 +40,7 @@ import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.thread.service.MultiThreadService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
@@ -101,9 +105,17 @@ public class LauncherUI extends RootActivity {
                 case SuccessCode:
                     PlayMusicSongBean data = (PlayMusicSongBean) msg.obj;
                     refreshPlayMusic(data);
+                    //更新播放图标
+                    if (playService.Player() != null && data != null) {
+                        if (playService.Player().isPlaying()) {
+                            playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
+                        } else {
+                            playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
+                        }
+                    }
                     break;
                 case ErrorCode:
-                   // GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
+                    // GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -190,6 +202,29 @@ public class LauncherUI extends RootActivity {
                 switchText.setText("白天");
                 GRToastView.show(ctx, "白天", Toast.LENGTH_SHORT);
             }
+        }
+    }
+
+    //点击事件
+    @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext})
+    public void ClickListener(View view) {
+        switch (view.getId()) {
+            case R.id.playList:
+                break;
+            case R.id.playOrpause:
+                if (playService.Player() != null && playService.MusicBean() != null) {
+                    if (playService.Player().isPlaying()) {
+                        playService.Pause();
+                        playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
+                    } else {
+                        playService.Play();
+                        playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
+                    }
+                }
+
+                break;
+            case R.id.playNext:
+                break;
         }
     }
 
