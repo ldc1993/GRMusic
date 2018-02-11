@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -77,7 +78,6 @@ public class PlayMusicActivity extends RootActivity {
                 case PlaySongCode:
                     if (playService.Player() != null) {
                         if (mData != null) {
-
                             //播放新歌
                             if (play_New_Song) {
                                 playService.PushData(mData);
@@ -88,6 +88,10 @@ public class PlayMusicActivity extends RootActivity {
                                 mPlayorPause.setImageResource(R.drawable.play_state_pause);
                             } else {
                                 mPlayorPause.setImageResource(R.drawable.play_state_play);
+                            }
+                            //播放完成复位
+                            if (!playService.Player().isLooping() && (lastCurrSize == playService.getDuration())) {
+                                playService.Reset();
                             }
                             //显示数据
                             dkhandler.sendEmptyMessage(ShowPlayInfo);
