@@ -28,8 +28,8 @@ public class PlayMusicActivity extends RootActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
-    @BindView(R.id.mPrev)
-    AppCompatImageView mPrev;
+    @BindView(R.id.mReset)
+    AppCompatImageView mReset;
     @BindView(R.id.mPlayorPause)
     AppCompatImageView mPlayorPause;
     @BindView(R.id.mNext)
@@ -64,10 +64,17 @@ public class PlayMusicActivity extends RootActivity {
                 case PlaySongCode:
                     if (playService.Player() != null) {
                         if (mData != null) {
+
                             //播放新歌
                             if (play_New_Song) {
                                 playService.PushData(mData);
                                 playService.Play();
+                            }
+                            //播放状态
+                            if (playService.Player().isPlaying()) {
+                                mPlayorPause.setImageResource(R.drawable.play_state_pause);
+                            } else {
+                                mPlayorPause.setImageResource(R.drawable.play_state_play);
                             }
                         } else {
                             dkhandler.sendEmptyMessage(ERRORCODE);
@@ -143,15 +150,23 @@ public class PlayMusicActivity extends RootActivity {
     }
 
     // TODO: 2018/1/16 点击事件
-    @OnClick({R.id.mPrev, R.id.mPlayorPause, R.id.mNext})
+    @OnClick({R.id.mReset, R.id.mPlayorPause, R.id.mNext})
     public void ClickListener(View view) {
         switch (view.getId()) {
-            case R.id.mPrev:
-                playService.Pause();
+            case R.id.mReset://重置
+                playService.Reset();
+                mPlayorPause.setImageResource(R.drawable.play_state_play);
                 break;
             case R.id.mPlayorPause:
-                playService.PushData(mData);
-                playService.Play();
+                if (playService.Player() != null && mData != null) {
+                    if (playService.Player().isPlaying()) {
+                        playService.Pause();
+                        mPlayorPause.setImageResource(R.drawable.play_state_play);
+                    } else {
+                        playService.Play();
+                        mPlayorPause.setImageResource(R.drawable.play_state_pause);
+                    }
+                }
                 break;
             case R.id.mNext:
                 break;

@@ -58,42 +58,40 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/mPrev"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:id="@+id/mReset"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="false"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
-                android:text="播放" />
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_status_bar_pause_dark" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/mPlayorPause"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="50dp"
                 android:adjustViewBounds="false"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
-                android:text="暂停" />
+                android:scaleType="centerInside"
+                android:src="@drawable/play_state_play" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/mNext"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="50dp"
                 android:adjustViewBounds="false"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher"
-                android:text="停止" />
+                android:scaleType="centerInside"
+                android:src="@drawable/play_state_next" />
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

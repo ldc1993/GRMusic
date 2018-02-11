@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 
+import java.io.IOException;
+
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -108,7 +110,14 @@ public class PlayService extends Service implements MusicPlayer.OnErrorListener,
 
     @Override
     public void Reset() {
-        player.reset();
+        try {
+            player.reset();
+            player.seekTo(0);
+            player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
+            player.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
