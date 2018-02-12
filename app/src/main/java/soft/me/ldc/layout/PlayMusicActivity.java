@@ -28,6 +28,7 @@ import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
+import soft.me.ldc.utils.ToFormat;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
@@ -103,13 +104,13 @@ public class PlayMusicActivity extends RootActivity {
                 case ShowPlayInfo:
                     laseAllSize = playService.getDuration();
                     mSongCurr.setText(lastCurrSize + "");
-                    mSongSize.setText(laseAllSize + "");
+                    mSongSize.setText(ToFormat.formatTime(laseAllSize) + "");
                     mSeekbar.setMax(laseAllSize);
                     break;
                 case UpdatePlayProgressCode:
                     int progress = (Integer) msg.obj;
                     boolean ok = IsPlayFnish(progress);
-                    mSongCurr.setText(lastCurrSize + "");
+                    mSongCurr.setText(ToFormat.formatTime(lastCurrSize) + "");
                     mSeekbar.setProgress(lastCurrSize);
                     if (ok) {
                         playService.Reset();
