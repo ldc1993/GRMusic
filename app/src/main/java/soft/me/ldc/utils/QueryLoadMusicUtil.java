@@ -25,11 +25,12 @@ public class QueryLoadMusicUtil {
         return instance;
     }
 
-    //
+    //构造函数
     private QueryLoadMusicUtil(Context ctx) {
         this.ctx = ctx;
     }
 
+    //获取本地音乐
     public List<LocalMusicBean> QueryMusic() {
         List<LocalMusicBean> list = new ArrayList<>();
         try {
