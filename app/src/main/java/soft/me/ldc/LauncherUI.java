@@ -2,6 +2,7 @@ package soft.me.ldc;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -21,6 +23,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -362,8 +365,52 @@ public class LauncherUI extends RootActivity {
             GRToastView.show(ctx, "拒绝:" + sb.toString(), Toast.LENGTH_SHORT);
         }
     }
-    // TODO: 2018/1/24 生命周期
 
+    // TODO: 2018/2/12  记录用户首次点击返回键的时间
+    private long firstTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (System.currentTimeMillis() - firstTime > 2000) {
+                QuitDialog();
+                firstTime = System.currentTimeMillis();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    //退出提示
+    private void QuitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle("温馨提示!");
+        builder.setItems(new String[]{"后台休息", "残忍退出"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        moveTaskToBack(false);
+                        break;
+                    case 1:
+                        playService.Reset();
+                        ActivityList.killAllActivity();
+                        break;
+                    default:
+                        dialog.dismiss();
+                        break;
+                }
+
+            }
+        });
+        builder.setCancelable(true);
+        builder.create();
+        builder.show();
+
+    }
+
+
+    // TODO: 2018/1/24 生命周期
     @Override
     protected void onResume() {
         super.onResume();
@@ -379,8 +426,10 @@ public class LauncherUI extends RootActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (multiTSIt != null)
+        //结束服务
+        if (multiTSIt != null) {
             stopService(multiTSIt);
+        }
     }
 
 
