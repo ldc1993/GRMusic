@@ -1,6 +1,7 @@
 package soft.me.ldc;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -43,6 +44,7 @@ import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.common.service.MultiThreadService;
+import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
@@ -140,8 +142,7 @@ public class LauncherUI extends RootActivity {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
-
-
+        ActivityList.addActivity(this);
     }
 
     @Override

@@ -22,6 +22,7 @@ import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
+import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.common.pool.MultiThreadPool;
@@ -99,7 +100,9 @@ public class MusicListActivity extends RootActivity {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
+        ActivityList.addActivity(this);
         musicTypeBean = (MusicTypeBean) getIntent().getSerializableExtra("type");
+
     }
 
     @Override

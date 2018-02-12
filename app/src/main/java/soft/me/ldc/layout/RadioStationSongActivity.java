@@ -22,6 +22,7 @@ import soft.me.ldc.adapter.RadioStationSongAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.model.RadioStationSongBean;
+import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.common.pool.MultiThreadPool;
@@ -99,6 +100,7 @@ public class RadioStationSongActivity extends RootActivity {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
+        ActivityList.addActivity(this);
         data = (RadioStationBean.ResultBean.ChannellistBean) getIntent().getSerializableExtra("type");
     }
 

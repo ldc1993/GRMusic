@@ -27,6 +27,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.ToFormat;
 import soft.me.ldc.view.GRToastView;
@@ -136,6 +137,7 @@ public class PlayMusicActivity extends RootActivity {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
+        ActivityList.addActivity(this);
         //接受数据
         mData = (PlayMusicSongBean) getIntent().getSerializableExtra("play");
         play_New_Song = getIntent().getExtras().getBoolean("play_new_song");
