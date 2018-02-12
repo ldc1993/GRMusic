@@ -21,6 +21,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.common.ThreadTask;
 import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -87,12 +88,13 @@ public class DownloadMusicTask extends ThreadTask {
 
     @Override
     protected void doRun() {
-        if (mData == null)
-            return;
         if (notificationManager == null)
             notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         if (builder == null)
             builder = new NotificationCompat.Builder(ctx);
+        //
+        if (mData == null || StringUtil.isBlank(mData.bitrate.file_link))
+            return;
         //
         builder.setTicker("下载任务");
         builder.setContentTitle(mData.songinfo.title);

@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key'
+            keyPassword '123456'
+            storeFile file('D:/Soft_Dev/AppKey个人/MyKey.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "soft.me.ldc"
@@ -14,13 +22,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "serviceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
+            buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
+            signingConfig signingConfigs.config
         }
-        dedug {
-            buildConfigField("String", "serviceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
+        debug {
+            buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
+            signingConfig signingConfigs.config
         }
     }
-    productFlavors {
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
@@ -49,5 +63,4 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //歌词显示
     compile 'me.wcy:lrcview:2.0.1'
-
 }

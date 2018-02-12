@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -21,15 +20,13 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.LocalMusicListAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.task.PlayLocalMusicTask;
-import soft.me.ldc.utils.QueryLoadMusicUtil;
+import soft.me.ldc.utils.FileManager;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 
@@ -167,7 +164,7 @@ public class LocalMusicFragment extends RootFragment {
         protected List<LocalMusicBean> doInBackground(Void... voids) {
             List<LocalMusicBean> bean = null;
             try {
-                bean = QueryLoadMusicUtil.Instance(ctx).QueryMusic();
+                bean = FileManager.Instance(ctx).QueryMusic();
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
             }
