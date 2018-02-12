@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/grsearch_view"
         android:gravity="center"
-        android:minHeight="45dp"
+        android:minHeight="40dp"
         android:orientation="horizontal"
         android:padding="2dp">
 
