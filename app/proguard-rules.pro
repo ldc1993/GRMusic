@@ -28,3 +28,7 @@
 
 #--
 -dontwarn com.squareup.okhttp.**
+#--
+-keepclassmembers class ** {
+    private javax.net.ssl.SSLSocketFactory delegate;
+}

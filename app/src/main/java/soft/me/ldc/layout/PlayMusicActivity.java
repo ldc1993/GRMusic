@@ -1,7 +1,5 @@
 package soft.me.ldc.layout;
 
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -26,10 +23,11 @@ import butterknife.OnClick;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
-import soft.me.ldc.iface.IPlayMusic;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.PlayService;
+import soft.me.ldc.task.DownloadMusicTask;
 import soft.me.ldc.utils.ToFormat;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -43,7 +41,7 @@ public class PlayMusicActivity extends RootActivity {
     AppCompatImageView mReset;
     @BindView(R.id.mPlayorPause)
     AppCompatImageView mPlayorPause;
-    @BindView(R.id.mNext)
+    @BindView(R.id.mDownload)
     AppCompatImageView mNext;
     @BindView(R.id.mSeekbar)
     SeekBar mSeekbar;
@@ -224,7 +222,7 @@ public class PlayMusicActivity extends RootActivity {
     }
 
     // TODO: 2018/1/16 点击事件
-    @OnClick({R.id.mReset, R.id.mPlayorPause, R.id.mNext})
+    @OnClick({R.id.mReset, R.id.mPlayorPause, R.id.mDownload})
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.mReset://重置
@@ -242,7 +240,12 @@ public class PlayMusicActivity extends RootActivity {
                     }
                 }
                 break;
-            case R.id.mNext:
+            case R.id.mDownload:
+                if (mData == null)
+                    return;
+                DownloadMusicTask downloadMusicTask = DownloadMusicTask.Instance(ctx, 1);
+                downloadMusicTask.pushData(mData);
+                MultiThreadPool.newInsance().pushThread(downloadMusicTask);
                 break;
 
         }

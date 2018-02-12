@@ -59,12 +59,12 @@
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/mReset"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
-                android:adjustViewBounds="false"
+                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_play_bar_btn_next" />
+                android:src="@drawable/ic_play_icon_reset" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/mPlayorPause"
@@ -77,14 +77,14 @@
                 android:src="@drawable/play_state_play" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/mNext"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:id="@+id/mDownload"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="50dp"
-                android:adjustViewBounds="false"
+                android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/play_state_next" />
+                android:src="@drawable/ic_play_icon_download" />
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.LinearLayoutCompat

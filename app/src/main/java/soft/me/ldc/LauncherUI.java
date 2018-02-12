@@ -49,6 +49,7 @@ import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
+import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -234,6 +235,7 @@ public class LauncherUI extends RootActivity {
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.playList:
+                mViewPager.setCurrentItem(0, false);
                 break;
             case R.id.playOrpause:
                 if (playService.Player() != null && playService.MusicBean() != null) {
@@ -393,7 +395,7 @@ public class LauncherUI extends RootActivity {
                         moveTaskToBack(false);
                         break;
                     case 1:
-                        playService.Reset();
+                        playService.Stop();
                         ActivityList.killAllActivity();
                         break;
                     default:
