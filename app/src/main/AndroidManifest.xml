@@ -11,6 +11,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".config.App"
@@ -31,6 +35,7 @@
         <activity android:name=".layout.RadioStationSongActivity" />
         <activity android:name=".layout.PlayMusicActivity" />
 
+        <!--音乐服务-->
         <service
             android:name=".service.PlayService"
             android:exported="true" />
@@ -38,6 +43,12 @@
         <service
             android:name=".common.service.MultiThreadService"
             android:exported="true" />
+        <!--高德定位-->
+        <service android:name="com.amap.api.location.APSService" />
+        <!--开发者Key-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="75a5407f7b6dd13b37c437d65b83ae2a" />
     </application>
 
 </manifest>
