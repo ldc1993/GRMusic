@@ -22,9 +22,8 @@ import soft.me.ldc.model.PlayMusicSongBean;
  * Created by ldc45 on 2018/1/16.
  */
 
-public class PlayService extends Service implements IPlayMusic {
+public class PlayService extends Service {
     volatile MusicPlayer player = null;
-    volatile PlayMusicSongBean mData = null;
     volatile float currSize = 0;
     volatile float allSize = 0;
     ScheduledExecutorService timeThread = null;
@@ -50,15 +49,122 @@ public class PlayService extends Service implements IPlayMusic {
         return new ServiceBind();
     }
 
-    // TODO: 2018/1/20  绑定服务
-    public class ServiceBind extends Binder {
-        // TODO: 2018/2/11  获取服务 并实例化播放器
-        public PlayService Service() {
-            initMediaPlay();
-            return PlayService.this;
-        }
+    @Override
+    public boolean onUnbind(Intent intent) {
+        player.reset();
+        player.stop();
+        player.release();
+        player = null;
+        return super.onUnbind(intent);
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        initMediaPlay();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        initMediaPlay();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    // TODO: 2018/1/20  绑定服务
+    public class ServiceBind extends Binder implements IPlayMusic {
+        volatile PlayMusicSongBean mData = null;
+
+        @Override
+        public void PushData(PlayMusicSongBean mData) {
+            try {
+                this.mData = mData;
+                //资源准备
+                player.reset();
+                player.seekTo(0);
+                player.setDataSource(PlayService.this, Uri.parse(mData.bitrate.show_link));
+                player.prepare();
+                allSize = player.getDuration();//获取文件大小
+                GetCurrSize();//获取当前文件进度
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void Play() {
+            if (!player.isPlaying()) {
+                player.start();
+            }
+        }
+
+        @Override
+        public void Pause() {
+            if (player.isPlaying())
+                player.pause();
+        }
+
+        //滑动
+        @Override
+        public void SeekTo(int sec) {
+            player.seekTo(sec);
+        }
+
+        //当前播放长度
+        @Override
+        public int getDuration() {
+            return (int) allSize;
+        }
+
+        //回去当前进度条
+        @Override
+        public int getCurrentPosition() {
+            return (int) currSize;
+
+        }
+
+        @Override
+        public void Stop() {
+            player.stop();
+            try {
+                player.prepare();
+                player.seekTo(0);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            player.release();//释放资源
+        }
+
+        @Override
+        public void Reset() {
+            try {
+                player.reset();
+                player.seekTo(0);
+                player.setDataSource(PlayService.this, Uri.parse(mData.bitrate.show_link));
+                player.prepareAsync();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void Looping(boolean b) {
+            player.setLooping(b);
+        }
+
+        //音乐资源
+        @Override
+        public PlayMusicSongBean MusicBean() {
+            return mData;
+        }
+
+        @Override
+        public MusicPlayer Player() {
+            return player;
+        }
+
+    }
+
+    // TODO: 2018/2/12 生命周期
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -66,110 +172,9 @@ public class PlayService extends Service implements IPlayMusic {
         this.startService(new Intent(this, PlayService.class));
     }
 
-    @Override
-    public void PushData(PlayMusicSongBean mData) {
-        try {
-            this.mData = mData;
-            //资源准备
-            player.reset();
-            player.seekTo(0);
-            player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
-            player.prepare();
-            allSize = player.getDuration();//获取文件大小
-            GetCurrSize();//获取当前文件进度
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    @Override
-    public void Play() {
-        if (!player.isPlaying()) {
-            player.start();
-        }
-    }
-
-    @Override
-    public void Pause() {
-        if (player.isPlaying())
-            player.pause();
-    }
-
-    //滑动
-    @Override
-    public void SeekTo(int sec) {
-        player.seekTo(sec);
-    }
-
-    //当前播放长度
-    @Override
-    public int getDuration() {
-        return (int) allSize;
-    }
-
-    //回去当前进度条
-    @Override
-    public int getCurrentPosition() {
-
-        return (int) currSize;
-
-    }
-
-    //上一首
-    @Override
-    public void Prev() {
-        player.reset();
-
-    }
-
-    @Override
-    public void Next() {
-        player.reset();
-    }
-
-    @Override
-    public void Stop() {
-        player.stop();
-        try {
-            player.prepare();
-            player.seekTo(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        player.release();//释放资源
-    }
-
-    @Override
-    public void Reset() {
-        try {
-            player.reset();
-            player.seekTo(0);
-            player.setDataSource(this, Uri.parse(mData.bitrate.show_link));
-            player.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void Looping(boolean b) {
-        player.setLooping(b);
-    }
-
-    //音乐资源
-    @Override
-    public PlayMusicSongBean MusicBean() {
-        return mData;
-    }
-
-    @Override
-    public MusicPlayer Player() {
-        return player;
-    }
-
-
+    //线程
     class CurrPlayPositionThread implements Runnable {
-
         @Override
         public void run() {
             currSize = player.getCurrentPosition();

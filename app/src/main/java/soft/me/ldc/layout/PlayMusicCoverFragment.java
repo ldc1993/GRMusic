@@ -27,7 +27,7 @@ import soft.me.ldc.view.GRToastView;
  * A simple {@link Fragment} subclass.
  */
 public class PlayMusicCoverFragment extends RootFragment {
-    volatile PlayService playService = null;
+    volatile PlayService.ServiceBind playService = null;
     volatile PlayMusicSongBean mData = null;
     @BindView(R.id.song_icon)
     AppCompatImageView micon;

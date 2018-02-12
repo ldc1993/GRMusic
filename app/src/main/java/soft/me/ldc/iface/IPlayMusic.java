@@ -1,7 +1,5 @@
 package soft.me.ldc.iface;
 
-import android.os.Message;
-
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.model.PlayMusicSongBean;
 
@@ -21,10 +19,6 @@ public interface IPlayMusic {
     int getDuration();
 
     int getCurrentPosition();
-
-    void Prev();
-
-    void Next();
 
     void Stop();
 

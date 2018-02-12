@@ -26,6 +26,7 @@ import butterknife.OnClick;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.PlayService;
@@ -200,8 +201,9 @@ public class PlayMusicActivity extends RootActivity {
     }
 
     //获取服务
-    protected PlayService getPlayService() {
+    protected PlayService.ServiceBind getPlayService() {
         return playService;
+
     }
 
     //执行线程

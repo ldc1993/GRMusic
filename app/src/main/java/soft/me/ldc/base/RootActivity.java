@@ -30,7 +30,7 @@ import soft.me.ldc.service.PlayService;
  */
 
 public abstract class RootActivity extends AppCompatActivity {
-    protected PlayService playService = null;
+    protected PlayService.ServiceBind playService = null;
     protected Context ctx;
     protected Activity act;
     protected FragmentManager fragmentManager;
@@ -42,7 +42,7 @@ public abstract class RootActivity extends AppCompatActivity {
     protected ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            playService = ((PlayService.ServiceBind) service).Service();
+            playService = (PlayService.ServiceBind) service;
         }
 
         @Override
@@ -144,4 +144,5 @@ public abstract class RootActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
+
 }
