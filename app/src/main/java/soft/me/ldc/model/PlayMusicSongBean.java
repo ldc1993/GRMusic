@@ -15,9 +15,9 @@ public class PlayMusicSongBean implements Serializable {
      * bitrate : {"show_link":"http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e","free":1,"song_file_id":42783748,"file_size":2679447,"file_extension":"mp3","file_duration":322,"file_bitrate":64,"file_link":"http://zhangmenshiting.qianqian.com/data2/music/42783748/42783748.mp3?xcode=805eed9cf626686d4394f800f7f2550e","hash":"74d926076dc8f2f857ffaa403d79935a65f80dec"}
      */
 
-    public SonginfoBean songinfo;
+    public SonginfoBean songinfo =new SonginfoBean();
     public int error_code;
-    public BitrateBean bitrate;
+    public BitrateBean bitrate=new BitrateBean();
 
    
 

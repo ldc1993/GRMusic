@@ -26,7 +26,9 @@ import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.LocalMusicListAdapter;
 import soft.me.ldc.base.RootFragment;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.LocalMusicBean;
+import soft.me.ldc.task.PlayLocalMusicTask;
 import soft.me.ldc.utils.QueryLoadMusicUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -133,7 +135,10 @@ public class LocalMusicFragment extends RootFragment {
 
         @Override
         public void onItem(View view, LocalMusicBean type) {
-
+            PlayLocalMusicTask playLocalMusicTask = PlayLocalMusicTask.Instance(ctx, 1);
+            playLocalMusicTask.pushData(type);
+            playLocalMusicTask.pushPlayState(true);
+            MultiThreadPool.newInsance().pushThread(playLocalMusicTask);
         }
     }
 
