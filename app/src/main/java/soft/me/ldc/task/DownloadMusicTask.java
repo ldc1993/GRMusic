@@ -1,8 +1,10 @@
 package soft.me.ldc.task;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import com.yanzhenjie.nohttp.download.SyncDownloadExecutor;
 
 import java.io.File;
 
+import soft.me.ldc.R;
 import soft.me.ldc.common.ThreadTask;
 import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -31,18 +34,34 @@ public class DownloadMusicTask extends ThreadTask {
     Message msg = null;
     DownloadRequest downloadRequest = null;
     //
+    NotificationCompat.Builder builder = null;
+    NotificationManager notificationManager = null;
+    //
     static DownloadMusicTask instance = null;
     //
     final static int SUCCESSCODE = 0x001;
     final static int FAILEDCODE = 0x002;
+    final static int UpdateProgressCode = 0x003;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SUCCESSCODE:
                     GRToastView.show(ctx, "下载成功", Toast.LENGTH_SHORT);
+                    notificationManager.cancel(Integer.parseInt(mData.songinfo.song_id));//取消消息栏
                     break;
                 case FAILEDCODE:
+                    GRToastView.show(ctx, "下载失败", Toast.LENGTH_SHORT);
+                    builder.setContentText("下载失败");
+                    builder.setProgress(100, 0, false);
+                    builder.setContentInfo("0%");
+                    notificationManager.notify(Integer.parseInt(mData.songinfo.song_id), builder.build());
+                    break;
+                case UpdateProgressCode:
+                    int number = (Integer) msg.obj;
+                    builder.setProgress(100, number, false);
+                    builder.setContentInfo(number + "%");
+                    notificationManager.notify(Integer.parseInt(mData.songinfo.song_id), builder.build());
                     break;
             }
         }
@@ -70,6 +89,18 @@ public class DownloadMusicTask extends ThreadTask {
     protected void doRun() {
         if (mData == null)
             return;
+        if (notificationManager == null)
+            notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (builder == null)
+            builder = new NotificationCompat.Builder(ctx);
+        //
+        builder.setTicker("下载任务");
+        builder.setContentTitle(mData.songinfo.title);
+        builder.setSmallIcon(R.drawable.play_icon_download);
+        builder.setContentText("请稍等...");
+        builder.setProgress(100, 0, false);
+        builder.setContentInfo("0%");
+        notificationManager.notify(Integer.parseInt(mData.songinfo.song_id), builder.build());
         try {
             downloadRequest = NoHttp.createDownloadRequest(mData.bitrate.file_link, RequestMethod.GET, SongDir, mData.songinfo.title + ".mp3", true, true);
             if (downloadRequest == null)
@@ -97,7 +128,9 @@ public class DownloadMusicTask extends ThreadTask {
 
         @Override
         public void onProgress(int what, int progress, long fileCount, long speed) {
-            Log.e("LLL", "" + progress);
+            msg = dkhandler.obtainMessage(UpdateProgressCode);
+            msg.obj = progress;
+            dkhandler.sendMessage(msg);
         }
 
         @Override
