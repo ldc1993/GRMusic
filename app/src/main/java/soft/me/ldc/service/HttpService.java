@@ -215,7 +215,7 @@ public class HttpService {
             }
 
         } catch (Exception e) {
-            resultStr = null;
+            resultStr = "";
             e.printStackTrace();
         }
         return resultStr;
