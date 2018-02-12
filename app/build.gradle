@@ -30,7 +30,6 @@ android {
             signingConfig signingConfigs.config
         }
     }
-
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -63,4 +62,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     //歌词显示
     compile 'me.wcy:lrcview:2.0.1'
+    implementation files('libs/AMap_Location_V3.8.0_20180201.jar')
 }
