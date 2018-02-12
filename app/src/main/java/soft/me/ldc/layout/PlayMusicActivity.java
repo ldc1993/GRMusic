@@ -202,9 +202,10 @@ public class PlayMusicActivity extends RootActivity {
         return playService;
     }
 
+    //执行线程
     private void RunThread() {
         if (scheduledThreadPoolExecutor != null)
-            scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 2, TimeUnit.SECONDS);
+            scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 1, TimeUnit.SECONDS);
     }
 
     //单线程
