@@ -161,15 +161,15 @@ public class LauncherUI extends RootActivity {
                 titles = new ArrayList<>();
             titles.clear();
             //添加页面
+            fragments.add(new Main3Fragment());
             fragments.add(new MusicFragment());
             fragments.add(new RadioStationFragment());
             fragments.add(new QueryMusicFragment());
-            fragments.add(new Main3Fragment());
             //添加标题
+            titles.add("我的音乐");
             titles.add("发现");
             titles.add("电台");
             titles.add("音乐搜索");
-            titles.add("我的");
 
             if (pagerAdapter == null)
                 pagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
