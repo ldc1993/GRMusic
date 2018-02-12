@@ -200,7 +200,7 @@ public class HttpService {
         try {
             if (request == null)
                 request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
-            request.add("method", "baidu.ting.song.play");//方法
+            request.add("method", "baidu.ting.title.play");//方法
             request.add("songid", songId);//歌曲id
             request.add("format", "json");//返回格式
 

@@ -23,10 +23,6 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
     AppCompatImageButton searchBtn = null;
     LinearLayoutCompat.LayoutParams layoutParams = null;
     onSearchListener listener = null;
-    //
-    float textsize = 15.0f;
-    int textcolor = Color.WHITE;
-    String texthint = "请输入关键字";
 
 
     public GRSearchView(Context context) {
@@ -47,11 +43,6 @@ public class GRSearchView extends LinearLayoutCompat implements View.OnClickList
         mainView = LayoutInflater.from(context).inflate(R.layout.gr_searchview, null);
         searchBtn = mainView.findViewById(R.id.searchBtn);
         searchEt = mainView.findViewById(R.id.searchEt);
-        //
-        searchEt.setTextSize(textsize);
-        searchEt.setHint(texthint);
-        searchEt.setTextColor(textcolor);
-        searchEt.setHintTextColor(Color.parseColor("#f9f9f9"));
         if (searchBtn != null)
             searchBtn.setOnClickListener(this);
         //布局

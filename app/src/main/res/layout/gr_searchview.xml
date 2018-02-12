@@ -24,11 +24,13 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:gravity="center|left"
+            android:hint="请输入关键字"
             android:lines="1"
             android:paddingLeft="10dp"
             android:singleLine="true"
-            android:textColor="@color/ivory"
-            android:textSize="12sp" />
+            android:textColor="@color/black"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp" />
 
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/searchBtn"
@@ -41,7 +43,7 @@
             android:minHeight="25dp"
             android:minWidth="25dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/search_icon" />
+            android:src="@mipmap/ic_icon_search" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 
