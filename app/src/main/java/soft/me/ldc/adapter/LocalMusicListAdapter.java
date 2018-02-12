@@ -19,6 +19,10 @@ public class LocalMusicListAdapter extends RootRecyclerViewAdapter<LocalMusicLis
     List<LocalMusicBean> localMusicBeans = null;
     OnItemListener itemListener = null;
 
+    public void pushData(List<LocalMusicBean> localMusicBeans) {
+        this.localMusicBeans = localMusicBeans;
+    }
+
     @Override
     public LocalMusicListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View mainView = LayoutInflater.from(parent.getContext()).inflate(R.layout.local_music_list_item, parent, false);

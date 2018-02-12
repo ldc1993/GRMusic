@@ -1,8 +1,10 @@
 package soft.me.ldc;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +43,7 @@ import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.common.service.MultiThreadService;
+import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -86,14 +89,24 @@ public class LauncherUI extends RootActivity {
     LauncherUIViewPagerAdapter pagerAdapter = null;
     //滑动位置
     volatile int ScrollPosition = 0;
-    //消息
-    Message msg = null;
     //
     GetPlayMusicTask getPlayMusicTask = null;
     //
     Bundle bundle = null;
     //
     volatile PlayMusicSongBean mData = null;
+    //
+    //TODO: 需要的动态权限
+    String[] permissions = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.CAMERA//拍照
+    };
+    //消息
+    Message msg = null;
     //
     final static int SuccessCode = 0x001;
     final static int ErrorCode = 0x000;
@@ -144,6 +157,9 @@ public class LauncherUI extends RootActivity {
             multiTSIt = new Intent(ctx, MultiThreadService.class);
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestRunTimePermission(permissions, new RunTimePermission());
+        }
         //指示器
         {
             tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
@@ -327,8 +343,25 @@ public class LauncherUI extends RootActivity {
         }
     }
 
-    // TODO: 2018/1/24 生命周期
+    // TODO: 2017/11/20 请求运行时动态权限
+    class RunTimePermission implements PermissionIface {
 
+        @Override
+        public void onGranted() {
+            // TODO: 2017/11/20 授权成功
+        }
+
+        @Override
+        public void onDenied(List<String> deniedPermissions) {
+            StringBuilder sb = new StringBuilder();
+            sb.delete(0, sb.length());
+            for (String p : deniedPermissions) {
+                sb.append(p + "\n");
+            }
+            GRToastView.show(ctx, "拒绝:" + sb.toString(), Toast.LENGTH_SHORT);
+        }
+    }
+    // TODO: 2018/1/24 生命周期
 
     @Override
     protected void onResume() {

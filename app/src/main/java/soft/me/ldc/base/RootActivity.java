@@ -5,14 +5,23 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import soft.me.ldc.permission.ActivityList;
+import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.service.PlayService;
 
 
@@ -26,6 +35,9 @@ public abstract class RootActivity extends AppCompatActivity {
     protected Activity act;
     protected FragmentManager fragmentManager;
     private Unbinder unbinder = null;
+    //权限申请
+    PermissionIface miface = null;
+    final static int requestPermissionCode = 0x999;
 
     protected ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -77,5 +89,59 @@ public abstract class RootActivity extends AppCompatActivity {
         if (serviceConnection != null) {
             unbindService(serviceConnection);
         }
+    }
+
+    // TODO: 2017/10/8 请求运行时权限
+    public void requestRunTimePermission(String[] permissions, PermissionIface iface) {
+        Activity activity = ActivityList.getTopActivity();
+        miface = iface;
+        if (activity == null)
+            return;
+        List<String> NoGranted = new ArrayList<>();
+        for (String permission : permissions) {
+            //未授权
+            if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+                NoGranted.add(permission);
+            }
+        }
+        if (!NoGranted.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, NoGranted.toArray(new String[NoGranted.size()]), requestPermissionCode);
+        } else {
+            //授权成功
+            miface.onGranted();
+        }
+
+
+    }
+
+    // TODO: 2017/10/8 权限请求结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case requestPermissionCode:
+                if (permissions.length > 0) {
+                    //拒绝权限
+                    List<String> deniedpermission = new ArrayList<>();
+                    for (int i = 0; i < grantResults.length; i++) {
+                        int granted = grantResults[i];
+                        String permission = permissions[i];
+                        if (granted != PackageManager.PERMISSION_GRANTED) {
+                            deniedpermission.add(permission);
+                        }
+                    }
+                    if (deniedpermission.isEmpty()) {
+                        miface.onGranted();
+                    } else {
+                        miface.onDenied(deniedpermission);
+                    }
+                }
+                break;
+            default:
+                break;
+
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 }
