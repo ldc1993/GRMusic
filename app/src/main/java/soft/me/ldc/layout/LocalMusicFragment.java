@@ -30,6 +30,7 @@ import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.task.PlayLocalMusicTask;
 import soft.me.ldc.utils.QueryLoadMusicUtil;
+import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -48,10 +49,10 @@ public class LocalMusicFragment extends RootFragment {
     LocalMusicListAdapter localMusicListAdapter = null;
     //
     QueryMusicTask queryMusicTask = null;
+    //
+    GRLoadDialog loadDialog = null;
     //消息
     Message msg = null;
-
-
     final static int ERRORCODE = 0x000;
     final static int REFRESHCODE = 0x001;
     final static int NODATACODE = 0x002;
@@ -154,6 +155,13 @@ public class LocalMusicFragment extends RootFragment {
 
     //获取本地歌曲任务
     class QueryMusicTask extends AsyncTask<Void, Void, List<LocalMusicBean>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (loadDialog != null && loadDialog.isShow())
+                loadDialog.dismiss();
+            loadDialog = GRLoadDialog.Instance(ctx, GRLoadDialog.Style.White).show("", true);
+        }
 
         @Override
         protected List<LocalMusicBean> doInBackground(Void... voids) {
@@ -176,6 +184,7 @@ public class LocalMusicFragment extends RootFragment {
             } else {
                 msg.what = NODATACODE;
             }
+            loadDialog.dismiss();
             dkhandler.sendMessage(msg);
         }
     }
