@@ -37,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import soft.me.ldc.R;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.ali.LocClient;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
@@ -55,7 +56,7 @@ import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
-public class LauncherUI extends RootActivity {
+public class MainUI extends RootActivity {
 
 
     @BindView(R.id.mImage)
