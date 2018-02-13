@@ -67,10 +67,8 @@ public class PlayMusicLyricFragment extends RootFragment {
                 case SUCCESSCODE:
                     String lrc = (String) msg.obj;
                     mLrcView.loadLrc(new File(lrc));
-                    if (mLrcView.hasLrc()) {//歌词是否可用
-                        //更新歌词
-                        dkhandler.post(new SingleThread());
-                    }
+                    //更新歌词
+                    dkhandler.post(new SingleThread());
                     break;
                 case UPDATECODE:
                     if (playService.Player().isPlaying()) {
@@ -143,7 +141,7 @@ public class PlayMusicLyricFragment extends RootFragment {
 
         @Override
         public void run() {
-            if (playService.Player().isPlaying()) {
+            if (playService.Player().isPlaying() && mLrcView.hasLrc()) {
                 msg = dkhandler.obtainMessage(UPDATECODE);
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);
