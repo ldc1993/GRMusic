@@ -111,7 +111,9 @@ public class QueryMusicFragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        return inflater.inflate(R.layout.fragment_query_music, null, false);
+        View mainView = inflater.inflate(R.layout.fragment_query_music, null, false);
+        mainView.setFocusable(true);
+        return mainView;
 
     }
 

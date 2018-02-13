@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".config.App"
@@ -25,16 +25,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LauncherUI">
+        <activity
+            android:name=".LauncherUI"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".layout.MusicListActivity" />
-        <activity android:name=".layout.RadioStationSongActivity" />
-        <activity android:name=".layout.PlayMusicActivity" />
+        <activity
+            android:name=".layout.MusicListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".layout.RadioStationSongActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".layout.PlayMusicActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <!--音乐服务-->
         <service
