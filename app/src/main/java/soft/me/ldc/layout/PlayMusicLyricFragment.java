@@ -1,13 +1,12 @@
 package soft.me.ldc.layout;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatImageView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +20,14 @@ import com.yanzhenjie.nohttp.download.DownloadRequest;
 import com.yanzhenjie.nohttp.download.SyncDownloadExecutor;
 
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import me.wcy.lrcview.LrcView;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
-import soft.me.ldc.task.DownloadMusicTask;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -68,7 +62,7 @@ public class PlayMusicLyricFragment extends RootFragment {
                     String lrc = (String) msg.obj;
                     mLrcView.loadLrc(new File(lrc));
                     //更新歌词
-                    dkhandler.post(new SingleThread());
+                    dkhandler.post(refreshLrc);
                     break;
                 case UPDATECODE:
                     if (playService.Player().isPlaying()) {
@@ -107,6 +101,8 @@ public class PlayMusicLyricFragment extends RootFragment {
     protected void Init() throws Exception {
         mLrcView.setOnPlayClickListener(new PlayListener());
         mLrcView.updateTime(0);
+        mLrcView.setCurrentColor(Color.GREEN);
+        mLrcView.computeScroll();
 
     }
 
@@ -137,8 +133,7 @@ public class PlayMusicLyricFragment extends RootFragment {
 
 
     //更新歌词
-    class SingleThread extends Thread {
-
+    private Runnable refreshLrc = new Runnable() {
         @Override
         public void run() {
             if (playService.Player().isPlaying() && mLrcView.hasLrc()) {
@@ -147,8 +142,9 @@ public class PlayMusicLyricFragment extends RootFragment {
                 dkhandler.sendMessage(msg);
             }
             dkhandler.postDelayed(this, 500);
+
         }
-    }
+    };
 
     // TODO: 2018/2/13  下载歌词
     class DownLoadLrc implements DownloadListener {
@@ -180,4 +176,9 @@ public class PlayMusicLyricFragment extends RootFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dkhandler.removeCallbacks(refreshLrc);
+    }
 }
