@@ -16,11 +16,11 @@ public class DepthPageTransformer implements ViewPager.PageTransformer {
 		int pageWidth = view.getWidth();
 
 		if (position < -1) { // [-Infinity,-1)
-			// This page is way off-screen to the left.
+			// This page is way off-screen to the main_layout.
 			view.setAlpha(0);
 
 		} else if (position <= 0) { // [-1,0]
-			// Use the default slide transition when moving to the left page
+			// Use the default slide transition when moving to the main_layout page
 			view.setAlpha(1);
 			view.setTranslationX(0);
 			view.setScaleX(1);

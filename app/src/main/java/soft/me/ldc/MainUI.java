@@ -15,7 +15,6 @@ import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -24,7 +23,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -37,7 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import soft.me.ldc.R;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
 import soft.me.ldc.ali.LocClient;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
@@ -67,10 +64,6 @@ public class MainUI extends RootActivity {
     DrawerLayout mDrawerLayout;
     @BindView(R.id.mRelativeLayout)
     RelativeLayout mRelativeLayout;
-    @BindView(R.id.switchText)
-    AppCompatTextView switchText;
-    @BindView(R.id.switchBtn)
-    AppCompatCheckBox switchBtn;
     @BindView(R.id.mViewPager)
     ViewPager mViewPager;
     @BindView(R.id.tab_title)
@@ -156,7 +149,7 @@ public class MainUI extends RootActivity {
 
     @Override
     protected Integer UI() {
-        return R.layout.launcherui;
+        return R.layout.activity_main_ui;
     }
 
 
@@ -207,7 +200,6 @@ public class MainUI extends RootActivity {
             mViewPager.addOnPageChangeListener(new PagerViewListener());
             mViewPager.setAdapter(pagerAdapter);
             mViewPager.setOffscreenPageLimit(3);//预加载界面
-            switchBtn.setOnCheckedChangeListener(new switchBtnListener());//切换事件
         }
         //显示播放
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
@@ -221,21 +213,6 @@ public class MainUI extends RootActivity {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-
-    // TODO: 2018/1/12 选择主题
-    class switchBtnListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                switchText.setText("夜间");
-                GRToastView.show(ctx, "夜间", Toast.LENGTH_SHORT);
-            } else {
-                switchText.setText("白天");
-                GRToastView.show(ctx, "白天", Toast.LENGTH_SHORT);
-            }
-        }
-    }
 
     //点击事件
     @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext, R.id.playBar})
