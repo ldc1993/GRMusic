@@ -234,7 +234,7 @@ public class HttpService {
         try {
             if (request == null)
                 request = NoHttp.createStringRequest(AppConfig.WeatherUrl, RequestMethod.POST);
-            request.add("key", "75a5407f7b6dd13b37c437d65b83ae2a");
+            request.add("key", "c705dedc6d9d2f0b2c43f3a21817568a");
             request.add("city", city + "");
             request.add("extensions", "base");
             request.add("output", "JSON");

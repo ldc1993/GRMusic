@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'key'
-            keyPassword '123456'
-            storeFile file('D:/Soft_Dev/AppKey个人/MyKey.jks')
-            storePassword '123456'
-        }
     }
     compileSdkVersion 26
     defaultConfig {
@@ -15,21 +9,19 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName 'V0.0.1'
+        versionName 'V 0.0.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
             buildConfigField("String", "WeatherUrl", "\"http://restapi.amap.com/v3/weather/weatherInfo\"")
-            signingConfig signingConfigs.config
         }
         debug {
             buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
             buildConfigField("String", "WeatherUrl", "\"http://restapi.amap.com/v3/weather/weatherInfo\"")
-            signingConfig signingConfigs.config
         }
     }
     sourceSets {

@@ -51,7 +51,6 @@ public class PlayService extends Service {
 
     @Override
     public boolean onUnbind(Intent intent) {
-        player.reset();
         player.stop();
         player.release();
         player = null;

@@ -1,7 +1,6 @@
 package soft.me.ldc;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
+import soft.me.ldc.ali.LocClient;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
@@ -47,9 +48,10 @@ import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.common.service.MultiThreadService;
+import soft.me.ldc.model.WeatherBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
-import soft.me.ldc.service.PlayService;
+import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -97,6 +99,8 @@ public class LauncherUI extends RootActivity {
     volatile int ScrollPosition = 0;
     //
     GetPlayMusicTask getPlayMusicTask = null;
+    //
+    GetWeatherTask getWeatherTask = null;
     //
     Bundle bundle = null;
     //
@@ -206,6 +210,8 @@ public class LauncherUI extends RootActivity {
         }
         //显示播放
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
+        //获取天气
+        RunGetWeatherTask();
     }
 
 
@@ -349,6 +355,43 @@ public class LauncherUI extends RootActivity {
         }
     }
 
+    //执行获取地位 天气清空
+    private void RunGetWeatherTask() {
+        if (getWeatherTask != null && !getWeatherTask.isCancelled()) {
+            getWeatherTask.cancel(true);
+        }
+        getWeatherTask = new GetWeatherTask();
+        getWeatherTask.execute();
+
+    }
+
+    //获取天气
+    class GetWeatherTask extends AsyncTask<Void, Void, WeatherBean> {
+
+
+        @Override
+        protected WeatherBean doInBackground(Void... voids) {
+            WeatherBean weatherBean = null;
+            try {
+                Gson gson = new Gson();
+                LocClient loc = LocClient.Instance(ctx);
+                String adCode = (String) loc.getAdCode();
+                String str = HttpService.Instance(ctx).Weather(adCode + "");
+                weatherBean = gson.fromJson(str, WeatherBean.class);
+            } catch (Exception e) {
+                dkhandler.sendEmptyMessage(ErrorCode);
+                e.printStackTrace();
+            }
+            return weatherBean;
+        }
+
+        @Override
+        protected void onPostExecute(WeatherBean result) {
+            super.onPostExecute(result);
+
+        }
+    }
+
     // TODO: 2017/11/20 请求运行时动态权限
     class RunTimePermission implements PermissionIface {
 
@@ -368,19 +411,17 @@ public class LauncherUI extends RootActivity {
         }
     }
 
-    // TODO: 2018/2/12  记录用户首次点击返回键的时间
-    private long firstTime = 0;
 
+    //后台程序
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (System.currentTimeMillis() - firstTime > 2000) {
-                QuitDialog();
-                firstTime = System.currentTimeMillis();
-            }
-            return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
-        return super.onKeyDown(keyCode, event);
+
     }
 
     //退出提示
