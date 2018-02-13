@@ -2,30 +2,90 @@ package soft.me.ldc.layout;
 
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.yanzhenjie.nohttp.Headers;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.download.DownloadListener;
+import com.yanzhenjie.nohttp.download.DownloadRequest;
+import com.yanzhenjie.nohttp.download.SyncDownloadExecutor;
+
+import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.wcy.lrcview.LrcView;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
+import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.service.PlayService;
+import soft.me.ldc.task.DownloadMusicTask;
+import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PlayMusicLyricFragment extends RootFragment {
-
+    //歌词下载路径
+    final static String LrcDir = AppConfig.RootDir + "lrc" + File.separator;
+    //播放服务
+    volatile PlayService.ServiceBind playService = null;
+    //数据
     volatile PlayMusicSongBean mData = null;
+    //下载请求
+    DownloadRequest downloadRequest = null;
     @BindView(R.id.mLrcView)
     LrcView mLrcView;
+    //消息
+    Message msg = null;
+    //
+    final static int FAILEDCODE = 0x000;//失败
+    final static int SUCCESSCODE = 0x001;//成功
+    final static int UPDATECODE = 0x002;//更新
+    Handler dkhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case FAILEDCODE:
+                    mLrcView.setLabel("没有找到歌词");
+                    break;
+                case SUCCESSCODE:
+                    String lrc = (String) msg.obj;
+                    mLrcView.loadLrc(new File(lrc));
+                    if (mLrcView.hasLrc()) {//歌词是否可用
+                        //更新歌词
+                        dkhandler.post(new SingleThread());
+                    }
+                    break;
+                case UPDATECODE:
+                    if (playService.Player().isPlaying()) {
+                        if (mLrcView.hasLrc()) {
+                            int time = (int) msg.obj;
+                            mLrcView.updateTime(time);
+                        }
+                    } else {
+                        mLrcView.updateTime(0);
+                    }
+                    break;
+            }
+        }
+    };
+
 
     //添加数据
     public void pushData(PlayMusicSongBean mData) {
@@ -34,7 +94,8 @@ public class PlayMusicLyricFragment extends RootFragment {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
-
+        PlayMusicActivity playMusicActivity = (PlayMusicActivity) act;
+        playService = playMusicActivity.getPlayService();
     }
 
     @Override
@@ -46,12 +107,19 @@ public class PlayMusicLyricFragment extends RootFragment {
 
     @Override
     protected void Init() throws Exception {
+        mLrcView.setOnPlayClickListener(new PlayListener());
+        mLrcView.updateTime(0);
 
     }
 
     @Override
     protected void Main() throws Exception {
-
+        if (mData != null || StringUtil.isNotBlank(mData.songinfo.lrclink)) {
+            downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
+            if (downloadRequest == null)
+                return;
+            SyncDownloadExecutor.INSTANCE.execute(1, downloadRequest, new DownLoadLrc());
+        }
     }
 
     @Override
@@ -59,12 +127,59 @@ public class PlayMusicLyricFragment extends RootFragment {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-    @OnClick({R.id.mLrcView})
-    public void ClickLisener(View view) {
-        switch (view.getId()) {
-            case R.id.mLrcView:
-                GRToastView.show(ctx, "这是一只猪!!", Toast.LENGTH_SHORT);
-                break;
+    // TODO: 2018/2/13 播放事件
+    class PlayListener implements LrcView.OnPlayClickListener {
+
+        @Override
+        public boolean onPlayClick(long time) {
+            playService.SeekTo((int) time);
+            return true;
         }
     }
+
+
+    //更新歌词
+    class SingleThread extends Thread {
+
+        @Override
+        public void run() {
+            if (playService.Player().isPlaying()) {
+                msg = dkhandler.obtainMessage(UPDATECODE);
+                msg.obj = playService.getCurrentPosition();
+                dkhandler.sendMessage(msg);
+            }
+            dkhandler.postDelayed(this, 500);
+        }
+    }
+
+    // TODO: 2018/2/13  下载歌词
+    class DownLoadLrc implements DownloadListener {
+
+        @Override
+        public void onDownloadError(int what, Exception exception) {
+            dkhandler.sendEmptyMessage(FAILEDCODE);
+        }
+
+        @Override
+        public void onStart(int what, boolean isResume, long rangeSize, Headers responseHeaders, long allCount) {
+
+        }
+
+        @Override
+        public void onProgress(int what, int progress, long fileCount, long speed) {
+        }
+
+        @Override
+        public void onFinish(int what, String filePath) {
+            msg = dkhandler.obtainMessage(SUCCESSCODE);
+            msg.obj = filePath;
+            dkhandler.sendMessage(msg);
+        }
+
+        @Override
+        public void onCancel(int what) {
+            dkhandler.sendEmptyMessage(FAILEDCODE);
+        }
+    }
+
 }

@@ -167,6 +167,7 @@ public class PlayMusicActivity extends RootActivity {
             playMusicCoverFragment.pushData(mData);
             if (playMusicLyricFragment == null)
                 playMusicLyricFragment = new PlayMusicLyricFragment();
+            playMusicLyricFragment.pushData(mData);
             if (playMusicAdapter == null)
                 playMusicAdapter = new PlayMusicAdapter(fragmentManager);
             if (fragments == null)

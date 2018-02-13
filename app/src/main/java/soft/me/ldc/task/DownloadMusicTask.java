@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.yanzhenjie.nohttp.Headers;
