@@ -1,6 +1,7 @@
 package soft.me.ldc.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -8,6 +9,7 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import soft.me.ldc.config.App;
 import soft.me.ldc.config.AppConfig;
 
 /**
@@ -218,6 +220,38 @@ public class HttpService {
             resultStr = "";
             e.printStackTrace();
         }
+        return resultStr;
+    }
+
+
+    /**
+     * @param city
+     * @return
+     */
+    public String Weather(String city) {
+        String resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.WeatherUrl, RequestMethod.POST);
+            request.add("key", "75a5407f7b6dd13b37c437d65b83ae2a");
+            request.add("city", city + "");
+            request.add("extensions", "base");
+            request.add("output", "JSON");
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+        } catch (Exception e) {
+            resultStr = "";
+            e.printStackTrace();
+        }
+        Log.e("LLL", "" + resultStr);
         return resultStr;
 
     }

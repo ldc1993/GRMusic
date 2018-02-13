@@ -12,6 +12,7 @@ import soft.me.ldc.BuildConfig;
 
 public class AppConfig {
     public static String ServiceUrl = BuildConfig.ServiceUrl;
+    public static String WeatherUrl = BuildConfig.WeatherUrl;
     //
     public static String RootDir = Environment.getExternalStorageDirectory() + File.separator + "GRMusic" + File.separator;
 }
