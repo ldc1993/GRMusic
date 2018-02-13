@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,19 +102,24 @@ public class PlayMusicLyricFragment extends RootFragment {
     protected void Init() throws Exception {
         mLrcView.setOnPlayClickListener(new PlayListener());
         mLrcView.updateTime(0);
-        mLrcView.setCurrentColor(Color.GREEN);
+        mLrcView.setCurrentColor(Color.RED);
         mLrcView.computeScroll();
 
     }
 
     @Override
     protected void Main() throws Exception {
-        if (mData != null || StringUtil.isNotBlank(mData.songinfo.lrclink)) {
-            downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
-            if (downloadRequest == null)
-                return;
-            SyncDownloadExecutor.INSTANCE.execute(1, downloadRequest, new DownLoadLrc());
-        }
+        new Thread() {
+            @Override
+            public void run() {
+                if (mData != null || StringUtil.isNotBlank(mData.songinfo.lrclink)) {
+                    downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
+                    if (downloadRequest == null)
+                        return;
+                    SyncDownloadExecutor.AsyncRequestExecutor.execute(1, downloadRequest, new DownLoadLrc());
+                }
+            }
+        }.start();
     }
 
     @Override
