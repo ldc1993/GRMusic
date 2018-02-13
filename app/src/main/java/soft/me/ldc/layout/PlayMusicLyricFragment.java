@@ -2,7 +2,6 @@ package soft.me.ldc.layout;
 
 
 import android.os.Bundle;
-import android.support.annotation.ColorLong;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
@@ -12,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+import me.wcy.lrcview.LrcView;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
+import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -24,12 +23,13 @@ import soft.me.ldc.view.GRToastView;
  */
 public class PlayMusicLyricFragment extends RootFragment {
 
-    @BindView(R.id.PingIcon)
-    AppCompatImageView PingIcon;
+    volatile PlayMusicSongBean mData = null;
+    @BindView(R.id.mLrcView)
+    LrcView mLrcView;
 
-    //构造函数
-    public PlayMusicLyricFragment() {
-
+    //添加数据
+    public void pushData(PlayMusicSongBean mData) {
+        this.mData = mData;
     }
 
     @Override
@@ -59,10 +59,10 @@ public class PlayMusicLyricFragment extends RootFragment {
         GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
     }
 
-    @OnClick({R.id.PingIcon})
+    @OnClick({R.id.mLrcView})
     public void ClickLisener(View view) {
         switch (view.getId()) {
-            case R.id.PingIcon:
+            case R.id.mLrcView:
                 GRToastView.show(ctx, "这是一只猪!!", Toast.LENGTH_SHORT);
                 break;
         }

@@ -38,7 +38,7 @@ public class PlayMusicCoverFragment extends RootFragment {
     @BindView(R.id.replay)
     AppCompatImageView replay;
 
-    //构造函数
+    //添加数据
     public void pushData(PlayMusicSongBean mData) {
         this.mData = mData;
     }

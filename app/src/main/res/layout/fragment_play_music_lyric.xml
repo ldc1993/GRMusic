@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     tools:context="soft.me.ldc.layout.PlayMusicLyricFragment">
 
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/PingIcon"
+    <me.wcy.lrcview.LrcView
+        android:id="@+id/mLrcView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
