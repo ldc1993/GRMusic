@@ -5,14 +5,10 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.util.Log;
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
@@ -26,22 +22,22 @@ public class PlayService extends Service {
     volatile MusicPlayer player = null;
     volatile float currSize = 0;
     volatile float allSize = 0;
-    ScheduledExecutorService timeThread = null;
+
+    Handler dkhandler = new Handler();
+    //
+    private Runnable CurrPlaySizeRun = new Runnable() {
+        @Override
+        public void run() {
+            if (player != null && player.isPlaying()) {
+                currSize = player.getCurrentPosition();
+            }
+            dkhandler.postDelayed(this, 1000);
+        }
+    };
 
     //实例化播放器
     private void initMediaPlay() {
         player = MusicPlayer.newInstance(PlayService.this);
-        if (timeThread == null)
-            timeThread = Executors.newSingleThreadScheduledExecutor();//实例化线程池
-    }
-
-    //定时查询离线数据数据
-    private void GetCurrSize() {
-        if (timeThread != null && timeThread.isShutdown()) {
-            timeThread.shutdownNow();
-        }
-        timeThread.scheduleAtFixedRate(new CurrPlayPositionThread(), 1, 1, TimeUnit.SECONDS);
-
     }
 
     @Override
@@ -69,6 +65,24 @@ public class PlayService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+    // TODO: 2018/2/14
+    class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            //播放完成结束更新
+            dkhandler.removeCallbacks(CurrPlaySizeRun);
+        }
+
+        @Override
+        public void onPrepared(MediaPlayer mp) {
+            mp.start();
+            allSize = mp.getDuration();//获取文件大小
+            dkhandler.post(CurrPlaySizeRun);
+        }
+    }
+
+
     // TODO: 2018/1/20  绑定服务
     public class ServiceBind extends Binder implements IPlayMusic {
         volatile PlayMusicSongBean mData = null;
@@ -81,9 +95,9 @@ public class PlayService extends Service {
                 player.reset();
                 player.seekTo(0);
                 player.setDataSource(PlayService.this, Uri.parse(mData.bitrate.show_link));
-                player.prepare();
-                allSize = player.getDuration();//获取文件大小
-                GetCurrSize();//获取当前文件进度
+                player.prepareAsync();
+                player.setOnPreparedListener(new MediaPlayerListener());
+                player.setOnCompletionListener(new MediaPlayerListener());
             } catch (Exception e) {
                 e.printStackTrace();
             }

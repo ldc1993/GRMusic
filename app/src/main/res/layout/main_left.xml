@@ -13,14 +13,14 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/mImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:adjustViewBounds="false"
             android:background="@drawable/icon_bg"
-            android:minHeight="100dp"
-            android:minWidth="100dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/me" />
+            android:minHeight="45dp"
+            android:src="@mipmap/me"
+            android:minWidth="45dp"
+            android:scaleType="centerCrop" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 

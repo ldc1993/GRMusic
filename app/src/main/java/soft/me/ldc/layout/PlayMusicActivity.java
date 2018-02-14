@@ -56,8 +56,6 @@ public class PlayMusicActivity extends RootActivity {
     //消息
     Message msg = null;
     //
-    ScheduledExecutorService scheduledThreadPoolExecutor = null;
-    //
     PlayMusicCoverFragment playMusicCoverFragment = null;
     PlayMusicLyricFragment playMusicLyricFragment = null;
     //
@@ -87,10 +85,14 @@ public class PlayMusicActivity extends RootActivity {
                             }
                             //播放状态
                             if (playService.Player().isPlaying()) {
+                                //音乐进度
+                                dkhandler.post(playRun);
                                 mPlayorPause.setImageResource(R.drawable.play_state_pause);
                             } else {
+                                dkhandler.removeCallbacks(playRun);
                                 mPlayorPause.setImageResource(R.drawable.play_state_play);
                             }
+
                             //显示数据
                             dkhandler.sendEmptyMessage(ShowPlayInfo);
                         } else {
@@ -149,8 +151,6 @@ public class PlayMusicActivity extends RootActivity {
 
     @Override
     protected void Main() {
-        if (scheduledThreadPoolExecutor == null)
-            scheduledThreadPoolExecutor = Executors.newSingleThreadScheduledExecutor();
         {
             mToolbar.setTitleText("" + mData.songinfo.title);
             mToolbar.setLeftImg(R.mipmap.back_icon);
@@ -185,8 +185,6 @@ public class PlayMusicActivity extends RootActivity {
         }
         //播放歌曲
         dkhandler.sendEmptyMessage(PlaySongCode);
-        //
-        RunThread();
         //滑动事件
         mSeekbar.setOnSeekBarChangeListener(new OnSeekBarListener());
 
@@ -205,22 +203,19 @@ public class PlayMusicActivity extends RootActivity {
 
     }
 
-    //执行线程
-    private void RunThread() {
-        if (scheduledThreadPoolExecutor != null)
-            scheduledThreadPoolExecutor.scheduleAtFixedRate(new SingleThread(), 1, 1, TimeUnit.SECONDS);
-    }
-
-    //单线程
-    class SingleThread extends Thread {
-
+    //播放进度
+    private Runnable playRun = new Runnable() {
         @Override
         public void run() {
-            msg = dkhandler.obtainMessage(UpdatePlayProgressCode);
-            msg.obj = playService.getCurrentPosition();
-            dkhandler.sendMessage(msg);
+            if (playService != null && playService.Player().isPlaying()) {
+                msg = dkhandler.obtainMessage(UpdatePlayProgressCode);
+                msg.obj = playService.getCurrentPosition();
+                dkhandler.sendMessage(msg);
+            }
+            //间隔速率至少1s 否则异常
+            dkhandler.postDelayed(this, 1000);
         }
-    }
+    };
 
     // TODO: 2018/1/16 点击事件
     @OnClick({R.id.mReset, R.id.mPlayorPause, R.id.mDownload})
@@ -234,9 +229,11 @@ public class PlayMusicActivity extends RootActivity {
                 if (playService.Player() != null && mData != null) {
                     if (playService.Player().isPlaying()) {
                         playService.Pause();
+                        dkhandler.removeCallbacks(playRun);//移除
                         mPlayorPause.setImageResource(R.drawable.play_state_play);
                     } else {
                         playService.Play();
+                        dkhandler.post(playRun);//更新歌词
                         mPlayorPause.setImageResource(R.drawable.play_state_pause);
                     }
                 }
@@ -276,8 +273,6 @@ public class PlayMusicActivity extends RootActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (scheduledThreadPoolExecutor != null && !scheduledThreadPoolExecutor.isTerminated()) {
-            scheduledThreadPoolExecutor.shutdown();
-        }
+        dkhandler.removeCallbacks(playRun);
     }
 }
