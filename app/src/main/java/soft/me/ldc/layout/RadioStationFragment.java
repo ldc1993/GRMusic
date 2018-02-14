@@ -161,7 +161,7 @@ public class RadioStationFragment extends RootFragment {
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
-    
+
     //刷新事件
     class RefreshListener implements OnRefreshListener {
 

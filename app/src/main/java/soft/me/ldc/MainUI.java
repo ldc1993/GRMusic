@@ -215,12 +215,6 @@ public class MainUI extends RootActivity {
     }
 
 
-    @Override
-    protected void Error(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
-
     //点击事件
     @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext, R.id.playBar})
     public void ClickListener(View view) {
