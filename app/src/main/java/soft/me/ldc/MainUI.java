@@ -127,8 +127,8 @@ public class MainUI extends RootActivity {
 
                     refreshPlayMusic(mData);
                     //更新播放图标
-                    if (playService.Player() != null && mData != null) {
-                        if (playService.Player().isPlaying()) {
+                    if (playService.HasEnable() && mData != null) {
+                        if (playService.IsPlaying()) {
                             playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
                         } else {
                             playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
@@ -222,12 +222,12 @@ public class MainUI extends RootActivity {
                 mViewPager.setCurrentItem(0, false);
                 break;
             case R.id.playOrpause:
-                if (playService.Player() != null && playService.MusicBean() != null) {
-                    if (playService.Player().isPlaying()) {
+                if (playService.HasEnable() && playService.MusicSrc() != null) {
+                    if (playService.IsPlaying()) {
                         playService.Pause();
                         playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
                     } else {
-                        playService.Play();
+                        playService.Start();
                         playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
                     }
                 }
@@ -312,7 +312,7 @@ public class MainUI extends RootActivity {
         protected PlayMusicSongBean doInBackground(Void... voids) {
             PlayMusicSongBean bean = null;
             try {
-                bean = playService.MusicBean();
+                bean = playService.MusicSrc();
             } catch (Exception e) {
                 e.printStackTrace();
             }

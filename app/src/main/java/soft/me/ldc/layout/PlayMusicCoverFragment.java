@@ -70,8 +70,8 @@ public class PlayMusicCoverFragment extends RootFragment {
 
     @Override
     protected void Main() throws Exception {
-        if (playService.Player() != null) {
-            if (playService.Player().isLooping()) {
+        if (playService.HasEnable()) {
+            if (playService.IsLooping()) {
                 replay.setImageResource(R.drawable.ic_play_replay_pre);
             } else {
                 replay.setImageResource(R.drawable.ic_play_replay);
@@ -88,8 +88,8 @@ public class PlayMusicCoverFragment extends RootFragment {
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.replay:
-                if (playService.Player() != null) {
-                    if (playService.Player().isLooping()) {
+                if (playService.HasEnable()) {
+                    if (playService.IsLooping()) {
                         playService.Looping(false);
                         replay.setImageResource(R.drawable.ic_play_replay);
                     } else {

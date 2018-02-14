@@ -66,7 +66,7 @@ public class PlayMusicLyricFragment extends RootFragment {
                     dkhandler.post(refreshLrc);
                     break;
                 case UPDATECODE:
-                    if (playService.Player().isPlaying()) {
+                    if (playService.IsPlaying()) {
                         if (mLrcView.hasLrc()) {
                             int time = (int) msg.obj;
                             mLrcView.updateTime(time);
@@ -142,7 +142,7 @@ public class PlayMusicLyricFragment extends RootFragment {
     private Runnable refreshLrc = new Runnable() {
         @Override
         public void run() {
-            if (playService.Player().isPlaying() && mLrcView.hasLrc()) {
+            if (playService.IsPlaying() && mLrcView.hasLrc()) {
                 msg = dkhandler.obtainMessage(UPDATECODE);
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);

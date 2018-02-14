@@ -24,7 +24,7 @@ public class PlayService extends Service {
     volatile float allSize = 0;
 
     Handler dkhandler = new Handler();
-    //
+    //更新当前进度
     private Runnable CurrPlaySizeRun = new Runnable() {
         @Override
         public void run() {
@@ -38,6 +38,8 @@ public class PlayService extends Service {
     //实例化播放器
     private void initMediaPlay() {
         player = MusicPlayer.newInstance(PlayService.this);
+        player.setOnPreparedListener(new MediaPlayerListener());
+        player.setOnCompletionListener(new MediaPlayerListener());
     }
 
     @Override
@@ -68,12 +70,14 @@ public class PlayService extends Service {
     // TODO: 2018/2/14
     class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
 
+        //完成
         @Override
         public void onCompletion(MediaPlayer mp) {
             //播放完成结束更新
             dkhandler.removeCallbacks(CurrPlaySizeRun);
         }
 
+        //准备
         @Override
         public void onPrepared(MediaPlayer mp) {
             mp.start();
@@ -88,7 +92,7 @@ public class PlayService extends Service {
         volatile PlayMusicSongBean mData = null;
 
         @Override
-        public void PushData(PlayMusicSongBean mData) {
+        public void Play(PlayMusicSongBean mData) {
             try {
                 this.mData = mData;
                 //资源准备
@@ -96,20 +100,47 @@ public class PlayService extends Service {
                 player.seekTo(0);
                 player.setDataSource(PlayService.this, Uri.parse(mData.bitrate.show_link));
                 player.prepareAsync();
-                player.setOnPreparedListener(new MediaPlayerListener());
-                player.setOnCompletionListener(new MediaPlayerListener());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         @Override
-        public void Play() {
+        public boolean HasData() {
+            boolean enable = true;
+            if (mData == null) {
+                enable = false;
+            }
+            return enable;
+        }
+
+        @Override
+        public boolean HasEnable() {
+            boolean enable = true;
+            if (player == null) {
+                enable = true;
+            }
+            return enable;
+        }
+
+        @Override
+        public boolean IsPlaying() {
+            return player.isPlaying();
+        }
+
+        @Override
+        public boolean IsLooping() {
+            return player.isLooping();
+        }
+
+        @Override
+        public void Start() {
             if (!player.isPlaying()) {
                 player.start();
             }
         }
 
+        //暂停
         @Override
         public void Pause() {
             if (player.isPlaying())
@@ -166,14 +197,10 @@ public class PlayService extends Service {
 
         //音乐资源
         @Override
-        public PlayMusicSongBean MusicBean() {
+        public PlayMusicSongBean MusicSrc() {
             return mData;
         }
 
-        @Override
-        public MusicPlayer Player() {
-            return player;
-        }
 
     }
 
@@ -183,14 +210,5 @@ public class PlayService extends Service {
         super.onDestroy();
         System.gc();
         this.startService(new Intent(this, PlayService.class));
-    }
-
-
-    //线程
-    class CurrPlayPositionThread implements Runnable {
-        @Override
-        public void run() {
-            currSize = player.getCurrentPosition();
-        }
     }
 }

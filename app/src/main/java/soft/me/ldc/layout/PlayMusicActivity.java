@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -76,38 +73,41 @@ public class PlayMusicActivity extends RootActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PlaySongCode:
-                    if (playService.Player() != null) {
-                        if (mData != null) {
-                            //播放新歌
-                            if (play_New_Song) {
-                                playService.PushData(mData);
-                                playService.Play();
-                            }
-                            //播放状态
-                            if (playService.Player().isPlaying()) {
-                                //音乐进度
-                                dkhandler.post(playRun);
-                                mPlayorPause.setImageResource(R.drawable.play_state_pause);
-                            } else {
-                                dkhandler.removeCallbacks(playRun);
-                                mPlayorPause.setImageResource(R.drawable.play_state_play);
-                            }
-
-                            //显示数据
-                            dkhandler.sendEmptyMessage(ShowPlayInfo);
-                        } else {
-                            dkhandler.sendEmptyMessage(ERRORCODE);
+                    if (playService.HasEnable() && mData != null) {
+                        //播放新歌
+                        if (play_New_Song) {
+                            playService.Play(mData);
                         }
+                        if (playService.IsPlaying()) {
+                            //播放
+                            mPlayorPause.setImageResource(R.drawable.play_state_pause);
+                            GRToastView.show(ctx, "播放", Toast.LENGTH_SHORT);
+                        } else {
+                            //未播放
+                            mPlayorPause.setImageResource(R.drawable.play_state_play);
+                            GRToastView.show(ctx, "没有播放", Toast.LENGTH_SHORT);
+                        }
+                        //音乐进度
+                        dkhandler.post(playRun);
+                        //显示数据
+                        dkhandler.sendEmptyMessage(ShowPlayInfo);
+                    } else {
+                        dkhandler.sendEmptyMessage(ERRORCODE);
                     }
+
                     break;
                 case ERRORCODE:
                     GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
                     break;
                 case ShowPlayInfo:
-                    laseAllSize = playService.getDuration();
-                    mSongCurr.setText(lastCurrSize + "");
-                    mSongSize.setText(ToFormat.formatTime(laseAllSize) + "");
-                    mSeekbar.setMax(laseAllSize);
+                    //播放状态
+                    if (playService.HasEnable()) {
+                        laseAllSize = playService.getDuration();
+                        mSongCurr.setText(lastCurrSize + "");
+                        mSongSize.setText(ToFormat.formatTime(laseAllSize) + "");
+                        mSeekbar.setMax(laseAllSize);
+                    }
+
                     break;
                 case UpdatePlayProgressCode:
                     int progress = (Integer) msg.obj;
@@ -207,10 +207,11 @@ public class PlayMusicActivity extends RootActivity {
     private Runnable playRun = new Runnable() {
         @Override
         public void run() {
-            if (playService != null && playService.Player().isPlaying()) {
+            if (playService.HasEnable() && playService.IsPlaying()) {
                 msg = dkhandler.obtainMessage(UpdatePlayProgressCode);
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);
+
             }
             //间隔速率至少1s 否则异常
             dkhandler.postDelayed(this, 1000);
@@ -226,14 +227,12 @@ public class PlayMusicActivity extends RootActivity {
                 mPlayorPause.setImageResource(R.drawable.play_state_play);
                 break;
             case R.id.mPlayorPause:
-                if (playService.Player() != null && mData != null) {
-                    if (playService.Player().isPlaying()) {
+                if (playService.HasEnable() && playService.HasData()) {
+                    if (playService.IsPlaying()) {
                         playService.Pause();
-                        dkhandler.removeCallbacks(playRun);//移除
                         mPlayorPause.setImageResource(R.drawable.play_state_play);
                     } else {
-                        playService.Play();
-                        dkhandler.post(playRun);//更新歌词
+                        playService.Start();
                         mPlayorPause.setImageResource(R.drawable.play_state_pause);
                     }
                 }
@@ -255,8 +254,8 @@ public class PlayMusicActivity extends RootActivity {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (playService.Player() != null && playService.Player().isPlaying() && fromUser)
-                playService.Player().seekTo(progress);
+            if (playService.HasEnable() && playService.IsPlaying() && fromUser)
+                playService.SeekTo(progress);
         }
 
         @Override
