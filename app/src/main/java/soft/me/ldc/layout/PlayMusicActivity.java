@@ -78,15 +78,7 @@ public class PlayMusicActivity extends RootActivity {
                         if (play_New_Song) {
                             playService.Play(mData);
                         }
-                        if (playService.IsPlaying()) {
-                            //播放
-                            mPlayorPause.setImageResource(R.drawable.play_state_pause);
-                            GRToastView.show(ctx, "播放", Toast.LENGTH_SHORT);
-                        } else {
-                            //未播放
-                            mPlayorPause.setImageResource(R.drawable.play_state_play);
-                            GRToastView.show(ctx, "没有播放", Toast.LENGTH_SHORT);
-                        }
+
                         //音乐进度
                         dkhandler.post(playRun);
                         //显示数据
@@ -208,10 +200,15 @@ public class PlayMusicActivity extends RootActivity {
         @Override
         public void run() {
             if (playService.HasEnable() && playService.IsPlaying()) {
+                //播放
+                mPlayorPause.setImageResource(R.drawable.play_state_pause);
                 msg = dkhandler.obtainMessage(UpdatePlayProgressCode);
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);
 
+            } else {
+                //未播放
+                mPlayorPause.setImageResource(R.drawable.play_state_play);
             }
             //间隔速率至少1s 否则异常
             dkhandler.postDelayed(this, 1000);

@@ -2,6 +2,7 @@ package soft.me.ldc.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
@@ -38,6 +39,8 @@ public class PlayService extends Service {
     //实例化播放器
     private void initMediaPlay() {
         player = MusicPlayer.newInstance(PlayService.this);
+        player.setScreenOnWhilePlaying(true);//屏幕唤醒
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(new MediaPlayerListener());
         player.setOnCompletionListener(new MediaPlayerListener());
     }
@@ -68,7 +71,7 @@ public class PlayService extends Service {
     }
 
     // TODO: 2018/2/14
-    class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+    class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
 
         //完成
         @Override
@@ -83,6 +86,11 @@ public class PlayService extends Service {
             mp.start();
             allSize = mp.getDuration();//获取文件大小
             dkhandler.post(CurrPlaySizeRun);
+        }
+
+        @Override
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            return false;
         }
     }
 
