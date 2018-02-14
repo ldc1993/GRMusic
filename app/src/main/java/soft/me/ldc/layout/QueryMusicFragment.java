@@ -147,11 +147,6 @@ public class QueryMusicFragment extends RootFragment {
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
     //下拉刷新
     class RefreshListener implements OnRefreshListener, OnLoadmoreListener {
 

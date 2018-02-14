@@ -151,12 +151,6 @@ public class MusicListActivity extends RootActivity {
 
     }
 
-
-    @Override
-    protected void Error(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
     // TODO: 2018/1/13  刷新事件
     class RefreshListener implements OnRefreshListener, OnLoadmoreListener {
 

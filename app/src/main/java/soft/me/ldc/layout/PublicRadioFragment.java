@@ -78,10 +78,6 @@ public class PublicRadioFragment extends RootFragment {
         mList.setAdapter(publicRadioStationAdapter);
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
 
     //点击事件
     class ItemListener implements PublicRadioStationAdapter.OnItemListener {

@@ -161,13 +161,7 @@ public class RadioStationFragment extends RootFragment {
         //加载数据
         dkhandler.sendEmptyMessage(REFRESHCODE);
     }
-
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
-
+    
     //刷新事件
     class RefreshListener implements OnRefreshListener {
 

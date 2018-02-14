@@ -146,10 +146,6 @@ public class RadioStationSongActivity extends RootActivity {
 
     }
 
-    @Override
-    protected void Error(Exception e) {
-        GRToastView.show(ctx, "系统错误", Toast.LENGTH_SHORT);
-    }
 
 
     //刷新事件

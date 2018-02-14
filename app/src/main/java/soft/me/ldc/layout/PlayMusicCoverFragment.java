@@ -79,11 +79,6 @@ public class PlayMusicCoverFragment extends RootFragment {
         }
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
     @OnClick({R.id.replay})
     public void ClickListener(View view) {
         switch (view.getId()) {

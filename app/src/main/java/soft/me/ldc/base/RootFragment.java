@@ -9,9 +9,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import soft.me.ldc.view.GRToastView;
 
 
 /**
@@ -34,7 +36,7 @@ public abstract class RootFragment extends Fragment {
             NewCreate(savedInstanceState);
             this.fragmentManager = getChildFragmentManager();
         } catch (Exception e) {
-            Exception(e);
+            Error(e);
         }
     }
 
@@ -45,7 +47,7 @@ public abstract class RootFragment extends Fragment {
             rootView = UI(inflater);
             unbinder = ButterKnife.bind(this, rootView);
         } catch (Exception e) {
-            Exception(e);
+            Error(e);
         }
         return rootView;
     }
@@ -57,7 +59,7 @@ public abstract class RootFragment extends Fragment {
             Init();
             Main();
         } catch (Exception e) {
-            Exception(e);
+            Error(e);
         }
     }
 
@@ -74,7 +76,9 @@ public abstract class RootFragment extends Fragment {
     protected abstract void Main() throws Exception;
 
     // TODO: 2017/9/5 异常捕获
-    protected abstract void Exception(Exception e);
+    private void Error(Exception e) {
+        GRToastView.show(ctx, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT);
+    }
 
     @Override
     public void onDestroyView() {

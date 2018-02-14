@@ -36,7 +36,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
-import soft.me.ldc.ali.LocClient;
+import soft.me.ldc.ali.LocLocation;
+import soft.me.ldc.ali.LocLocationClient;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
@@ -97,6 +98,8 @@ public class MainUI extends RootActivity {
     GetWeatherTask getWeatherTask = null;
     //
     Bundle bundle = null;
+    //定位
+    LocLocation locLocation = null;
     //
     volatile PlayMusicSongBean mData = null;
     //
@@ -163,6 +166,10 @@ public class MainUI extends RootActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             requestRunTimePermission(permissions, new RunTimePermission());
         }
+        //定位实例化
+        {
+            locLocation = LocLocation.Instance(ctx);
+        }
         //指示器
         {
             tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
@@ -222,7 +229,7 @@ public class MainUI extends RootActivity {
                 mViewPager.setCurrentItem(0, false);
                 break;
             case R.id.playOrpause:
-                if (playService.HasEnable() && playService.MusicSrc() != null) {
+                if (playService.HasEnable() && playService.HasData()) {
                     if (playService.IsPlaying()) {
                         playService.Pause();
                         playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
@@ -234,6 +241,7 @@ public class MainUI extends RootActivity {
 
                 break;
             case R.id.playNext:
+                RunGetWeatherTask();
                 break;
             case R.id.playBar:
                 if (mData != null) {
@@ -352,8 +360,8 @@ public class MainUI extends RootActivity {
             WeatherBean weatherBean = null;
             try {
                 Gson gson = new Gson();
-                LocClient loc = LocClient.Instance(ctx);
-                String adCode = (String) loc.getAdCode();
+                String adCode = locLocation.getAdCode();
+                GRToastView.show(ctx, adCode, Toast.LENGTH_SHORT);
                 String str = HttpService.Instance(ctx).Weather(adCode + "");
                 weatherBean = gson.fromJson(str, WeatherBean.class);
             } catch (Exception e) {
@@ -432,6 +440,14 @@ public class MainUI extends RootActivity {
 
 
     // TODO: 2018/1/24 生命周期
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        locLocation.StartLocation();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -450,6 +466,10 @@ public class MainUI extends RootActivity {
         //结束服务
         if (multiTSIt != null) {
             stopService(multiTSIt);
+        }
+        //销毁
+        if (locLocation != null) {
+            locLocation.DestroyLocation();
         }
     }
 

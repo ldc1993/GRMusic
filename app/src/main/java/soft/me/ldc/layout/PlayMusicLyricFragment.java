@@ -122,10 +122,6 @@ public class PlayMusicLyricFragment extends RootFragment {
         }.start();
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
 
     // TODO: 2018/2/13 播放事件
     class PlayListener implements LrcView.OnPlayClickListener {

@@ -68,10 +68,6 @@ public class MusicFragment extends RootFragment {
 
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
 
 
     // TODO: 2018/1/13 初始化数据

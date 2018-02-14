@@ -183,12 +183,6 @@ public class PlayMusicActivity extends RootActivity {
 
     }
 
-    @Override
-    protected void Error(Exception e) {
-        Log.e("LLL", "" + e.getLocalizedMessage());
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
     //获取服务
     protected PlayService.ServiceBind getPlayService() {
         return playService;

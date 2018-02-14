@@ -113,12 +113,6 @@ public class LocalMusicFragment extends RootFragment {
 
     }
 
-    @Override
-    protected void Exception(Exception e) {
-        GRToastView.show(ctx, "系统异常", Toast.LENGTH_SHORT);
-    }
-
-
     //执行任务
     private void RunQueryMusicTask() {
         if (queryMusicTask != null && !queryMusicTask.isCancelled()) {
