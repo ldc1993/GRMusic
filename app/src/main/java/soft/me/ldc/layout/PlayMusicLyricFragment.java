@@ -142,7 +142,7 @@ public class PlayMusicLyricFragment extends RootFragment {
     private Runnable refreshLrc = new Runnable() {
         @Override
         public void run() {
-            if (playService.IsPlaying() && mLrcView.hasLrc()) {
+            if (playService.HasEnable() && playService.IsPlaying() && mLrcView.hasLrc()) {
                 msg = dkhandler.obtainMessage(UPDATECODE);
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);
