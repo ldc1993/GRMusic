@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:gravity="center_vertical"
+    android:gravity="center_vertical|center"
     android:orientation="vertical">
 
     <android.support.v7.widget.LinearLayoutCompat
