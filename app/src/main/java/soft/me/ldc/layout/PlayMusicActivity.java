@@ -78,35 +78,39 @@ public class PlayMusicActivity extends RootActivity {
                         if (play_New_Song) {
                             playService.Play(mData);
                         }
-
+                        //初始化显示
+                        mSongCurr.setText("0:00");
+                        mSongSize.setText("0:00");
                         //音乐进度
                         dkhandler.post(playRun);
-                        //显示数据
-                        dkhandler.sendEmptyMessage(ShowPlayInfo);
                     } else {
                         dkhandler.sendEmptyMessage(ERRORCODE);
                     }
 
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "无法播放", Toast.LENGTH_SHORT);
+                    GRToastView.show(ctx, "播放失败", Toast.LENGTH_SHORT);
                     break;
                 case ShowPlayInfo:
                     //播放状态
                     if (playService.HasEnable()) {
-                        laseAllSize = playService.getDuration();
-                        mSongCurr.setText(lastCurrSize + "");
-                        mSongSize.setText(ToFormat.formatTime(laseAllSize) + "");
-                        mSeekbar.setMax(laseAllSize);
+                        if (laseAllSize != playService.getDuration()) {
+                            laseAllSize = playService.getDuration();
+                            mSongSize.setText(ToFormat.formatTime(laseAllSize) + "");
+                            mSeekbar.setMax(laseAllSize);
+                        }
                     }
 
                     break;
                 case UpdatePlayProgressCode:
+                    //显示数据
+                    dkhandler.sendEmptyMessage(ShowPlayInfo);
+                    //更新数据
                     int progress = (Integer) msg.obj;
                     boolean ok = IsPlayFnish(progress);
                     mSongCurr.setText(ToFormat.formatTime(lastCurrSize) + "");
                     mSeekbar.setProgress(lastCurrSize);
-                    if (ok) {
+                    if (ok) {//重置
                         playService.Reset();
                         mPlayorPause.setImageResource(R.drawable.play_state_play);
                         lastCurrSize = 0;
@@ -126,7 +130,6 @@ public class PlayMusicActivity extends RootActivity {
         lastCurrSize = number;
         return success;
     }
-
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
