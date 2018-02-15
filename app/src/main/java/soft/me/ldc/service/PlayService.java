@@ -6,8 +6,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -43,6 +45,7 @@ public class PlayService extends Service {
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(new MediaPlayerListener());
         player.setOnCompletionListener(new MediaPlayerListener());
+        player.setOnSeekCompleteListener(new MediaPlayerListener());
     }
 
     @Override
@@ -71,7 +74,7 @@ public class PlayService extends Service {
     }
 
     // TODO: 2018/2/14
-    class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener {
+    class MediaPlayerListener implements MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener {
 
         //完成
         @Override
@@ -91,6 +94,11 @@ public class PlayService extends Service {
         @Override
         public boolean onError(MediaPlayer mp, int what, int extra) {
             return false;
+        }
+
+        @Override
+        public void onSeekComplete(MediaPlayer mp) {
+            mp.start();
         }
     }
 
