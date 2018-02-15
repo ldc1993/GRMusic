@@ -49,6 +49,7 @@ public class PlayMusicLyricFragment extends RootFragment {
     final static int FAILEDCODE = 0x000;//失败
     final static int SUCCESSCODE = 0x001;//成功
     final static int UPDATECODE = 0x002;//更新
+    final static int DOWNLOADCODE = 0x003;//下载
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -71,6 +72,9 @@ public class PlayMusicLyricFragment extends RootFragment {
                     } else {
                         mLrcView.updateTime(0);
                     }
+                    break;
+                case DOWNLOADCODE://下载歌词
+                    new Thread(downloadLrc).start();
                     break;
             }
         }
@@ -106,17 +110,7 @@ public class PlayMusicLyricFragment extends RootFragment {
 
     @Override
     protected void Main() throws Exception {
-        new Thread() {
-            @Override
-            public void run() {
-                if (mData != null && StringUtil.isNotBlank(mData.songinfo.lrclink)) {
-                    downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
-                    if (downloadRequest == null)
-                        return;
-                    SyncDownloadExecutor.AsyncRequestExecutor.execute(1, downloadRequest, new DownLoadLrc());
-                }
-            }
-        }.start();
+        dkhandler.sendEmptyMessage(DOWNLOADCODE);
     }
 
 
@@ -142,6 +136,19 @@ public class PlayMusicLyricFragment extends RootFragment {
             }
             dkhandler.postDelayed(this, 600);
 
+        }
+    };
+
+    //下载歌词
+    private Runnable downloadLrc = new Runnable() {
+        @Override
+        public void run() {
+            if (mData != null && StringUtil.isNotBlank(mData.songinfo.lrclink)) {
+                downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
+                if (downloadRequest == null)
+                    return;
+                SyncDownloadExecutor.AsyncRequestExecutor.execute(1, downloadRequest, new DownLoadLrc());
+            }
         }
     };
 
