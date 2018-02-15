@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public abstract class RootFragment extends Fragment {
 
     // TODO: 2017/9/5 异常捕获
     private void Error(Exception e) {
-        GRToastView.show(ctx, "" + e.getLocalizedMessage(), Toast.LENGTH_SHORT);
+        Log.e("Error:", "" + e.getLocalizedMessage());
     }
 
     @Override
