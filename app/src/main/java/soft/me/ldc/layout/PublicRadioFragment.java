@@ -19,6 +19,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.PublicRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -48,8 +49,8 @@ public class PublicRadioFragment extends RootFragment {
 
     @Override
     protected View UI(LayoutInflater inflater) throws Exception {
-        View mainView= inflater.inflate(R.layout.fragment_public_radio, null, false);
-        mainView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        View mainView = inflater.inflate(R.layout.fragment_public_radio, null, false);
+        mainView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mainView;
     }
 
@@ -62,7 +63,7 @@ public class PublicRadioFragment extends RootFragment {
     protected void Main() throws Exception {
         {
             if (glm == null)
-                glm = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+                glm = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
             if (publicRadioStationAdapter == null)
                 publicRadioStationAdapter = new PublicRadioStationAdapter();
             if (mData != null)
@@ -84,16 +85,20 @@ public class PublicRadioFragment extends RootFragment {
 
         @Override
         public void itemClick(View view, RadioStationBean.ResultBean.ChannellistBean type) {
-            try {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("type", type);
-                Intent it = new Intent();
-                it.setClass(ctx, RadioStationSongActivity.class);
-                it.putExtras(bundle);
-                startActivity(it);
-            } catch (Exception e) {
-                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
-                e.printStackTrace();
+            if (NetUtil.isAvailable(ctx)) {
+                try {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("type", type);
+                    Intent it = new Intent();
+                    it.setClass(ctx, RadioStationSongActivity.class);
+                    it.putExtras(bundle);
+                    startActivity(it);
+                } catch (Exception e) {
+                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
+            } else {
+                NetUtil.NetSetting(ctx);
             }
         }
     }

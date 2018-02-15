@@ -18,6 +18,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicTypeListAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.MusicTypeBean;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRSearchView;
 import soft.me.ldc.view.GRToastView;
 
@@ -69,7 +70,6 @@ public class MusicFragment extends RootFragment {
     }
 
 
-
     // TODO: 2018/1/13 初始化数据
     private void initData() {
         if (mData == null)
@@ -93,17 +93,21 @@ public class MusicFragment extends RootFragment {
 
         @Override
         public void onItem(View view, MusicTypeBean type) {
-            try {
-                if (bundle == null)
-                    bundle = new Bundle();
-                bundle.putSerializable("type", type);
-                Intent it = new Intent();
-                it.setClass(ctx, MusicListActivity.class);
-                it.putExtras(bundle);
-                startActivity(it);
-            } catch (Exception e) {
-                GRToastView.show(ctx, "点击无效", Toast.LENGTH_SHORT);
-                e.printStackTrace();
+            if (NetUtil.isAvailable(ctx)) {
+                try {
+                    if (bundle == null)
+                        bundle = new Bundle();
+                    bundle.putSerializable("type", type);
+                    Intent it = new Intent();
+                    it.setClass(ctx, MusicListActivity.class);
+                    it.putExtras(bundle);
+                    startActivity(it);
+                } catch (Exception e) {
+                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
+            } else {
+                NetUtil.NetSetting(ctx);
             }
 
         }

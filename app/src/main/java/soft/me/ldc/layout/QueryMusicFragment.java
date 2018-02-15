@@ -27,6 +27,7 @@ import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.QueryMusicBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRSearchView;
@@ -170,10 +171,19 @@ public class QueryMusicFragment extends RootFragment {
 
         @Override
         public void ItemClick(View view, QueryMusicBean.ResultBean.SongInfoBean.SongListBean type) {
-            PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
-            playMusicTask.pushData(type.song_id);
-            playMusicTask.pushPlayState(true);
-            MultiThreadPool.newInsance().pushThread(playMusicTask);
+            if (NetUtil.isAvailable(ctx)) {
+                try {
+                    PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
+                    playMusicTask.pushData(type.song_id);
+                    playMusicTask.pushPlayState(true);
+                    MultiThreadPool.newInsance().pushThread(playMusicTask);
+                } catch (Exception e) {
+                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
+            } else {
+                NetUtil.NetSetting(ctx);
+            }
         }
     }
 

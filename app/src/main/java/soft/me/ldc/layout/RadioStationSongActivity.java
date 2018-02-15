@@ -26,6 +26,7 @@ import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.common.pool.MultiThreadPool;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
@@ -147,7 +148,6 @@ public class RadioStationSongActivity extends RootActivity {
     }
 
 
-
     //刷新事件
     class RefreshListener implements OnRefreshListener, OnLoadmoreListener {
 
@@ -168,14 +168,18 @@ public class RadioStationSongActivity extends RootActivity {
 
         @Override
         public void itemClick(View view, RadioStationSongBean.ResultBean.SonglistBean type) {
-            try {
-                PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
-                playMusicTask.pushData(type.songid);
-                playMusicTask.pushPlayState(true);
-                MultiThreadPool.newInsance().pushThread(playMusicTask);
-            } catch (Exception e) {
-                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
-                e.printStackTrace();
+            if (NetUtil.isAvailable(ctx)) {
+                try {
+                    PlayMusicTask playMusicTask = PlayMusicTask.Instance(ctx, 1);
+                    playMusicTask.pushData(type.songid);
+                    playMusicTask.pushPlayState(true);
+                    MultiThreadPool.newInsance().pushThread(playMusicTask);
+                } catch (Exception e) {
+                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
+            } else {
+                NetUtil.NetSetting(ctx);
             }
         }
     }

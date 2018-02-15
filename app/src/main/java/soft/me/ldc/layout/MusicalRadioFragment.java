@@ -22,6 +22,7 @@ import soft.me.ldc.adapter.MusicalRadioStationAdapter;
 import soft.me.ldc.adapter.PublicRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRToastView;
 
 /**
@@ -86,16 +87,20 @@ public class MusicalRadioFragment extends RootFragment {
 
         @Override
         public void itemClick(View view, RadioStationBean.ResultBean.ChannellistBean type) {
-            try {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("type", type);
-                Intent it = new Intent();
-                it.setClass(ctx, RadioStationSongActivity.class);
-                it.putExtras(bundle);
-                startActivity(it);
-            } catch (Exception e) {
-                GRToastView.show(ctx, "错误", Toast.LENGTH_SHORT);
-                e.printStackTrace();
+            if (NetUtil.isAvailable(ctx)) {
+                try {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("type", type);
+                    Intent it = new Intent();
+                    it.setClass(ctx, RadioStationSongActivity.class);
+                    it.putExtras(bundle);
+                    startActivity(it);
+                } catch (Exception e) {
+                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+                }
+            } else {
+                NetUtil.NetSetting(ctx);
             }
         }
     }

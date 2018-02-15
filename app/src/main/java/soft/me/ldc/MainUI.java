@@ -51,6 +51,7 @@ import soft.me.ldc.model.WeatherBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.service.HttpService;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -110,6 +111,8 @@ public class MainUI extends RootActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_SETTINGS,
             Manifest.permission.CAMERA//拍照
     };
     //消息
@@ -235,7 +238,7 @@ public class MainUI extends RootActivity {
 
                 break;
             case R.id.playNext:
-                RunGetWeatherTask();
+                NetUtil.NetSetting(ctx);
                 break;
             case R.id.playBar:
                 if (mData != null) {
