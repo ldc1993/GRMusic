@@ -42,7 +42,6 @@ import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
 import soft.me.ldc.ali.LocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
-import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFragment;
@@ -56,7 +55,6 @@ import soft.me.ldc.model.WeatherBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.service.HttpService;
-import soft.me.ldc.task.PlayLocalMusicTask;
 import soft.me.ldc.utils.MusicManager;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
@@ -102,7 +100,7 @@ public class MainUI extends RootMusicActivity {
     //滑动位置
     volatile int ScrollPosition = 0;
     //
-    GetPlayMusicTask getPlayMusicTask = null;
+    RefreshPlayStateTask refreshPlayStateTask = null;
     //
     GetWeatherTask getWeatherTask = null;
     //
@@ -113,7 +111,7 @@ public class MainUI extends RootMusicActivity {
     volatile PlayMusicSongBean mData = null;
     //
     MainUIMenuListAdapter mainUIMenuListAdapter = null;
-    String[] menus = new String[]{"更新天气", "about", "退出"};
+    String[] menus = new String[]{"更新天气", "关于", "退出"};
     LinearLayoutManager llm = null;
     //
     //TODO: 需要的动态权限
@@ -138,7 +136,7 @@ public class MainUI extends RootMusicActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GetPlayMusicCode:
-                    RunPlayMusicTask();
+                    RunPlayStateTask();
                     break;
                 case SuccessCode:
                     mData = (PlayMusicSongBean) msg.obj;
@@ -254,7 +252,7 @@ public class MainUI extends RootMusicActivity {
                 mViewPager.setCurrentItem(0, false);
                 break;
             case R.id.playOrpause:
-                if (playService.HasEnable() && playService.HasData()) {
+                if (playService != null && playService.HasEnable() && playService.HasData()) {
                     if (playService.IsPlaying()) {
                         playService.Pause();
                         playOrpause.setImageResource(R.drawable.ic_play_bar_btn_play);
@@ -281,10 +279,10 @@ public class MainUI extends RootMusicActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
-                    RunPlayMusicTask();
+                    RunPlayStateTask();
                 }
                 break;
-            case R.id.playBar:
+            case R.id.playBar:// TODO: 2018/2/15 播放界面
                 if (mData != null) {
                     bundle = new Bundle();
                     bundle.putSerializable("play", mData);
@@ -368,17 +366,17 @@ public class MainUI extends RootMusicActivity {
     }
 
     //执行任务
-    private void RunPlayMusicTask() {
-        if (getPlayMusicTask != null && !getPlayMusicTask.isCancelled()) {
-            getPlayMusicTask.cancel(true);
+    private void RunPlayStateTask() {
+        if (refreshPlayStateTask != null && !refreshPlayStateTask.isCancelled()) {
+            refreshPlayStateTask.cancel(true);
         }
-        getPlayMusicTask = new GetPlayMusicTask();
-        getPlayMusicTask.execute();
+        refreshPlayStateTask = new RefreshPlayStateTask();
+        refreshPlayStateTask.execute();
 
     }
 
     //任务
-    class GetPlayMusicTask extends AsyncTask<Void, Void, PlayMusicSongBean> {
+    class RefreshPlayStateTask extends AsyncTask<Void, Void, PlayMusicSongBean> {
 
         @Override
         protected PlayMusicSongBean doInBackground(Void... voids) {
@@ -522,6 +520,7 @@ public class MainUI extends RootMusicActivity {
     protected void onPause() {
         super.onPause();
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
     @Override

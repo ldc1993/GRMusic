@@ -33,6 +33,7 @@ public class LocalMusicListAdapter extends RootRecyclerViewAdapter<LocalMusicLis
     @Override
     public void onBindViewHolder(LocalMusicListViewHolder holder, int position) {
         LocalMusicBean bean = localMusicBeans.get(position);
+        setAnimator(holder.itemView);
         if (bean != null) {
             holder.itemView.setTag(bean);
             holder.mTitle.setText(bean.title);
