@@ -70,7 +70,7 @@ public class QueryMusicFragment extends RootFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESHCODE:
-                    RunRefreshTask(mSearcView.getKey().toString());
+                    RunRefreshTask("光良");
                     break;
                 case LOADMORECODE:
                     RunRefreshTask(mSearcView.getKey().toString());
@@ -120,7 +120,7 @@ public class QueryMusicFragment extends RootFragment {
     @Override
     protected void Init() throws Exception {
         mSearcView.setHint("请输入关键词");
-        mSearcView.setKey("生日快乐");
+        mSearcView.setKey(null);
         mSearcView.setSearchBtnListener(new QueryListener());
         {
             smartrefreshlayout.setOnRefreshListener(new RefreshListener());
