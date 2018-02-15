@@ -112,7 +112,7 @@ public class PlayMusicLyricFragment extends RootFragment {
         new Thread() {
             @Override
             public void run() {
-                if (mData != null || StringUtil.isNotBlank(mData.songinfo.lrclink)) {
+                if (mData != null && StringUtil.isNotBlank(mData.songinfo.lrclink)) {
                     downloadRequest = NoHttp.createDownloadRequest(mData.songinfo.lrclink, RequestMethod.GET, LrcDir, mData.songinfo.title + ".lrc", true, true);
                     if (downloadRequest == null)
                         return;
@@ -143,7 +143,7 @@ public class PlayMusicLyricFragment extends RootFragment {
                 msg.obj = playService.getCurrentPosition();
                 dkhandler.sendMessage(msg);
             }
-            dkhandler.postDelayed(this, 500);
+            dkhandler.postDelayed(this, 600);
 
         }
     };

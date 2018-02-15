@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -31,15 +32,17 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import soft.me.ldc.adapter.LauncherUIViewPagerAdapter;
+import soft.me.ldc.adapter.MainUIViewPagerAdapter;
+import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
 import soft.me.ldc.ali.LocLocation;
-import soft.me.ldc.ali.LocLocationClient;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.PlayMusicActivity;
@@ -90,7 +93,7 @@ public class MainUI extends RootActivity {
     List<Fragment> fragments = null;
     //标题
     List<String> titles = null;
-    LauncherUIViewPagerAdapter pagerAdapter = null;
+    MainUIViewPagerAdapter pagerAdapter = null;
     //滑动位置
     volatile int ScrollPosition = 0;
     //
@@ -104,6 +107,10 @@ public class MainUI extends RootActivity {
     //
     volatile PlayMusicSongBean mData = null;
     //
+    MainUIMenuListAdapter mainUIMenuListAdapter = null;
+    String[] menus = new String[]{"更新天气", "about", "退出"};
+    LinearLayoutManager llm = null;
+    //
     //TODO: 需要的动态权限
     String[] permissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -112,7 +119,7 @@ public class MainUI extends RootActivity {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WRITE_SETTINGS,
+            //Manifest.permission.WRITE_SETTINGS,
             Manifest.permission.CAMERA//拍照
     };
     //消息
@@ -183,6 +190,20 @@ public class MainUI extends RootActivity {
             tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
         }
         {
+            if (llm == null)
+                llm = new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false);
+            if (mainUIMenuListAdapter == null)
+                mainUIMenuListAdapter = new MainUIMenuListAdapter();
+            mainUIMenuListAdapter.pushData(Arrays.asList(menus));
+            mainUIMenuListAdapter.setOnItemListener(new MenuItemListener());
+
+            menuList.setLayoutManager(llm);
+            menuList.setLayoutFrozen(true);
+            menuList.setHasFixedSize(true);
+            menuList.setAdapter(mainUIMenuListAdapter);
+
+        }
+        {
             if (fragments == null)
                 fragments = new ArrayList<>();
             fragments.clear();
@@ -201,7 +222,7 @@ public class MainUI extends RootActivity {
             titles.add("音乐搜索");
 
             if (pagerAdapter == null)
-                pagerAdapter = new LauncherUIViewPagerAdapter(fragmentManager);
+                pagerAdapter = new MainUIViewPagerAdapter(fragmentManager);
             pagerAdapter.pushData(fragments);
             pagerAdapter.pustTitle(titles);
             //
@@ -283,6 +304,26 @@ public class MainUI extends RootActivity {
         public void onPageScrollStateChanged(int state) {
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 mViewPager.setCurrentItem(ScrollPosition, false);
+            }
+
+        }
+    }
+
+    //菜单列表item listener
+    class MenuItemListener implements MainUIMenuListAdapter.onItemListener {
+
+        @Override
+        public void Click(View v, int position) {
+            switch (position) {
+                case 0:
+                    RunGetWeatherTask();
+                    break;
+                case 1:
+                    startActivity(new Intent(ctx, AboutActivity.class));
+                    break;
+                case 2:
+                    QuitDialog();
+                    break;
             }
 
         }

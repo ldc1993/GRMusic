@@ -11,13 +11,13 @@ import java.util.List;
  * Created by liudi on 2018/1/12.
  */
 
-public class LauncherUIViewPagerAdapter extends FragmentPagerAdapter {
+public class MainUIViewPagerAdapter extends FragmentPagerAdapter {
     Context ctx = null;
     List<Fragment> fragments = null;
     List<String> titles = null;
 
 
-    public LauncherUIViewPagerAdapter(FragmentManager fm) {
+    public MainUIViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
