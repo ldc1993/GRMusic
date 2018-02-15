@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import soft.me.ldc.model.LocalMusicBean;
 
@@ -14,21 +15,21 @@ import soft.me.ldc.model.LocalMusicBean;
  * Created by liudi on 2018/2/12.
  */
 
-public class FileManager {
-    static FileManager instance = null;
+public class MusicManager {
+    static MusicManager instance = null;
     Context ctx = null;
     private ContentResolver contentResolver = null;
 
-    public static FileManager Instance(Context ctx) {
-        synchronized (FileManager.class) {
+    public static MusicManager Instance(Context ctx) {
+        synchronized (MusicManager.class) {
             if (instance == null)
-                instance = new FileManager(ctx);
+                instance = new MusicManager(ctx);
         }
         return instance;
     }
 
     //构造函数
-    private FileManager(Context ctx) {
+    private MusicManager(Context ctx) {
         this.ctx = ctx;
         this.contentResolver = ctx.getContentResolver();
     }
@@ -69,4 +70,17 @@ public class FileManager {
         return list;
     }
 
+    //获取本地随机音乐
+    public LocalMusicBean RandomMusic() {
+        LocalMusicBean locMusic = null;
+        try {
+            List<LocalMusicBean> locMusics = QueryMusic();
+            if (locMusics != null && locMusics.size() > 0) {
+                locMusic = locMusics.get(new Random().nextInt(locMusics.size()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return locMusic;
+    }
 }

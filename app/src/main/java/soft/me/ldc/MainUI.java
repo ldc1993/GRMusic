@@ -42,19 +42,22 @@ import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
 import soft.me.ldc.ali.LocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.PlayMusicMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
+import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.model.WeatherBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.service.HttpService;
-import soft.me.ldc.utils.NetUtil;
+import soft.me.ldc.task.PlayLocalMusicTask;
+import soft.me.ldc.utils.MusicManager;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
@@ -139,10 +142,10 @@ public class MainUI extends RootMusicActivity {
                     break;
                 case SuccessCode:
                     mData = (PlayMusicSongBean) msg.obj;
-
+                    //更新播放图标
                     refreshPlayMusic(mData);
                     //更新播放图标
-                    if (playService.HasEnable() && mData != null) {
+                    if (playService != null && playService.HasEnable() && playService.HasData()) {
                         if (playService.IsPlaying()) {
                             playOrpause.setImageResource(R.drawable.ic_play_bar_btn_pause);
                         } else {
@@ -263,7 +266,23 @@ public class MainUI extends RootMusicActivity {
 
                 break;
             case R.id.playNext:
-                NetUtil.NetSetting(ctx);
+                // TODO: 2018/2/15 随机播放
+                try {
+                    LocalMusicBean locMusic = MusicManager.Instance(ctx).RandomMusic();
+                    if (playService != null && playService.HasEnable()) {
+                        if (locMusic != null) {
+                            PlayMusicSongBean tempPlay = new PlayMusicSongBean();
+                            tempPlay.songinfo.title = locMusic.title;
+                            tempPlay.songinfo.author = locMusic.author;
+                            tempPlay.bitrate.show_link = locMusic.path;
+                            playService.Play(tempPlay);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    RunPlayMusicTask();
+                }
                 break;
             case R.id.playBar:
                 if (mData != null) {

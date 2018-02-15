@@ -26,7 +26,7 @@ import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.task.PlayLocalMusicTask;
-import soft.me.ldc.utils.FileManager;
+import soft.me.ldc.utils.MusicManager;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 
@@ -158,7 +158,7 @@ public class LocalMusicFragment extends RootFragment {
         protected List<LocalMusicBean> doInBackground(Void... voids) {
             List<LocalMusicBean> bean = null;
             try {
-                bean = FileManager.Instance(ctx).QueryMusic();
+                bean = MusicManager.Instance(ctx).QueryMusic();
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);
             }
