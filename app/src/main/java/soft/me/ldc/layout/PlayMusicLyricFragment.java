@@ -7,11 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.yanzhenjie.nohttp.Headers;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -30,7 +28,6 @@ import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.StringUtil;
-import soft.me.ldc.view.GRToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,7 +84,7 @@ public class PlayMusicLyricFragment extends RootFragment {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
-        PlayMusicActivity playMusicActivity = (PlayMusicActivity) act;
+        PlayMusicMusicActivity playMusicActivity = (PlayMusicMusicActivity) act;
         playService = playMusicActivity.getPlayService();
     }
 

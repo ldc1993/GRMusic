@@ -35,13 +35,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".layout.MusicListActivity"
+            android:name=".layout.MusicListMusicActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".layout.RadioStationSongActivity"
+            android:name=".layout.RadioStationSongMusicActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".layout.PlayMusicActivity"
+            android:name=".layout.PlayMusicMusicActivity"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 音乐服务 -->
@@ -59,7 +59,8 @@
             android:name="com.amap.api.v2.apikey"
             android:value="75a5407f7b6dd13b37c437d65b83ae2a" />
 
-        <activity android:name=".layout.AboutActivity"></activity>
+        <activity android:name=".layout.AboutActivity" />
+        <activity android:name=".layout.SingerInfoActivity"></activity>
     </application>
 
 </manifest>

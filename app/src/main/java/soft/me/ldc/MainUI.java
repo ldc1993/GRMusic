@@ -41,11 +41,11 @@ import soft.me.ldc.adapter.MainUIViewPagerAdapter;
 import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
 import soft.me.ldc.ali.LocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
-import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFragment;
-import soft.me.ldc.layout.PlayMusicActivity;
+import soft.me.ldc.layout.PlayMusicMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -58,7 +58,7 @@ import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRToastView;
 
-public class MainUI extends RootActivity {
+public class MainUI extends RootMusicActivity {
 
 
     @BindView(R.id.mImage)
@@ -87,6 +87,8 @@ public class MainUI extends RootActivity {
     ImageButton playNext;
     @BindView(R.id.playBar)
     LinearLayoutCompat playBar;
+    @BindView(R.id.appVersion)
+    AppCompatTextView appVersion;
     //启动多线程意图
     Intent multiTSIt = null;
     //页面
@@ -196,6 +198,8 @@ public class MainUI extends RootActivity {
                 mainUIMenuListAdapter = new MainUIMenuListAdapter();
             mainUIMenuListAdapter.pushData(Arrays.asList(menus));
             mainUIMenuListAdapter.setOnItemListener(new MenuItemListener());
+            //版本
+            appVersion.setText("" + BuildConfig.VERSION_NAME);
 
             menuList.setLayoutManager(llm);
             menuList.setLayoutFrozen(true);
@@ -240,7 +244,7 @@ public class MainUI extends RootActivity {
 
 
     //点击事件
-    @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext, R.id.playBar})
+    @OnClick({R.id.playList, R.id.playOrpause, R.id.playNext, R.id.playBar, R.id.appVersion})
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.playList:
@@ -266,12 +270,15 @@ public class MainUI extends RootActivity {
                     bundle = new Bundle();
                     bundle.putSerializable("play", mData);
                     bundle.putBoolean("play_new_song", false);
-                    Intent it = new Intent(ctx, PlayMusicActivity.class);
+                    Intent it = new Intent(ctx, PlayMusicMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);
                 } else {
                     GRToastView.show(ctx, "没有可播放音乐哦", Toast.LENGTH_SHORT);
                 }
+                break;
+            case R.id.appVersion:
+                GRToastView.show(ctx, "" + BuildConfig.VERSION_NAME, Toast.LENGTH_SHORT);
                 break;
         }
     }

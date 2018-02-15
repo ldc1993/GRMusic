@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import soft.me.ldc.layout.PlayMusicActivity;
+import soft.me.ldc.layout.PlayMusicMusicActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.common.ThreadTask;
@@ -60,7 +60,7 @@ public class PlayMusicTask extends ThreadTask {
                         bundle.putBoolean("play_new_song", IsNewPlay);
                         Intent it = new Intent();
                         it.putExtras(bundle);
-                        it.setClass(ctx, PlayMusicActivity.class);
+                        it.setClass(ctx, PlayMusicMusicActivity.class);
                         ctx.startActivity(it);
 
                     } else {

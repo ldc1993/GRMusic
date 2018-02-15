@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicListAdapter;
-import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.permission.ActivityList;
@@ -31,7 +31,7 @@ import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 
-public class MusicListActivity extends RootActivity {
+public class MusicListMusicActivity extends RootMusicActivity {
 
 
     @BindView(R.id.mToolbar)

@@ -19,7 +19,6 @@ import soft.me.ldc.adapter.MusicTypeListAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.utils.NetUtil;
-import soft.me.ldc.view.GRSearchView;
 import soft.me.ldc.view.GRToastView;
 
 
@@ -99,7 +98,7 @@ public class MusicFragment extends RootFragment {
                         bundle = new Bundle();
                     bundle.putSerializable("type", type);
                     Intent it = new Intent();
-                    it.setClass(ctx, MusicListActivity.class);
+                    it.setClass(ctx, MusicListMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);
                 } catch (Exception e) {

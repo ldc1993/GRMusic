@@ -1,12 +1,14 @@
 package soft.me.ldc.layout;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootMusicActivity;
 
-public class AboutActivity extends RootMusicActivity {
+public class SingerInfoActivity extends RootMusicActivity {
+
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) {
@@ -15,7 +17,7 @@ public class AboutActivity extends RootMusicActivity {
 
     @Override
     protected Integer UI() {
-        return R.layout.activity_about;
+        return R.layout.activity_singer_info;
     }
 
     @Override

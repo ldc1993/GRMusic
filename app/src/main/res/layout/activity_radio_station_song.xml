@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="soft.me.ldc.layout.RadioStationSongActivity">
+    tools:context="soft.me.ldc.layout.RadioStationSongMusicActivity">
 
     <soft.me.ldc.view.GRToolbar
         android:background="@color/colorPrimary"

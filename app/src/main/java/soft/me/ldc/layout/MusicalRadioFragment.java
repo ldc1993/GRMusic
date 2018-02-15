@@ -15,11 +15,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicalRadioStationAdapter;
-import soft.me.ldc.adapter.PublicRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.utils.NetUtil;
@@ -92,7 +89,7 @@ public class MusicalRadioFragment extends RootFragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("type", type);
                     Intent it = new Intent();
-                    it.setClass(ctx, RadioStationSongActivity.class);
+                    it.setClass(ctx, RadioStationSongMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);
                 } catch (Exception e) {

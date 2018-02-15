@@ -90,7 +90,7 @@ public class PublicRadioFragment extends RootFragment {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("type", type);
                     Intent it = new Intent();
-                    it.setClass(ctx, RadioStationSongActivity.class);
+                    it.setClass(ctx, RadioStationSongMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);
                 } catch (Exception e) {

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
-import soft.me.ldc.base.RootActivity;
+import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.permission.ActivityList;
@@ -30,7 +29,7 @@ import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
 
-public class PlayMusicActivity extends RootActivity {
+public class PlayMusicMusicActivity extends RootMusicActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;

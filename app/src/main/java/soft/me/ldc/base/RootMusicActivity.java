@@ -33,7 +33,7 @@ import soft.me.ldc.view.GRToastView;
  * Created by liudi on 2018/1/10.
  */
 
-public abstract class RootActivity extends AppCompatActivity {
+public abstract class RootMusicActivity extends AppCompatActivity {
     protected PlayService.ServiceBind playService = null;
     protected Context ctx;
     protected Activity act;
