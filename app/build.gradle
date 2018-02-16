@@ -14,10 +14,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
             buildConfigField("String", "WeatherUrl", "\"http://restapi.amap.com/v3/weather/weatherInfo\"")
+            zipAlignEnabled true
         }
         debug {
             buildConfigField("String", "ServiceUrl", "\"http://tingapi.ting.baidu.com/v1/restserver/ting\"")
