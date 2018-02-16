@@ -50,10 +50,10 @@ public class LocalMusicFragment extends RootFragment {
     GRLoadDialog loadDialog = null;
     //消息
     Message msg = null;
-    final static int ERRORCODE = 0x000;
-    final static int REFRESHCODE = 0x001;
-    final static int NODATACODE = 0x002;
-    final static int UPDATEDATACODE = 0x003;
+    final  int ERRORCODE = 0x000;
+    final  int REFRESHCODE = 0x001;
+    final  int NODATACODE = 0x002;
+    final  int UPDATEDATACODE = 0x003;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -58,11 +58,11 @@ public class MusicListMusicActivity extends RootMusicActivity {
     //等待对话框
     private GRLoadDialog loadDialog = null;
 
-    static final int REFRESHCODE = 0x000;//下拉刷新
-    static final int LOADMORECODE = 0x001;//上拉刷新
-    static final int UPDATEDATACODE = 0x002;//更新数据
-    static final int NODATACODE = 0x003;//错误
-    static final int ERRORCODE = 0x004;//错误
+     final int REFRESHCODE = 0x000;//下拉刷新
+     final int LOADMORECODE = 0x001;//上拉刷新
+     final int UPDATEDATACODE = 0x002;//更新数据
+     final int NODATACODE = 0x003;//错误
+     final int ERRORCODE = 0x004;//错误
     private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

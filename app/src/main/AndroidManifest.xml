@@ -60,7 +60,6 @@
             android:value="75a5407f7b6dd13b37c437d65b83ae2a" />
 
         <activity android:name=".layout.AboutActivity" />
-        <activity android:name=".layout.SingerInfoActivity" />
         <activity android:name=".layout.SongListActivity" />
         <activity android:name=".layout.SongerInfoActivity"></activity>
     </application>

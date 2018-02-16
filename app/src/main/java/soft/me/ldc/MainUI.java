@@ -43,9 +43,9 @@ import soft.me.ldc.ali.LocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.layout.AboutActivity;
+import soft.me.ldc.layout.MusicFindFragment;
 import soft.me.ldc.layout.SongerListFragment;
 import soft.me.ldc.layout.LocalMusicFragment;
-import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.PlayMusicMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
@@ -219,7 +219,7 @@ public class MainUI extends RootMusicActivity {
             //添加页面
             fragments.add(new LocalMusicFragment());
             fragments.add(new SongerListFragment());
-            fragments.add(new MusicFragment());
+            fragments.add(new MusicFindFragment());
             fragments.add(new RadioStationFragment());
             fragments.add(new QueryMusicFragment());
             //添加标题

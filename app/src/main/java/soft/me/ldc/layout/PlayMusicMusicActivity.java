@@ -63,10 +63,10 @@ public class PlayMusicMusicActivity extends RootMusicActivity {
     volatile int lastCurrSize = 0;
     volatile int laseAllSize = 0;
     //
-    static final int PlaySongCode = 0x000;//播放音乐
-    static final int ShowPlayInfo = 0x001;//显示信息
-    static final int UpdatePlayProgressCode = 0x002;//更新进度
-    static final int ERRORCODE = 0x004;//错误
+     final int PlaySongCode = 0x000;//播放音乐
+     final int ShowPlayInfo = 0x001;//显示信息
+     final int UpdatePlayProgressCode = 0x002;//更新进度
+     final int ERRORCODE = 0x004;//错误
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

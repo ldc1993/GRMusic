@@ -46,10 +46,10 @@ public class PlayMusicLyricFragment extends RootFragment {
     //消息
     Message msg = null;
     //
-    final static int FAILEDCODE = 0x000;//失败
-    final static int SUCCESSCODE = 0x001;//成功
-    final static int UPDATECODE = 0x002;//更新
-    final static int DOWNLOADCODE = 0x003;//下载
+    final  int FAILEDCODE = 0x000;//失败
+    final  int SUCCESSCODE = 0x001;//成功
+    final  int UPDATECODE = 0x002;//更新
+    final  int DOWNLOADCODE = 0x003;//下载
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -61,11 +61,11 @@ public class SongListActivity extends RootMusicActivity {
     SongListAdapter songListAdapter = null;
     LinearLayoutManager llm = null;
     //
-    final static int REFRESHCODE = 0x001;
-    final static int LOADMORECODE = 0x002;
-    final static int UPDATECODE = 0x003;
-    final static int ERRORCODE = 0x004;
-    final static int NODATACODE = 0x005;
+    final  int REFRESHCODE = 0x001;
+    final  int LOADMORECODE = 0x002;
+    final  int UPDATECODE = 0x003;
+    final  int ERRORCODE = 0x004;
+    final  int NODATACODE = 0x005;
     Handler dkhandlder = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -58,11 +58,11 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
     RadioStationSongAdapter radioStationSongAdapter = null;
 
 
-    static final int REFRESHCODE = 0x000;//刷新
-    static final int LOADMORECODE = 0x001;//刷新
-    static final int UPDATEVIEWCODE = 0x002;//更新数据
-    static final int NODATACODE = 0x003;//没有数据
-    static final int ERRORCODE = 0x004;//错误
+     final int REFRESHCODE = 0x000;//刷新
+     final int LOADMORECODE = 0x001;//刷新
+     final int UPDATEVIEWCODE = 0x002;//更新数据
+     final int NODATACODE = 0x003;//没有数据
+     final int ERRORCODE = 0x004;//错误
     private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

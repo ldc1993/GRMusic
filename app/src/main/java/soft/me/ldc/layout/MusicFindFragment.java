@@ -22,7 +22,7 @@ import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRToastView;
 
 
-public class MusicFragment extends RootFragment {
+public class MusicFindFragment extends RootFragment {
 
     @BindView(R.id.musicTypeList)
     RecyclerView musicTypeList;
@@ -74,16 +74,16 @@ public class MusicFragment extends RootFragment {
         if (mData == null)
             mData = new ArrayList<>();
         mData.clear();//清空数据
-        mData.add(new MusicTypeBean("1", "新歌", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("1", "热歌", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("11", "摇滚", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("12", "爵士", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("16", "流行", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("21", "欧美金曲", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("22", "金典老歌", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("23", "情歌对唱", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("24", "影视金曲", R.mipmap.ic_launcher));
-        mData.add(new MusicTypeBean("25", "网络歌曲", R.mipmap.ic_launcher));
+        mData.add(new MusicTypeBean("1", "新歌", R.mipmap.icon_1));
+        mData.add(new MusicTypeBean("1", "热歌", R.mipmap.icon_2));
+        mData.add(new MusicTypeBean("11", "摇滚", R.mipmap.icon_3));
+        mData.add(new MusicTypeBean("12", "爵士", R.mipmap.icon_4));
+        mData.add(new MusicTypeBean("16", "流行", R.mipmap.icon_5));
+        mData.add(new MusicTypeBean("21", "欧美金曲", R.mipmap.icon_6));
+        mData.add(new MusicTypeBean("22", "金典老歌", R.mipmap.icon_7));
+        mData.add(new MusicTypeBean("23", "情歌对唱", R.mipmap.icon_8));
+        mData.add(new MusicTypeBean("24", "影视金曲", R.mipmap.icon_9));
+        mData.add(new MusicTypeBean("25", "网络歌曲", R.mipmap.icon_10));
 
     }
 

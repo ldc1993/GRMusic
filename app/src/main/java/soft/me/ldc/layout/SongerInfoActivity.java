@@ -51,9 +51,9 @@ public class SongerInfoActivity extends RootMusicActivity {
     //
     volatile PlayMusicSongBean mData = null;
     //
-    final static int SUCCESSCODE = 0x000;
-    final static int FAILEDCODE = 0x001;
-    final static int ERRORCODE = 0x002;
+    final  int SUCCESSCODE = 0x000;
+    final  int FAILEDCODE = 0x001;
+    final  int ERRORCODE = 0x002;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

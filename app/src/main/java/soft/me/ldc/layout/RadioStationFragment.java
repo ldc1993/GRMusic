@@ -62,10 +62,10 @@ public class RadioStationFragment extends RootFragment {
     volatile List<RadioStationBean.ResultBean.ChannellistBean> public_data = null;//公共频道
     volatile List<RadioStationBean.ResultBean.ChannellistBean> musical_data = null;//音乐人频道
 
-    static final int REFRESHCODE = 0x000;//刷新
-    static final int UPDATEVIEWCODE = 0x001;//更新数据
-    static final int NODATACODE = 0x002;//没有数据
-    static final int ERRORCODE = 0x003;//错误
+     final int REFRESHCODE = 0x000;//刷新
+     final int UPDATEVIEWCODE = 0x001;//更新数据
+     final int NODATACODE = 0x002;//没有数据
+     final int ERRORCODE = 0x003;//错误
 
     private Handler dkhandler = new Handler() {
         @Override
