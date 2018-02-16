@@ -11,16 +11,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/mImage"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/mWeather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="false"
-            android:background="@drawable/icon_bg"
-            android:minHeight="45dp"
-            android:minWidth="45dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/me" />
+            android:text="没有天气数据"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
     </android.support.v7.widget.LinearLayoutCompat>
 

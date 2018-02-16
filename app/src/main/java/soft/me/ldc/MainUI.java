@@ -67,8 +67,8 @@ import soft.me.ldc.view.GRToastView;
 public class MainUI extends RootMusicActivity {
 
 
-    @BindView(R.id.mImage)
-    AppCompatImageView mImage;
+    @BindView(R.id.mWeather)
+    AppCompatTextView mWeather;
     @BindView(R.id.menuList)
     RecyclerView menuList;
     @BindView(R.id.mDrawerLayout)
@@ -140,6 +140,7 @@ public class MainUI extends RootMusicActivity {
     final int SuccessCode = 0x001;
     final int GetPlayMusicCode = 0x002;
     final int RefreshWeatherCode = 0x0003;
+    final int UpdateweatherDataCode = 0x004;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -165,6 +166,18 @@ public class MainUI extends RootMusicActivity {
                     break;
                 case RefreshWeatherCode://更新天气
                     RunGetWeatherTask((AliLocInfo) msg.obj);
+                    break;
+                case UpdateweatherDataCode:
+                    StringBuffer sb = new StringBuffer();
+                    WeatherBean weatherBean = (WeatherBean) msg.obj;
+                    if (weatherBean != null && weatherBean.lives != null && weatherBean.lives.size() > 0) {
+                        WeatherBean.LivesBean bean = weatherBean.lives.get(0);
+                        sb.append(bean.province + "-" + bean.city + "\n");
+                        sb.append(bean.weather + "-" + bean.temperature + "℃\n");
+                        sb.append("风向:" + bean.winddirection + "-" + bean.windpower + "级\n");
+                        sb.append(bean.reporttime);
+                        mWeather.setText(sb.toString());
+                    }
                     break;
             }
         }
@@ -419,7 +432,7 @@ public class MainUI extends RootMusicActivity {
         }
     }
 
-    //执行获取地位 天气清空
+    //执行获取地位更新天气数据
     private void RunGetWeatherTask(AliLocInfo aliLocInfo) {
         if (getWeatherTask != null && !getWeatherTask.isCancelled()) {
             getWeatherTask.cancel(true);
@@ -456,6 +469,12 @@ public class MainUI extends RootMusicActivity {
         @Override
         protected void onPostExecute(WeatherBean result) {
             super.onPostExecute(result);
+            if (result != null) {
+                msg = dkhandler.obtainMessage();
+                msg.what = UpdateweatherDataCode;
+                msg.obj = result;
+                dkhandler.sendMessage(msg);
+            }
 
         }
     }
