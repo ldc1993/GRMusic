@@ -9,6 +9,8 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import java.net.HttpCookie;
+
 import soft.me.ldc.config.App;
 import soft.me.ldc.config.AppConfig;
 
@@ -252,6 +254,42 @@ public class HttpService {
             e.printStackTrace();
         }
         Log.e("LLL", "" + resultStr);
+        return resultStr;
+
+    }
+
+    /**
+     * 获取歌手列表
+     *
+     * @param LimitNo
+     * @param pageNo
+     * @return
+     */
+    public String SongerList(int pageNo, int LimitNo) {
+        String resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+            request.add("from", "qianqian");
+            request.add("version", "2.1.0");
+            request.add("method", "baidu.ting.artist.get72HotArtist");
+            request.add("format", "json");
+            request.add("offset", pageNo + "");
+            request.add("limit", LimitNo + "");
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+        } catch (Exception e) {
+            resultStr = "";
+            e.printStackTrace();
+        }
         return resultStr;
 
     }

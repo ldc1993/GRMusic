@@ -43,6 +43,7 @@ import soft.me.ldc.ali.LocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.layout.AboutActivity;
+import soft.me.ldc.layout.SongerListFragment;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFragment;
 import soft.me.ldc.layout.PlayMusicMusicActivity;
@@ -217,11 +218,13 @@ public class MainUI extends RootMusicActivity {
             titles.clear();
             //添加页面
             fragments.add(new LocalMusicFragment());
+            fragments.add(new SongerListFragment());
             fragments.add(new MusicFragment());
             fragments.add(new RadioStationFragment());
             fragments.add(new QueryMusicFragment());
             //添加标题
             titles.add("我的音乐");
+            titles.add("歌手");
             titles.add("发现");
             titles.add("电台");
             titles.add("音乐搜索");
@@ -235,7 +238,7 @@ public class MainUI extends RootMusicActivity {
             mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
             mViewPager.addOnPageChangeListener(new PagerViewListener());
             mViewPager.setAdapter(pagerAdapter);
-            mViewPager.setOffscreenPageLimit(3);//预加载界面
+            mViewPager.setOffscreenPageLimit(4);//预加载界面
         }
         //显示播放
         dkhandler.sendEmptyMessage(GetPlayMusicCode);

@@ -135,7 +135,6 @@ public class PlayMusicLyricFragment extends RootFragment {
                 dkhandler.sendMessage(msg);
             }
             dkhandler.postDelayed(this, 600);
-
         }
     };
 
