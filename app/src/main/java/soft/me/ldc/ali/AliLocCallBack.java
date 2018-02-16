@@ -4,7 +4,7 @@ package soft.me.ldc.ali;
  * Created by liudi on 2018/2/13.
  */
 
-public interface LocCallBack {
+public interface AliLocCallBack {
     int getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
 
     double getLatitude();//获取纬度

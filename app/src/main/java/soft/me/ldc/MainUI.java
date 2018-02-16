@@ -20,6 +20,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -28,6 +29,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -39,19 +42,20 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import soft.me.ldc.adapter.MainUIViewPagerAdapter;
 import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
-import soft.me.ldc.ali.LocLocation;
+import soft.me.ldc.ali.AliLocInfo;
+import soft.me.ldc.ali.AliLocLocation;
 import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
+import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.layout.AboutActivity;
-import soft.me.ldc.layout.MusicFindFragment;
-import soft.me.ldc.layout.SongerListFragment;
 import soft.me.ldc.layout.LocalMusicFragment;
+import soft.me.ldc.layout.MusicFindFragment;
 import soft.me.ldc.layout.PlayMusicMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
+import soft.me.ldc.layout.SongerListFragment;
 import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.model.PlayMusicSongBean;
-import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.model.WeatherBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.permission.PermissionIface;
@@ -102,12 +106,14 @@ public class MainUI extends RootMusicActivity {
     volatile int ScrollPosition = 0;
     //
     RefreshPlayStateTask refreshPlayStateTask = null;
-    //
+    //定位
+    AliLocLocation aliLocLocation = null;
     GetWeatherTask getWeatherTask = null;
+    volatile AliLocInfo aliLocInfo = null;
+    //此一次定位
+    volatile boolean isFirstLoc = true;
     //
     Bundle bundle = null;
-    //定位
-    LocLocation locLocation = null;
     //
     volatile PlayMusicSongBean mData = null;
     //
@@ -129,9 +135,11 @@ public class MainUI extends RootMusicActivity {
     //消息
     Message msg = null;
     //
-    final static int SuccessCode = 0x001;
-    final static int ErrorCode = 0x000;
-    final static int GetPlayMusicCode = 0x002;
+
+    final int ErrorCode = 0x000;
+    final int SuccessCode = 0x001;
+    final int GetPlayMusicCode = 0x002;
+    final int RefreshWeatherCode = 0x0003;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -154,6 +162,9 @@ public class MainUI extends RootMusicActivity {
                     break;
                 case ErrorCode:
                     // GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
+                    break;
+                case RefreshWeatherCode://更新天气
+                    RunGetWeatherTask((AliLocInfo) msg.obj);
                     break;
             }
         }
@@ -180,9 +191,11 @@ public class MainUI extends RootMusicActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             requestRunTimePermission(permissions, new RunTimePermission());
         }
-        //定位实例化
+        // TODO: 2018/2/16 定位
         {
-            locLocation = LocLocation.Instance(ctx);
+            aliLocLocation = AliLocLocation.Instance(ctx);
+            aliLocLocation.setListener(new aliLocationListener());
+            aliLocLocation.StartLocation();
         }
         //指示器
         {
@@ -242,8 +255,7 @@ public class MainUI extends RootMusicActivity {
         }
         //显示播放
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
-        //获取天气
-        RunGetWeatherTask();
+
     }
 
 
@@ -343,7 +355,8 @@ public class MainUI extends RootMusicActivity {
         public void Click(View v, int position) {
             switch (position) {
                 case 0:
-                    RunGetWeatherTask();
+                    //获取天气
+                    RunGetWeatherTask(aliLocInfo);
                     break;
                 case 1:
                     startActivity(new Intent(ctx, AboutActivity.class));
@@ -407,26 +420,30 @@ public class MainUI extends RootMusicActivity {
     }
 
     //执行获取地位 天气清空
-    private void RunGetWeatherTask() {
+    private void RunGetWeatherTask(AliLocInfo aliLocInfo) {
         if (getWeatherTask != null && !getWeatherTask.isCancelled()) {
             getWeatherTask.cancel(true);
         }
         getWeatherTask = new GetWeatherTask();
+        getWeatherTask.pushData(aliLocInfo);
         getWeatherTask.execute();
 
     }
 
     //获取天气
     class GetWeatherTask extends AsyncTask<Void, Void, WeatherBean> {
+        AliLocInfo aliLocInfo = null;
 
+        public void pushData(AliLocInfo aliLocInfo) {
+            this.aliLocInfo = aliLocInfo;
+        }
 
         @Override
         protected WeatherBean doInBackground(Void... voids) {
             WeatherBean weatherBean = null;
             try {
                 Gson gson = new Gson();
-                String adCode = locLocation.getAdCode();
-                GRToastView.show(ctx, adCode, Toast.LENGTH_SHORT);
+                String adCode = aliLocInfo.AdCode;
                 String str = HttpService.Instance(ctx).Weather(adCode + "");
                 weatherBean = gson.fromJson(str, WeatherBean.class);
             } catch (Exception e) {
@@ -503,15 +520,46 @@ public class MainUI extends RootMusicActivity {
 
     }
 
+    // TODO: 2018/2/16 定位监听
+    class aliLocationListener implements AMapLocationListener {
 
-    // TODO: 2018/1/24 生命周期
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        locLocation.StartLocation();
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    aliLocInfo = new AliLocInfo();
+                    aliLocInfo.LocationType = amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    aliLocInfo.Latitude = amapLocation.getLatitude();//获取纬度
+                    aliLocInfo.Longitude = amapLocation.getLongitude();//获取经度
+                    aliLocInfo.Accuracy = amapLocation.getAccuracy();//获取精度信息
+                    aliLocInfo.Address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+                    aliLocInfo.Country = amapLocation.getCountry();//国家信息
+                    aliLocInfo.Province = amapLocation.getProvince();//省信息
+                    aliLocInfo.City = amapLocation.getCity();//城市信息
+                    aliLocInfo.District = amapLocation.getDistrict();//城区信息
+                    aliLocInfo.Street = amapLocation.getStreet();//街道信息
+                    aliLocInfo.StreetNum = amapLocation.getStreetNum();//街道门牌号信息
+                    aliLocInfo.CityCode = amapLocation.getCityCode();//城市编码
+                    aliLocInfo.AdCode = amapLocation.getAdCode();//地区编码
+                    aliLocInfo.AoiName = amapLocation.getAoiName();//获取当前定位点的AOI信息
+                    aliLocInfo.BuildingId = amapLocation.getBuildingId();//获取当前室内定位的建筑物Id
+                    aliLocInfo.Floor = amapLocation.getFloor();//获取当前室内定位的楼层
+                    aliLocInfo.GpsAccuracyStatus = amapLocation.getGpsAccuracyStatus();//获取GPS的当前状态
+                    //第一次定位
+                    if (isFirstLoc) {
+                        //更新天气
+                        dkhandler.sendMessage(dkhandler.obtainMessage(RefreshWeatherCode, aliLocInfo));
+                        isFirstLoc = false;
+                    }
+                } else {
+                    Log.e("", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
     }
+    // TODO: 2018/1/24 生命周期
 
     @Override
     protected void onResume() {
@@ -534,10 +582,8 @@ public class MainUI extends RootMusicActivity {
             stopService(multiTSIt);
         }
         //销毁
-        if (locLocation != null) {
-            locLocation.DestroyLocation();
+        if (aliLocLocation != null) {
+            aliLocLocation.DestroyLocation();
         }
     }
-
-
 }
