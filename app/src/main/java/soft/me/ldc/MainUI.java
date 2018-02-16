@@ -118,7 +118,7 @@ public class MainUI extends RootMusicActivity {
     volatile PlayMusicSongBean mData = null;
     //
     MainUIMenuListAdapter mainUIMenuListAdapter = null;
-    String[] menus = new String[]{"更新天气", "关于", "退出"};
+    String[] menus = new String[]{"关于", "退出"};
     LinearLayoutManager llm = null;
     //
     //TODO: 需要的动态权限
@@ -368,13 +368,9 @@ public class MainUI extends RootMusicActivity {
         public void Click(View v, int position) {
             switch (position) {
                 case 0:
-                    //获取天气
-                    RunGetWeatherTask(aliLocInfo);
-                    break;
-                case 1:
                     startActivity(new Intent(ctx, AboutActivity.class));
                     break;
-                case 2:
+                case 1:
                     QuitDialog();
                     break;
             }
