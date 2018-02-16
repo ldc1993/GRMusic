@@ -293,4 +293,41 @@ public class HttpService {
         return resultStr;
 
     }
+
+    /**
+     * 获取歌手歌曲列表
+     *
+     * @param LimitNo
+     * @param pageNo
+     * @return
+     */
+    public String SongList(String tinguid, int pageNo, int LimitNo) {
+        String resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+            request.add("from", "qianqian");
+            request.add("version", "2.1.0");
+            request.add("method", "baidu.ting.artist.getSongList");
+            request.add("format", "json");
+            request.add("offset", pageNo + "");
+            request.add("limit", LimitNo + "");
+            request.add("tinguid", tinguid + "");
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+        } catch (Exception e) {
+            resultStr = "";
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
 }

@@ -14,15 +14,16 @@
         android:minHeight="96dp"
         android:minWidth="96dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/me" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/mText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:padding="2dp"
+        android:textColor="@android:color/black"
         android:textStyle="bold" />
 
 

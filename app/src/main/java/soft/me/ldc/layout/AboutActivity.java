@@ -50,6 +50,7 @@ public class AboutActivity extends RootMusicActivity {
                     finish();
                 }
             });
+            setSupportActionBar(mToolbar);
         }
         {
             if (aboutListAdapter == null)

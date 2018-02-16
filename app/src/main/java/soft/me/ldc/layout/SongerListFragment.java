@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,12 +45,14 @@ public class SongerListFragment extends RootFragment {
     GRLoadDialog loadDialog = null;
     //
     volatile int pageNo = 0;
-    final int limitNo = 20;
+    final int limitNo = 15;
     //
     SongerListAdapter songerListAdapter = null;
     StaggeredGridLayoutManager staggeredGridLayoutManager = null;
     //消息
     Message msg = null;
+    //
+    Bundle bundle = null;
     //
     Gson gson = null;
     //
@@ -78,6 +81,7 @@ public class SongerListFragment extends RootFragment {
                             songerListAdapter = new SongerListAdapter();
                         songerListAdapter.pushData(data);
                         songerListAdapter.notifyDataSetChanged();
+                        mList.smoothScrollToPosition(0);
                     } else {
                         dkhandlder.sendEmptyMessage(NODATACODE);
                     }
@@ -115,7 +119,7 @@ public class SongerListFragment extends RootFragment {
     @Override
     protected void Main() throws Exception {
         if (staggeredGridLayoutManager == null)
-            staggeredGridLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+            staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         if (songerListAdapter == null)
             songerListAdapter = new SongerListAdapter();
         songerListAdapter.pushData(null);
@@ -153,9 +157,13 @@ public class SongerListFragment extends RootFragment {
     class OnItemListener implements SongerListAdapter.OnItemListener {
 
         @Override
-        public void onItem(View v, SongerListBean type) {
+        public void onItem(View v, SongerListBean.ArtistBean type) {
             if (NetUtil.isAvailable(ctx)) {
-
+                bundle = new Bundle();
+                bundle.putSerializable("songer", type);
+                Intent it = new Intent(ctx, SongListActivity.class);
+                it.putExtras(bundle);
+                startActivity(it);
             } else {
                 NetUtil.NetSetting(ctx);
             }

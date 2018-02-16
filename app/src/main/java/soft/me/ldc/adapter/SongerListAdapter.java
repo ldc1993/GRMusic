@@ -54,11 +54,11 @@ public class SongerListAdapter extends RootRecyclerViewAdapter<SongerListViewHol
     @Override
     public void onClick(View v) {
         if (listener != null)
-            listener.onItem(v, (SongerListBean) v.getTag());
+            listener.onItem(v, (SongerListBean.ArtistBean) v.getTag());
     }
 
     public interface OnItemListener {
-        void onItem(View v, SongerListBean type);
+        void onItem(View v, SongerListBean.ArtistBean type);
     }
 
     public void setListener(OnItemListener listener) {
