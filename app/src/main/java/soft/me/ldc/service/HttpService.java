@@ -330,4 +330,38 @@ public class HttpService {
         return resultStr;
 
     }
+
+    /**
+     * 获取歌手信息
+     *
+     * @param tinguid
+     * @return
+     */
+    public String SongerInfo(String tinguid) {
+        String resultStr = "";
+        Request<String> request = null;
+        try {
+            if (request == null)
+                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+            request.add("from", "qianqian");
+            request.add("version", "2.1.0");
+            request.add("method", "baidu.ting.artist.getinfo");
+            request.add("format", "json");
+            request.add("tinguid", tinguid + "");
+            Response<String> response = NoHttp.startRequestSync(request);
+            if (response != null && response.isSucceed()) {
+
+                Headers headers = response.getHeaders();
+                if (headers.getResponseCode() == 200) {
+                    resultStr = response.get();
+                }
+
+            }
+        } catch (Exception e) {
+            resultStr = "";
+            e.printStackTrace();
+        }
+        return resultStr;
+
+    }
 }

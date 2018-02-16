@@ -1,6 +1,7 @@
 package soft.me.ldc.layout;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
+import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
 
 /**
@@ -76,7 +78,7 @@ public class PlayMusicCoverFragment extends RootFragment {
         }
     }
 
-    @OnClick({R.id.replay})
+    @OnClick({R.id.replay, R.id.song_icon})
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.replay:
@@ -88,6 +90,18 @@ public class PlayMusicCoverFragment extends RootFragment {
                         playService.Looping(true);
                         replay.setImageResource(R.drawable.ic_play_replay_pre);
                     }
+                }
+                break;
+            case R.id.song_icon:
+                if (NetUtil.isAvailable(ctx)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", mData);
+                    Intent it = new Intent();
+                    it.putExtras(bundle);
+                    it.setClass(ctx, SongerInfoActivity.class);
+                    startActivity(it);
+                } else {
+                    NetUtil.NetSetting(ctx);
                 }
                 break;
         }

@@ -61,7 +61,8 @@
 
         <activity android:name=".layout.AboutActivity" />
         <activity android:name=".layout.SingerInfoActivity" />
-        <activity android:name=".layout.SongListActivity"></activity>
+        <activity android:name=".layout.SongListActivity" />
+        <activity android:name=".layout.SongerInfoActivity"></activity>
     </application>
 
 </manifest>
