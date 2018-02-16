@@ -45,7 +45,7 @@ public class SongerListFragment extends RootFragment {
     GRLoadDialog loadDialog = null;
     //
     volatile int pageNo = 0;
-    final int limitNo = 15;
+    final int limitNo = 100;
     //
     SongerListAdapter songerListAdapter = null;
     StaggeredGridLayoutManager staggeredGridLayoutManager = null;
@@ -59,11 +59,11 @@ public class SongerListFragment extends RootFragment {
     RefreshSongerTask refreshSongerTask = null;
     LoadmoreSongerTask loadmoreSongerTask = null;
     //
-    final  int REFRESHCODE = 0x001;
-    final  int LOADMORECODE = 0x002;
-    final  int UPDATECODE = 0x003;
-    final  int ERRORCODE = 0x004;
-    final  int NODATACODE = 0x005;
+    final int REFRESHCODE = 0x001;
+    final int LOADMORECODE = 0x002;
+    final int UPDATECODE = 0x003;
+    final int ERRORCODE = 0x004;
+    final int NODATACODE = 0x005;
     Handler dkhandlder = new Handler() {
         @Override
         public void handleMessage(Message msg) {
