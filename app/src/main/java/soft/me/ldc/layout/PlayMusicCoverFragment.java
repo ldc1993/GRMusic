@@ -10,17 +10,20 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
+import soft.me.ldc.view.GRToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,7 +81,8 @@ public class PlayMusicCoverFragment extends RootFragment {
         }
     }
 
-    @OnClick({R.id.replay, R.id.song_icon})
+    // TODO: 2018/2/16 点击事件
+    @OnClick({R.id.replay, R.id.song_icon, R.id.author})
     public void ClickListener(View view) {
         switch (view.getId()) {
             case R.id.replay:
@@ -93,6 +97,9 @@ public class PlayMusicCoverFragment extends RootFragment {
                 }
                 break;
             case R.id.song_icon:
+                GRToastView.show(ctx, "长按获取歌手信息", Toast.LENGTH_SHORT);
+                break;
+            case R.id.author:
                 if (NetUtil.isAvailable(ctx)) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("data", mData);
@@ -105,5 +112,21 @@ public class PlayMusicCoverFragment extends RootFragment {
                 }
                 break;
         }
+    }
+
+    // TODO: 2018/2/16 长按事件
+    @OnLongClick(R.id.song_icon)
+    public boolean LongClick(View v) {
+        if (NetUtil.isAvailable(ctx)) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("data", mData);
+            Intent it = new Intent();
+            it.putExtras(bundle);
+            it.setClass(ctx, SongerInfoActivity.class);
+            startActivity(it);
+        } else {
+            NetUtil.NetSetting(ctx);
+        }
+        return false;
     }
 }

@@ -9,7 +9,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.Html;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -51,9 +51,9 @@ public class SongerInfoActivity extends RootMusicActivity {
     //
     volatile PlayMusicSongBean mData = null;
     //
-    final  int SUCCESSCODE = 0x000;
-    final  int FAILEDCODE = 0x001;
-    final  int ERRORCODE = 0x002;
+    final int SUCCESSCODE = 0x000;
+    final int FAILEDCODE = 0x001;
+    final int ERRORCODE = 0x002;
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -122,23 +122,19 @@ public class SongerInfoActivity extends RootMusicActivity {
             });
             setSupportActionBar(mToolbar);
         }
+        //初始化数据
         RunRefreshInfoTask(mData.songinfo.ting_uid);
-
     }
 
 
     // TODO: 2018/2/16 点击事件
-    @OnClick({R.id.mMore})
+    @OnClick(R.id.mMore)
     public void Click(View view) {
-        switch (view.getId()) {
-            case R.id.mMore:
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse(InfoUrl);
-                intent.setData(content_url);
-                startActivity(intent);
-                break;
-        }
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(InfoUrl);
+        intent.setData(content_url);
+        startActivity(intent);
     }
 
     //刷新
