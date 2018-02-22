@@ -22,7 +22,7 @@ import soft.me.ldc.view.GRToastView;
 
 public class PlayMusicTask extends ThreadTask {
 
-    private static PlayMusicTask instance = null;
+    private volatile static PlayMusicTask instance = null;
     //歌词id
     String songid = "";
     //
@@ -37,9 +37,11 @@ public class PlayMusicTask extends ThreadTask {
     volatile boolean IsNewPlay = true;
 
     public static PlayMusicTask Instance(Context ctx, int priority) {
-        synchronized (PlayMusicTask.class) {
-            if (instance == null)
-                instance = new PlayMusicTask(ctx, priority);
+        if (instance == null) {
+            synchronized (PlayMusicTask.class) {
+                if (instance == null)
+                    instance = new PlayMusicTask(ctx, priority);
+            }
         }
         return instance;
 
@@ -98,7 +100,7 @@ public class PlayMusicTask extends ThreadTask {
             return;
         try {
             //获取网络数据
-            String str = HttpService.Instance(ctx).PlayMusicSong(songid);
+            String str = HttpService.INSTANCE.PlayMusicSong(songid);
             if (StringUtil.isNotBlank(str)) {
                 PlayMusicSongBean mDate = null;
                 //解析数据

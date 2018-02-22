@@ -18,27 +18,11 @@ import soft.me.ldc.config.AppConfig;
  * Created by ldc45 on 2018/1/13.
  */
 
-public class HttpService {
-
-    private static HttpService instance = null;
-    private Context ctx = null;
-
-    public static HttpService Instance(Context ctx) {
-
-        synchronized (HttpService.class) {
-            if (instance == null) {
-                instance = new HttpService(ctx);
-            }
-
-        }
-        return instance;
-    }
-
-    private HttpService(Context ctx) {
-        this.ctx = ctx;
-    }
+public enum HttpService {
+    INSTANCE;
 
     String resultStr = null;
+
 
     /**
      * 音乐分类

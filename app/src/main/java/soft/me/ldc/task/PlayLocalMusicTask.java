@@ -19,7 +19,7 @@ import soft.me.ldc.view.GRToastView;
 
 public class PlayLocalMusicTask extends ThreadTask {
 
-    private static PlayLocalMusicTask instance = null;
+    private volatile static PlayLocalMusicTask instance = null;
     LocalMusicBean locMusicbean = null;
     //
     Context ctx;
@@ -31,9 +31,11 @@ public class PlayLocalMusicTask extends ThreadTask {
     volatile boolean IsNewPlay = true;
 
     public static PlayLocalMusicTask Instance(Context ctx, int priority) {
-        synchronized (PlayLocalMusicTask.class) {
-            if (instance == null)
-                instance = new PlayLocalMusicTask(ctx, priority);
+        if (instance == null) {
+            synchronized (PlayLocalMusicTask.class) {
+                if (instance == null)
+                    instance = new PlayLocalMusicTask(ctx, priority);
+            }
         }
         return instance;
 

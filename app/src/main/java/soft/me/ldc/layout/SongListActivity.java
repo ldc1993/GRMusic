@@ -240,7 +240,7 @@ public class SongListActivity extends RootMusicActivity {
             try {
                 gson = new Gson();
                 pageNo = 0;
-                String str = HttpService.Instance(ctx).SongList(tinguid, pageNo, limitNo);
+                String str = HttpService.INSTANCE.SongList(tinguid, pageNo, limitNo);
                 songList = gson.fromJson(str, SongListBean.class);
             } catch (Exception e) {
                 dkhandlder.sendEmptyMessage(ERRORCODE);
@@ -287,7 +287,7 @@ public class SongListActivity extends RootMusicActivity {
             try {
                 gson = new Gson();
                 pageNo++;
-                String str = HttpService.Instance(ctx).SongList(tinguid, pageNo, limitNo);
+                String str = HttpService.INSTANCE.SongList(tinguid, pageNo, limitNo);
                 songList = gson.fromJson(str, SongListBean.class);
             } catch (Exception e) {
                 dkhandlder.sendEmptyMessage(ERRORCODE);

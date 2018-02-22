@@ -37,7 +37,7 @@ public class DownloadMusicTask extends ThreadTask {
     NotificationCompat.Builder builder = null;
     NotificationManager notificationManager = null;
     //
-    static DownloadMusicTask instance = null;
+    volatile static DownloadMusicTask instance = null;
     //
     final static int SUCCESSCODE = 0x001;
     final static int FAILEDCODE = 0x002;
@@ -69,9 +69,11 @@ public class DownloadMusicTask extends ThreadTask {
 
     //单实例
     public static DownloadMusicTask Instance(Context ctx, int priority) {
-        synchronized (DownloadMusicTask.class) {
-            if (instance == null)
-                instance = new DownloadMusicTask(ctx, priority);
+        if (instance == null) {
+            synchronized (DownloadMusicTask.class) {
+                if (instance == null)
+                    instance = new DownloadMusicTask(ctx, priority);
+            }
         }
         return instance;
     }

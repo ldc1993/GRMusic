@@ -453,7 +453,7 @@ public class MainUI extends RootMusicActivity {
             try {
                 Gson gson = new Gson();
                 String adCode = aliLocInfo.AdCode;
-                String str = HttpService.Instance(ctx).Weather(adCode + "");
+                String str = HttpService.INSTANCE.Weather(adCode + "");
                 weatherBean = gson.fromJson(str, WeatherBean.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ErrorCode);

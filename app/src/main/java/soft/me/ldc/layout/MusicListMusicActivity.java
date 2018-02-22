@@ -227,7 +227,7 @@ public class MusicListMusicActivity extends RootMusicActivity {
             MusicListBean result = null;
             try {
                 pageNo = 0;
-                String str = HttpService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
+                String str = HttpService.INSTANCE.MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);
@@ -266,7 +266,7 @@ public class MusicListMusicActivity extends RootMusicActivity {
             MusicListBean result = null;
             try {
                 pageNo++;
-                String str = HttpService.Instance(ctx).MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
+                String str = HttpService.INSTANCE.MusicList(musicTypeBean.typeCode, 20 + "", pageNo + "");
                 if (gson == null)
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);

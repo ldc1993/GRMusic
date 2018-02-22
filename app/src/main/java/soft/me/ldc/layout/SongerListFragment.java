@@ -204,7 +204,7 @@ public class SongerListFragment extends RootFragment {
             try {
                 gson = new Gson();
                 pageNo = 0;
-                String str = HttpService.Instance(ctx).SongerList(pageNo, limitNo);
+                String str = HttpService.INSTANCE.SongerList(pageNo, limitNo);
                 songer = gson.fromJson(str, SongerListBean.class);
             } catch (Exception e) {
                 dkhandlder.sendEmptyMessage(ERRORCODE);
@@ -246,7 +246,7 @@ public class SongerListFragment extends RootFragment {
             try {
                 gson = new Gson();
                 pageNo++;
-                String str = HttpService.Instance(ctx).SongerList(pageNo, limitNo);
+                String str = HttpService.INSTANCE.SongerList(pageNo, limitNo);
                 songer = gson.fromJson(str, SongerListBean.class);
             } catch (Exception e) {
                 dkhandlder.sendEmptyMessage(ERRORCODE);

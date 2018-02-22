@@ -227,7 +227,7 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNo = 0;
-                String str = HttpService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
+                String str = HttpService.INSTANCE.RadioStationSong(qry, PageNo + "", 20 + "");
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {
@@ -275,7 +275,7 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
                 if (gson == null)
                     gson = new Gson();
                 PageNo++;
-                String str = HttpService.Instance(ctx).RadioStationSong(qry, PageNo + "", 20 + "");
+                String str = HttpService.INSTANCE.RadioStationSong(qry, PageNo + "", 20 + "");
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {
