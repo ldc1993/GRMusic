@@ -9,9 +9,6 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
 
-import java.net.HttpCookie;
-
-import soft.me.ldc.config.App;
 import soft.me.ldc.config.AppConfig;
 
 /**
