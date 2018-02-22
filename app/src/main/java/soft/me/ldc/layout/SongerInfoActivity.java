@@ -171,7 +171,7 @@ public class SongerInfoActivity extends RootMusicActivity {
             SongerInfoBean infoBean = null;
             try {
                 gson = new Gson();
-                String str = HttpService.INSTANCE.SongerInfo(tinguid);
+                String str = HttpService.INSTANCE.Service(ctx).SongerInfo(tinguid);
                 infoBean = gson.fromJson(str, SongerInfoBean.class);
             } catch (Exception e) {
                 dkhandler.sendEmptyMessage(ERRORCODE);

@@ -100,7 +100,7 @@ public class PlayMusicTask extends ThreadTask {
             return;
         try {
             //获取网络数据
-            String str = HttpService.INSTANCE.PlayMusicSong(songid);
+            String str = HttpService.INSTANCE.Service(ctx).PlayMusicSong(songid);
             if (StringUtil.isNotBlank(str)) {
                 PlayMusicSongBean mDate = null;
                 //解析数据

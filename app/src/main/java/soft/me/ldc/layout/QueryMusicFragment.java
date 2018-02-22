@@ -248,7 +248,7 @@ public class QueryMusicFragment extends RootFragment {
                 if (gson == null)
                     gson = new Gson();
                 PageNO = 0;
-                String str = HttpService.INSTANCE.QueryMusic(qry, "" + PageNO, "" + 20);
+                String str = HttpService.INSTANCE.Service(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {
@@ -298,7 +298,7 @@ public class QueryMusicFragment extends RootFragment {
                 if (gson == null)
                     gson = new Gson();
                 PageNO++;
-                String str = HttpService.INSTANCE.QueryMusic(qry, "" + PageNO, "" + 20);
+                String str = HttpService.INSTANCE.Service(ctx).QueryMusic(qry, "" + PageNO, "" + 20);
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {

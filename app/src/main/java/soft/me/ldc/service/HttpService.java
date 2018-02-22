@@ -20,9 +20,13 @@ import soft.me.ldc.config.AppConfig;
 
 public enum HttpService {
     INSTANCE;
-
+    Context ctx = null;
     String resultStr = null;
 
+    public HttpService Service(Context ctx) {
+        this.ctx = ctx;
+        return this;
+    }
 
     /**
      * 音乐分类

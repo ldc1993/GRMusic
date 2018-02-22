@@ -197,7 +197,7 @@ public class RadioStationFragment extends RootFragment {
             try {
                 if (gson == null)
                     gson = new Gson();
-                String str = HttpService.INSTANCE.RadioStation();
+                String str = HttpService.INSTANCE.Service(ctx).Service(ctx).RadioStation();
                 radioStationBean = gson.fromJson(str, RadioStationBean.class);
 
             } catch (Exception e) {
