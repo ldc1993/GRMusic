@@ -88,7 +88,7 @@ public class PlayMusicLyricFragment extends RootFragment {
 
     @Override
     protected void NewCreate(@Nullable Bundle savedInstanceState) throws Exception {
-        PlayMusicMusicActivity playMusicActivity = (PlayMusicMusicActivity) act;
+        PlayMusicActivity playMusicActivity = (PlayMusicActivity) act;
         playService = playMusicActivity.getPlayService();
     }
 

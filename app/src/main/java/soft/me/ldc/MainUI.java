@@ -44,13 +44,12 @@ import soft.me.ldc.adapter.MainUIViewPagerAdapter;
 import soft.me.ldc.adapter.viewholder.MainUIMenuListAdapter;
 import soft.me.ldc.ali.AliLocInfo;
 import soft.me.ldc.ali.AliLocLocation;
-import soft.me.ldc.animotion.ZoomOutPageTransformer;
 import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
 import soft.me.ldc.layout.MusicFindFragment;
-import soft.me.ldc.layout.PlayMusicMusicActivity;
+import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
 import soft.me.ldc.layout.SongerListFragment;
@@ -212,9 +211,9 @@ public class MainUI extends RootMusicActivity {
         }
         //指示器
         {
-            tabTitle.setBackgroundColor(Color.parseColor("#F44236"));
+            tabTitle.setBackgroundColor(Color.parseColor("#3F51B5"));
             tabTitle.setGravity(Gravity.CENTER_VERTICAL);
-            tabTitle.setDrawFullUnderline(true);//是否显示下划线
+            tabTitle.setDrawFullUnderline(false);//是否显示下划线
             tabTitle.setTabIndicatorColor(Color.parseColor("#F44236"));//指示器颜色
             tabTitle.setTextColor(Color.parseColor("#ffffff"));
             tabTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
@@ -261,7 +260,7 @@ public class MainUI extends RootMusicActivity {
             pagerAdapter.pustTitle(titles);
             //
             mViewPager.setCurrentItem(0);
-            mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+            //mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
             mViewPager.addOnPageChangeListener(new PagerViewListener());
             mViewPager.setAdapter(pagerAdapter);
             mViewPager.setOffscreenPageLimit(4);//预加载界面
@@ -315,7 +314,7 @@ public class MainUI extends RootMusicActivity {
                     bundle = new Bundle();
                     bundle.putSerializable("play", mData);
                     bundle.putBoolean("play_new_song", false);
-                    Intent it = new Intent(ctx, PlayMusicMusicActivity.class);
+                    Intent it = new Intent(ctx, PlayMusicActivity.class);
                     it.putExtras(bundle);
                     startActivity(it);
                 } else {

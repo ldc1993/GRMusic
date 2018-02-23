@@ -6,6 +6,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -91,12 +94,13 @@ public class PlayService extends Service {
             builder = new NotificationCompat.Builder(this);
         if (remoteViews == null)
             remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        //builder.setAutoCancel(true);
+        builder.setSmallIcon(R.mipmap.me);
         builder.setOngoing(true);//常驻
-        builder.setWhen(System.currentTimeMillis());//展示时间
+        builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setTicker("欢迎使用~");
-        //builder.setCustomBigContentView(remoteViews);
+        builder.setContentTitle(mData.songinfo.title);
+        builder.setContentText(mData.songinfo.author);
+        builder.setContentInfo("小宝");
         builder.setContentIntent(PendingIntent.getBroadcast(this, notiId, contentIt(), PendingIntent.FLAG_UPDATE_CURRENT));
 
     }

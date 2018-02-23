@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="soft.me.ldc.layout.PlayMusicMusicActivity">
+    tools:context="soft.me.ldc.layout.PlayMusicActivity">
 
     <soft.me.ldc.view.GRToolbar
         android:id="@+id/mToolbar"

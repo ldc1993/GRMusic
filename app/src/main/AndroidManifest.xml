@@ -43,7 +43,7 @@
             android:name=".layout.RadioStationSongMusicActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".layout.PlayMusicMusicActivity"
+            android:name=".layout.PlayMusicActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
 

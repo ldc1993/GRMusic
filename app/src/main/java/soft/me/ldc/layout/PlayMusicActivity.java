@@ -29,7 +29,7 @@ import soft.me.ldc.view.GRToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
 
-public class PlayMusicMusicActivity extends RootMusicActivity {
+public class PlayMusicActivity extends RootMusicActivity {
 
     @BindView(R.id.mToolbar)
     GRToolbar mToolbar;
