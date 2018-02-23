@@ -91,18 +91,13 @@ public class PlayService extends Service {
             builder = new NotificationCompat.Builder(this);
         if (remoteViews == null)
             remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
-        //消息id
-        if (mData != null && StringUtil.isNotBlank(mData.songinfo.song_id)) {
-            notiId = Integer.parseInt(mData.songinfo.song_id);
-        }
         builder.setSmallIcon(R.mipmap.ic_launcher);
         //builder.setAutoCancel(true);
         builder.setOngoing(true);//常驻
-        builder.setPriority(Notification.PRIORITY_DEFAULT);
         builder.setWhen(System.currentTimeMillis());//展示时间
         builder.setTicker("欢迎使用~");
         //builder.setCustomBigContentView(remoteViews);
-        builder.setContentIntent(PendingIntent.getService(this, notiId, contentIt(), PendingIntent.FLAG_CANCEL_CURRENT));
+        builder.setContentIntent(PendingIntent.getBroadcast(this, notiId, contentIt(), PendingIntent.FLAG_UPDATE_CURRENT));
 
     }
 

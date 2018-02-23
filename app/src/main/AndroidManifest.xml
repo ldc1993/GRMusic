@@ -44,6 +44,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".layout.PlayMusicMusicActivity"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
 
         <!-- 音乐服务 -->

@@ -13,6 +13,8 @@ import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.view.GRToastView;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * Created by ldc45 on 2018/1/20.
  */
@@ -57,6 +59,7 @@ public class PlayLocalMusicTask extends ThreadTask {
                         Intent it = new Intent();
                         it.putExtras(bundle);
                         it.setClass(ctx, PlayMusicMusicActivity.class);
+                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
                         ctx.startActivity(it);
 
                     } else {
