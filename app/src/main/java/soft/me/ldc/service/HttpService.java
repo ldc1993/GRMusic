@@ -40,7 +40,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.INSTANCE.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.billboard.billList");
             request.add("type", type);
             request.add("size", size);
@@ -78,7 +78,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.search.merge");//方法
             request.add("from", "android");//平台
             request.add("version", "5.6.5.0");//版本
@@ -119,7 +119,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.radio.getCategoryList");//方法
             request.add("from", "android");//平台
             request.add("version", "2.1.0");//版本
@@ -153,7 +153,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.radio.getChannelSong");//方法
             request.add("from", "android");//平台
             request.add("version", "2.1.0");//版本
@@ -190,7 +190,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.GET);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.GET);
             request.add("method", "baidu.ting.song.play");//方法
             request.add("songid", songId);//歌曲id
             request.add("format", "json");//返回格式
@@ -222,7 +222,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.WeatherUrl, RequestMethod.POST);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.WeatherUrl, RequestMethod.POST);
             request.add("key", "c705dedc6d9d2f0b2c43f3a21817568a");
             request.add("city", city + "");
             request.add("extensions", "base");
@@ -257,7 +257,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.POST);
             request.add("from", "qianqian");
             request.add("version", "2.1.0");
             request.add("method", "baidu.ting.artist.get72HotArtist");
@@ -293,7 +293,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.POST);
             request.add("from", "qianqian");
             request.add("version", "2.1.0");
             request.add("method", "baidu.ting.artist.getSongList");
@@ -329,7 +329,7 @@ public enum HttpService {
         Request<String> request = null;
         try {
             if (request == null)
-                request = NoHttp.createStringRequest(AppConfig.ServiceUrl, RequestMethod.POST);
+                request = NoHttp.createStringRequest(AppConfig.INSTANCE.ServiceUrl, RequestMethod.POST);
             request.add("from", "qianqian");
             request.add("version", "2.1.0");
             request.add("method", "baidu.ting.artist.getinfo");

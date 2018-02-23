@@ -34,7 +34,7 @@ import soft.me.ldc.utils.StringUtil;
  */
 public class PlayMusicLyricFragment extends RootFragment {
     //歌词下载路径
-    final static String LrcDir = AppConfig.RootDir + "lrc" + File.separator;
+    final static String LrcDir = AppConfig.INSTANCE.RootDir + "lrc" + File.separator;
     //播放服务
     volatile PlayService.ServiceBind playService = null;
     //数据
@@ -46,10 +46,10 @@ public class PlayMusicLyricFragment extends RootFragment {
     //消息
     Message msg = null;
     //
-    final  int FAILEDCODE = 0x000;//失败
-    final  int SUCCESSCODE = 0x001;//成功
-    final  int UPDATECODE = 0x002;//更新
-    final  int DOWNLOADCODE = 0x003;//下载
+    final int FAILEDCODE = 0x000;//失败
+    final int SUCCESSCODE = 0x001;//成功
+    final int UPDATECODE = 0x002;//更新
+    final int DOWNLOADCODE = 0x003;//下载
     Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -28,7 +28,7 @@ import soft.me.ldc.view.GRToastView;
  */
 
 public class DownloadMusicTask extends ThreadTask {
-    final static String SongDir = AppConfig.RootDir + "music" + File.separator;
+    final static String SongDir = AppConfig.INSTANCE.RootDir + "music" + File.separator;
     PlayMusicSongBean mData = null;
     Context ctx = null;
     Message msg = null;

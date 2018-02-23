@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
     <application
         android:name=".config.App"
@@ -62,7 +63,14 @@
 
         <activity android:name=".layout.AboutActivity" />
         <activity android:name=".layout.SongListActivity" />
-        <activity android:name=".layout.SongerInfoActivity"></activity>
+        <activity android:name=".layout.SongerInfoActivity" />
+        <!--广播接收器-->
+        <receiver android:name=".broadcast.Broadcast">
+            <intent-filter>
+                <action android:name="android.intent.action.Notify" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

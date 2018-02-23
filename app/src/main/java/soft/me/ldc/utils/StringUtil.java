@@ -20,20 +20,20 @@ import java.util.regex.Pattern;
 public class StringUtil
 {
 	private final static Pattern emailer = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
-	//private final static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	//private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-dd");
+	//private final static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-Broadcast HH:mm:ss");
+	//private final static SimpleDateFormat dateFormater2 = new SimpleDateFormat("yyyy-MM-Broadcast");
 	
 	private final static ThreadLocal<SimpleDateFormat> dateFormater = new ThreadLocal<SimpleDateFormat>() {
 		@Override
 		protected SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.CHINA);
+			return new SimpleDateFormat("yyyy-MM-Broadcast HH:mm:ss",Locale.CHINA);
 		}
 	};
 	
 	private final static ThreadLocal<SimpleDateFormat> dateFormater2 = new ThreadLocal<SimpleDateFormat>() {
 		@Override
 		protected SimpleDateFormat initialValue() {
-			return new SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
+			return new SimpleDateFormat("yyyy-MM-Broadcast",Locale.CHINA);
 		}
 	};
 	

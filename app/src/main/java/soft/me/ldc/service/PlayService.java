@@ -1,6 +1,8 @@
 package soft.me.ldc.service;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -18,6 +21,7 @@ import java.io.IOException;
 
 import soft.me.ldc.R;
 import soft.me.ldc.component.MusicPlayer;
+import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.utils.StringUtil;
@@ -46,9 +50,7 @@ public class PlayService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PLAYCODE:
-                    if (mData != null && StringUtil.isNotBlank(mData.songinfo.song_id)) {
-                        notiId = Integer.parseInt(mData.songinfo.song_id);
-                    }
+
                     notificationManager.notify(notiId, builder.build());
                     break;
                 case PAUSECODE:
@@ -77,8 +79,6 @@ public class PlayService extends Service {
         player.setOnPreparedListener(new MediaPlayerListener());
         player.setOnCompletionListener(new MediaPlayerListener());
         player.setOnSeekCompleteListener(new MediaPlayerListener());
-        //初始化对话框
-        initNotify();
 
     }
 
@@ -91,9 +91,31 @@ public class PlayService extends Service {
             builder = new NotificationCompat.Builder(this);
         if (remoteViews == null)
             remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
-        builder.setCustomBigContentView(remoteViews);
+        //消息id
+        if (mData != null && StringUtil.isNotBlank(mData.songinfo.song_id)) {
+            notiId = Integer.parseInt(mData.songinfo.song_id);
+        }
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        //builder.setAutoCancel(true);
+        builder.setOngoing(true);//常驻
+        builder.setPriority(Notification.PRIORITY_DEFAULT);
+        builder.setWhen(System.currentTimeMillis());//展示时间
         builder.setTicker("欢迎使用~");
+        //builder.setCustomBigContentView(remoteViews);
+        builder.setContentIntent(PendingIntent.getService(this, notiId, contentIt(), PendingIntent.FLAG_CANCEL_CURRENT));
 
+    }
+
+    //点击状态栏
+    private Intent contentIt() {
+        Intent it = new Intent();
+        it.setAction(AppConfig.INSTANCE.broadCast_ItCode);
+        if (this.mData != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("data", this.mData);
+            it.putExtras(bundle);
+        }
+        return it;
     }
 
     @Override
@@ -106,6 +128,7 @@ public class PlayService extends Service {
         player.stop();
         player.release();
         player = null;
+        notificationManager.cancel(notiId);
         return super.onUnbind(intent);
     }
 
@@ -167,6 +190,9 @@ public class PlayService extends Service {
                 player.prepareAsync();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                //初始化对话框
+                initNotify();
             }
         }
 
