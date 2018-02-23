@@ -98,6 +98,7 @@ public class DownloadMusicTask extends ThreadTask {
             return;
         //
         builder.setTicker("下载任务");
+        builder.setAutoCancel(true);//自动取消
         builder.setContentTitle(mData.songinfo.title);
         builder.setSmallIcon(R.drawable.play_icon_download);
         builder.setContentText("请稍等...");

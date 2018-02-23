@@ -11,7 +11,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
@@ -50,7 +50,6 @@ public class PlayService extends Service {
                         notiId = Integer.parseInt(mData.songinfo.song_id);
                     }
                     notificationManager.notify(notiId, builder.build());
-
                     break;
                 case PAUSECODE:
                     break;
@@ -92,10 +91,9 @@ public class PlayService extends Service {
             builder = new NotificationCompat.Builder(this);
         if (remoteViews == null)
             remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
-        builder.setSmallIcon(R.mipmap.ic_launcher)
-                .setOngoing(true)
-                .setCustomBigContentView(remoteViews)//设置普通notification视图
-                .setPriority(NotificationCompat.PRIORITY_MAX);
+        builder.setCustomBigContentView(remoteViews);
+        builder.setTicker("欢迎使用~");
+
     }
 
     @Override
@@ -210,8 +208,10 @@ public class PlayService extends Service {
         //暂停
         @Override
         public void Pause() {
-            if (player.isPlaying())
+            if (player.isPlaying()) {
                 player.pause();
+                dkhandler.sendEmptyMessage(PAUSECODE);
+            }
         }
 
         //滑动
