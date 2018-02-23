@@ -1,21 +1,26 @@
 package soft.me.ldc.service;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
+import android.os.Message;
+import android.support.v7.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import java.io.IOException;
 
+import soft.me.ldc.R;
 import soft.me.ldc.component.MusicPlayer;
 import soft.me.ldc.iface.IPlayMusic;
 import soft.me.ldc.model.PlayMusicSongBean;
+import soft.me.ldc.utils.StringUtil;
 
 /**
  * Created by ldc45 on 2018/1/16.
@@ -25,8 +30,35 @@ public class PlayService extends Service {
     volatile MusicPlayer player = null;
     volatile float currSize = 0;
     volatile float allSize = 0;
+    volatile PlayMusicSongBean mData = null;
+    //通知栏
+    NotificationCompat.Builder builder = null;
+    NotificationManager notificationManager = null;
+    RemoteViews remoteViews = null;
+    volatile int notiId = 999;
 
-    Handler dkhandler = new Handler();
+    //
+    final int PLAYCODE = 0x000;//播放
+    final int PAUSECODE = 0x001;//暂停
+    final int NEXTCODE = 0x002;//下一首
+    Handler dkhandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case PLAYCODE:
+                    if (mData != null && StringUtil.isNotBlank(mData.songinfo.song_id)) {
+                        notiId = Integer.parseInt(mData.songinfo.song_id);
+                    }
+                    notificationManager.notify(notiId, builder.build());
+
+                    break;
+                case PAUSECODE:
+                    break;
+                case NEXTCODE:
+                    break;
+            }
+        }
+    };
     //更新当前进度
     private Runnable CurrPlaySizeRun = new Runnable() {
         @Override
@@ -46,6 +78,24 @@ public class PlayService extends Service {
         player.setOnPreparedListener(new MediaPlayerListener());
         player.setOnCompletionListener(new MediaPlayerListener());
         player.setOnSeekCompleteListener(new MediaPlayerListener());
+        //初始化对话框
+        initNotify();
+
+    }
+
+    //初始化对话框
+    private void initNotify() {
+        //初始化
+        if (notificationManager == null)
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (builder == null)
+            builder = new NotificationCompat.Builder(this);
+        if (remoteViews == null)
+            remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setOngoing(true)
+                .setCustomBigContentView(remoteViews)//设置普通notification视图
+                .setPriority(NotificationCompat.PRIORITY_MAX);
     }
 
     @Override
@@ -89,6 +139,7 @@ public class PlayService extends Service {
             mp.start();
             allSize = mp.getDuration();//获取文件大小
             dkhandler.post(CurrPlaySizeRun);
+            dkhandler.sendEmptyMessage(PLAYCODE);//播放
         }
 
         @Override
@@ -105,12 +156,12 @@ public class PlayService extends Service {
 
     // TODO: 2018/1/20  绑定服务
     public class ServiceBind extends Binder implements IPlayMusic {
-        volatile PlayMusicSongBean mData = null;
+
 
         @Override
         public void Play(PlayMusicSongBean mData) {
             try {
-                this.mData = mData;
+                PlayService.this.mData = mData;
                 //资源准备
                 player.reset();
                 player.seekTo(0);

@@ -17,6 +17,8 @@ import soft.me.ldc.config.AppConfig;
 
 public enum HttpService {
     INSTANCE;
+
+
     Context ctx = null;
     String resultStr = null;
 
