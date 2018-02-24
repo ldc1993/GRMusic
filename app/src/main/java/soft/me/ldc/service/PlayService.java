@@ -95,7 +95,7 @@ public class PlayService extends Service {
         if (remoteViews == null)
             remoteViews = new RemoteViews(getPackageName(), R.layout.notifi_music_view);
         builder.setSmallIcon(R.mipmap.me);
-        builder.setOngoing(true);//常驻
+        builder.setOngoing(false);//常驻
         builder.setPriority(NotificationCompat.PRIORITY_MAX);
         builder.setTicker("欢迎使用~");
         builder.setContentTitle(mData.songinfo.title);
