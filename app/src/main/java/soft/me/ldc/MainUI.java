@@ -48,7 +48,6 @@ import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.common.service.MultiThreadService;
 import soft.me.ldc.layout.AboutActivity;
 import soft.me.ldc.layout.LocalMusicFragment;
-import soft.me.ldc.layout.MusicFindFragment;
 import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.layout.QueryMusicFragment;
 import soft.me.ldc.layout.RadioStationFragment;
@@ -244,13 +243,11 @@ public class MainUI extends RootMusicActivity {
             //添加页面
             fragments.add(new LocalMusicFragment());
             fragments.add(new SongerListFragment());
-            fragments.add(new MusicFindFragment());
             fragments.add(new RadioStationFragment());
             fragments.add(new QueryMusicFragment());
             //添加标题
             titles.add("我的音乐");
             titles.add("歌手");
-            titles.add("发现");
             titles.add("电台");
             titles.add("音乐搜索");
 
@@ -260,10 +257,9 @@ public class MainUI extends RootMusicActivity {
             pagerAdapter.pustTitle(titles);
             //
             mViewPager.setCurrentItem(0);
-            //mViewPager.setPageTransformer(false, new ZoomOutPageTransformer());
+            mViewPager.setOffscreenPageLimit(4);//预加载界面
             mViewPager.addOnPageChangeListener(new PagerViewListener());
             mViewPager.setAdapter(pagerAdapter);
-            mViewPager.setOffscreenPageLimit(4);//预加载界面
         }
         //显示播放
         dkhandler.sendEmptyMessage(GetPlayMusicCode);
