@@ -59,11 +59,11 @@ public class QueryMusicFragment extends RootFragment {
     //
     Message msg = null;
     //
-     final int REFRESHCODE = 0x000;//下拉刷新
-     final int LOADMORECODE = 0x001;//上拉刷新
-     final int UPDATEVIEWCODE = 0x002;//更新数据
-     final int NODATACODE = 0x003;//没有数据
-     final int ERRORCODE = 0x004;//错误
+    final int REFRESHCODE = 0x000;//下拉刷新
+    final int LOADMORECODE = 0x001;//上拉刷新
+    final int UPDATEVIEWCODE = 0x002;//更新数据
+    final int NODATACODE = 0x003;//没有数据
+    final int ERRORCODE = 0x004;//错误
 
 
     private Handler dkhandler = new Handler() {
@@ -71,7 +71,11 @@ public class QueryMusicFragment extends RootFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REFRESHCODE:
-                    RunRefreshTask("光良");
+                    if (StringUtil.isNotBlank(mSearcView.getKey().toString())) {
+                        RunRefreshTask(mSearcView.getKey().toString());
+                    } else {
+                        RunRefreshTask("周杰伦");
+                    }
                     break;
                 case LOADMORECODE:
                     RunLoadmoreTask(mSearcView.getKey().toString());
@@ -194,7 +198,7 @@ public class QueryMusicFragment extends RootFragment {
         @Override
         public void onSearchClick(View view, String key) {
             if (StringUtil.isNotBlank(key)) {
-                RunLoadmoreTask(key);
+                RunRefreshTask(key);
             } else {
                 RunRefreshTask("");
             }
