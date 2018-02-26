@@ -74,7 +74,7 @@ public class QueryMusicFragment extends RootFragment {
                     RunRefreshTask("光良");
                     break;
                 case LOADMORECODE:
-                    RunRefreshTask(mSearcView.getKey().toString());
+                    RunLoadmoreTask(mSearcView.getKey().toString());
                     break;
                 case UPDATEVIEWCODE:
                     QueryMusicBean data = (QueryMusicBean) msg.obj;
