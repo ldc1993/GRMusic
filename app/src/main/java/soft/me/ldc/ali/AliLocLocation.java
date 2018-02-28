@@ -32,13 +32,13 @@ public class AliLocLocation {
     }
 
     //初始化
-    public void Initial(Context ctx) {
+    private void Initial(Context ctx) {
         //配置
         locationClientOption = new AMapLocationClientOption();
         locationClientOption.setLocationPurpose(AMapLocationPurpose.SignIn);
-//        locationClientOption.setLocationMode(AMapLocationMode.Battery_Saving);//高精度
+        //locationClientOption.setLocationMode(AMapLocationMode.Battery_Saving);//高精度
         locationClientOption.setLocationMode(AMapLocationMode.Battery_Saving);//低功耗
-//        locationClientOption.setLocationMode(AMapLocationMode.Device_Sensors);//设备模式
+        //locationClientOption.setLocationMode(AMapLocationMode.Device_Sensors);//设备模式
         locationClientOption.setOnceLocationLatest(true);
         locationClientOption.setOnceLocation(false);//获取一次定位结果
         locationClientOption.setInterval(5000);//定位频率
