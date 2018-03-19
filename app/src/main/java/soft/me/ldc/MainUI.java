@@ -127,7 +127,6 @@ public class MainUI extends RootMusicActivity {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_NETWORK_STATE,
-            //Manifest.permission.WRITE_SETTINGS,
             Manifest.permission.CAMERA//拍照
     };
     //消息
