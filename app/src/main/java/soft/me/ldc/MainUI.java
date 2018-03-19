@@ -91,7 +91,7 @@ public class MainUI extends RootMusicActivity {
     ImageButton playNext;
     @BindView(R.id.playBar)
     LinearLayoutCompat playBar;
-    //@BindView(R.id.appVersion)
+    @BindView(R.id.appVersion)
     AppCompatTextView appVersion;
     //启动多线程意图
     Intent multiTSIt = null;
