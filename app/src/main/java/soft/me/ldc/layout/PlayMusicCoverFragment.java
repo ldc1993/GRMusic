@@ -23,7 +23,7 @@ import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,7 +97,7 @@ public class PlayMusicCoverFragment extends RootFragment {
                 }
                 break;
             case R.id.song_icon:
-                GRToastView.show(ctx, "长按获取歌手信息", Toast.LENGTH_SHORT);
+                ToastView.show(ctx, "长按获取歌手信息", Toast.LENGTH_SHORT);
                 break;
             case R.id.author:
                 if (NetUtil.isAvailable(ctx)) {

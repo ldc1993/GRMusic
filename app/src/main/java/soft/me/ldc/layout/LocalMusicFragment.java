@@ -28,7 +28,7 @@ import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.task.PlayLocalMusicTask;
 import soft.me.ldc.utils.MusicManager;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,13 +59,13 @@ public class LocalMusicFragment extends RootFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case ERRORCODE:
-                    GRToastView.show(ctx, "错误~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误~", Toast.LENGTH_SHORT);
                     break;
                 case REFRESHCODE:
                     RunQueryMusicTask();
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
                     break;
                 case UPDATEDATACODE:
                     List<LocalMusicBean> beans = (List<LocalMusicBean>) msg.obj;

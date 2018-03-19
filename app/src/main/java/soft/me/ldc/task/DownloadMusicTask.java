@@ -21,7 +21,7 @@ import soft.me.ldc.common.ThreadTask;
 import soft.me.ldc.config.AppConfig;
 import soft.me.ldc.model.PlayMusicSongBean;
 import soft.me.ldc.utils.StringUtil;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * Created by liudi on 2018/2/12.
@@ -47,11 +47,11 @@ public class DownloadMusicTask extends ThreadTask {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SUCCESSCODE:
-                    GRToastView.show(ctx, "下载成功", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "下载成功", Toast.LENGTH_SHORT);
                     notificationManager.cancel(Integer.parseInt(mData.songinfo.song_id));//取消消息栏
                     break;
                 case FAILEDCODE:
-                    GRToastView.show(ctx, "下载失败", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "下载失败", Toast.LENGTH_SHORT);
                     builder.setContentText("下载失败");
                     builder.setProgress(100, 0, false);
                     builder.setContentInfo("0%");

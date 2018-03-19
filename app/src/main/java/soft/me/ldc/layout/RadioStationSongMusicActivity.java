@@ -28,7 +28,7 @@ import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
 
 public class RadioStationSongMusicActivity extends RootMusicActivity {
@@ -90,10 +90,10 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
 
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -175,7 +175,7 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
                     playMusicTask.pushPlayState(true);
                     MultiThreadPool.newInsance().pushThread(playMusicTask);
                 } catch (Exception e) {
-                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
                     e.printStackTrace();
                 }
             } else {

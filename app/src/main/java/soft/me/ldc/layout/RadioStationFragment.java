@@ -11,7 +11,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,16 +21,14 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * 电台
@@ -106,10 +103,10 @@ public class RadioStationFragment extends RootFragment {
                     }
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "加载错误!", Toast.LENGTH_SHORT);
                     break;
             }
         }

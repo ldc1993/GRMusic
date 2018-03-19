@@ -31,7 +31,7 @@ import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
 import soft.me.ldc.view.GRSearchView;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,11 +98,11 @@ public class QueryMusicFragment extends RootFragment {
                     }
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据!", Toast.LENGTH_SHORT);
 
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "加载失败!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "加载失败!", Toast.LENGTH_SHORT);
                     break;
             }
         }
@@ -182,7 +182,7 @@ public class QueryMusicFragment extends RootFragment {
                     playMusicTask.pushPlayState(true);
                     MultiThreadPool.newInsance().pushThread(playMusicTask);
                 } catch (Exception e) {
-                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
                     e.printStackTrace();
                 }
             } else {

@@ -11,7 +11,7 @@ import soft.me.ldc.common.ThreadTask;
 import soft.me.ldc.layout.PlayMusicActivity;
 import soft.me.ldc.model.LocalMusicBean;
 import soft.me.ldc.model.PlayMusicSongBean;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * Created by ldc45 on 2018/1/20.
@@ -65,10 +65,10 @@ public class PlayLocalMusicTask extends ThreadTask {
                     }
                     break;
                 case FailedCode:
-                    GRToastView.show(ctx, "无效播放", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "无效播放", Toast.LENGTH_SHORT);
                     break;
                 case ErrorCode:
-                    GRToastView.show(ctx, "错误播放", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误播放", Toast.LENGTH_SHORT);
                     break;
             }
         }

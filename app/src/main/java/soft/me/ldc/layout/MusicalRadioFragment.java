@@ -20,7 +20,7 @@ import soft.me.ldc.adapter.MusicalRadioStationAdapter;
 import soft.me.ldc.base.RootFragment;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.utils.NetUtil;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,7 +93,7 @@ public class MusicalRadioFragment extends RootFragment {
                     it.putExtras(bundle);
                     startActivity(it);
                 } catch (Exception e) {
-                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
                     e.printStackTrace();
                 }
             } else {

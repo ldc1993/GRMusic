@@ -66,11 +66,11 @@ public abstract class RootMusicActivity extends AppCompatActivity {
             unbinder = ButterKnife.bind(this);
             Main();
         } catch (Exception e) {
-            Log.e("Error:", "" + e.getLocalizedMessage());
             if (e instanceof RuntimeException) {
                 finish();
             }
             e.printStackTrace();
+            throw e;
         }
 
     }

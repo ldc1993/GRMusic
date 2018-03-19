@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -29,7 +28,7 @@ import soft.me.ldc.model.SongerListBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,10 +86,10 @@ public class SongerListFragment extends RootFragment {
                     }
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "请求失败~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "请求失败~", Toast.LENGTH_SHORT);
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
                     break;
             }
 

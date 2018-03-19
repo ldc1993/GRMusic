@@ -6,6 +6,8 @@ import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
 
+import soft.me.ldc.exceptionhandler.MyExceptionHandler;
+
 /**
  * Created by ldc45 on 2018/1/13.
  */
@@ -23,5 +25,6 @@ public class App extends Application {
                 .retry(1)//提交次数
                 .build();
         NoHttp.initialize(config);
+        MyExceptionHandler.Self.INSTANCE.getHandler().SERVICE(getApplicationContext(), true);
     }
 }

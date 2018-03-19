@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import soft.me.ldc.R;
 import soft.me.ldc.base.RootMusicActivity;
 import soft.me.ldc.model.PlayMusicSongBean;
@@ -25,7 +24,7 @@ import soft.me.ldc.model.SongerInfoBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
 
 public class SongerInfoActivity extends RootMusicActivity {
@@ -90,7 +89,7 @@ public class SongerInfoActivity extends RootMusicActivity {
                     }
                     break;
                 case FAILEDCODE:
-                    GRToastView.show(ctx, "获取失败~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "获取失败~", Toast.LENGTH_SHORT);
                     break;
                 case ERRORCODE:
                     finish();

@@ -60,7 +60,7 @@ import soft.me.ldc.permission.PermissionIface;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.MusicManager;
 import soft.me.ldc.utils.StringUtil;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 
 public class MainUI extends RootMusicActivity {
 
@@ -91,7 +91,7 @@ public class MainUI extends RootMusicActivity {
     ImageButton playNext;
     @BindView(R.id.playBar)
     LinearLayoutCompat playBar;
-    @BindView(R.id.appVersion)
+    //@BindView(R.id.appVersion)
     AppCompatTextView appVersion;
     //启动多线程意图
     Intent multiTSIt = null;
@@ -121,6 +121,7 @@ public class MainUI extends RootMusicActivity {
     //
     //TODO: 需要的动态权限
     String[] permissions = {
+            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -159,7 +160,7 @@ public class MainUI extends RootMusicActivity {
                     }
                     break;
                 case ErrorCode:
-                    // GRToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
+                    // ToastView.show(ctx, "获取信息失败", Toast.LENGTH_SHORT);
                     break;
                 case RefreshWeatherCode://更新天气
                     RunGetWeatherTask((AliLocInfo) msg.obj);
@@ -313,11 +314,11 @@ public class MainUI extends RootMusicActivity {
                     it.putExtras(bundle);
                     startActivity(it);
                 } else {
-                    GRToastView.show(ctx, "没有可播放音乐哦", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有可播放音乐哦", Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.appVersion:
-                GRToastView.show(ctx, "" + BuildConfig.VERSION_NAME, Toast.LENGTH_SHORT);
+                ToastView.show(ctx, "" + BuildConfig.VERSION_NAME, Toast.LENGTH_SHORT);
                 break;
         }
     }
@@ -484,7 +485,7 @@ public class MainUI extends RootMusicActivity {
             for (String p : deniedPermissions) {
                 sb.append(p + "\n");
             }
-            GRToastView.show(ctx, "拒绝:" + sb.toString(), Toast.LENGTH_SHORT);
+            ToastView.show(ctx, "拒绝:" + sb.toString(), Toast.LENGTH_SHORT);
         }
     }
 

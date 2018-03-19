@@ -28,7 +28,7 @@ import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
 
 public class SongListActivity extends RootMusicActivity {
@@ -94,10 +94,10 @@ public class SongListActivity extends RootMusicActivity {
 
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "请求失败~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "请求失败~", Toast.LENGTH_SHORT);
                     break;
                 case NODATACODE:
-                    GRToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "没有数据~", Toast.LENGTH_SHORT);
                     break;
             }
 
@@ -171,7 +171,7 @@ public class SongListActivity extends RootMusicActivity {
                     playMusicTask.pushPlayState(true);
                     MultiThreadPool.newInsance().pushThread(playMusicTask);
                 } catch (Exception e) {
-                    GRToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
                     e.printStackTrace();
                 }
             } else {

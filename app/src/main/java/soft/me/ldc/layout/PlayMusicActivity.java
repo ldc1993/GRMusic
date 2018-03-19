@@ -25,7 +25,7 @@ import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.task.DownloadMusicTask;
 import soft.me.ldc.utils.ToFormat;
-import soft.me.ldc.view.GRToastView;
+import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
 
@@ -88,7 +88,7 @@ public class PlayMusicActivity extends RootMusicActivity {
 
                     break;
                 case ERRORCODE:
-                    GRToastView.show(ctx, "播放失败", Toast.LENGTH_SHORT);
+                    ToastView.show(ctx, "播放失败", Toast.LENGTH_SHORT);
                     break;
                 case ShowPlayInfo:
                     //播放状态
