@@ -27,7 +27,13 @@ public class MusicalRadioStationAdapter extends RootRecyclerViewAdapter<MusicalR
 
 
     public void pushData(List<RadioStationBean.ResultBean.ChannellistBean> mData) {
-        this.mData = mData;
+        if (this.mData == null) {
+            this.mData = mData;
+        } else {
+            if (this.mData.containsAll(mData)) {
+                this.mData.addAll(mData);
+            }
+        }
     }
 
     @Override

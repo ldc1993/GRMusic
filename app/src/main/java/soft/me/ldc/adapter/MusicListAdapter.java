@@ -25,7 +25,13 @@ public class MusicListAdapter extends RootRecyclerViewAdapter<MusicListViewHolde
     Context ctx = null;
 
     public void pushData(List<MusicListBean.SongListBean> mData) {
-        this.mData = mData;
+        if (this.mData == null) {
+            this.mData = mData;
+        } else {
+            if (this.mData.containsAll(mData)) {
+                this.mData.addAll(mData);
+            }
+        }
     }
 
     @Override

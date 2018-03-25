@@ -20,7 +20,13 @@ public class LocalMusicListAdapter extends RootRecyclerViewAdapter<LocalMusicLis
     OnItemListener itemListener = null;
 
     public void pushData(List<LocalMusicBean> localMusicBeans) {
-        this.localMusicBeans = localMusicBeans;
+        if (this.localMusicBeans == null) {
+            this.localMusicBeans = localMusicBeans;
+        } else {
+            if (this.localMusicBeans.containsAll(localMusicBeans)) {
+                this.localMusicBeans.addAll(localMusicBeans);
+            }
+        }
     }
 
     @Override
