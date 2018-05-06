@@ -2,6 +2,7 @@ package soft.me.ldc.config;
 
 import android.app.Application;
 
+import com.tencent.bugly.Bugly;
 import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.OkHttpNetworkExecutor;
@@ -26,5 +27,6 @@ public class App extends Application {
                 .build();
         NoHttp.initialize(config);
         MyExceptionHandler.Self.INSTANCE.getHandler().SERVICE(getApplicationContext(), true);
+        Bugly.init(getApplicationContext(), "27190edbd9", false);
     }
 }
