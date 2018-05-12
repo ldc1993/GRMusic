@@ -200,7 +200,19 @@ public class MainUI extends RootMusicActivity {
         // TODO: 2018/1/20  持久层任务//多线程
         startService(multiTSIt);
         if (Build.VERSION.SDK_INT >= 23) {
-            requestRunTimePermission(permissions, new RunTimePermission());
+            requestRunTimePermission(permissions, new PermissionIface() {
+                @Override
+                public void onGranted() {
+
+                }
+
+                @Override
+                public void onDenied(List<String> deniedPermissions) {
+                    for (String itemStr : deniedPermissions) {
+                        ToastView.show(ctx, "拒绝:" + itemStr, Toast.LENGTH_LONG);
+                    }
+                }
+            });
         }
         // TODO: 2018/2/16 定位
         {
@@ -467,25 +479,6 @@ public class MainUI extends RootMusicActivity {
                 dkhandler.sendMessage(msg);
             }
 
-        }
-    }
-
-    // TODO: 2017/11/20 请求运行时动态权限
-    class RunTimePermission implements PermissionIface {
-
-        @Override
-        public void onGranted() {
-            // TODO: 2017/11/20 授权成功
-        }
-
-        @Override
-        public void onDenied(List<String> deniedPermissions) {
-            StringBuilder sb = new StringBuilder();
-            sb.delete(0, sb.length());
-            for (String p : deniedPermissions) {
-                sb.append(p + "\n");
-            }
-            ToastView.show(ctx, "拒绝:" + sb.toString(), Toast.LENGTH_SHORT);
         }
     }
 
