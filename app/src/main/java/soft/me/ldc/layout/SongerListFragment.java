@@ -248,6 +248,7 @@ public class SongerListFragment extends RootFragment {
                 String str = HttpService.INSTANCE.Service(ctx).SongerList(pageNo, limitNo);
                 songer = gson.fromJson(str, SongerListBean.class);
             } catch (Exception e) {
+
                 dkhandlder.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

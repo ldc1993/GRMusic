@@ -28,8 +28,8 @@ import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
+import soft.me.ldc.view.ToastView;
 
 public class SongListActivity extends RootMusicActivity {
 
@@ -61,11 +61,11 @@ public class SongListActivity extends RootMusicActivity {
     SongListAdapter songListAdapter = null;
     LinearLayoutManager llm = null;
     //
-    final  int REFRESHCODE = 0x001;
-    final  int LOADMORECODE = 0x002;
-    final  int UPDATECODE = 0x003;
-    final  int ERRORCODE = 0x004;
-    final  int NODATACODE = 0x005;
+    final int REFRESHCODE = 0x001;
+    final int LOADMORECODE = 0x002;
+    final int UPDATECODE = 0x003;
+    final int ERRORCODE = 0x004;
+    final int NODATACODE = 0x005;
     Handler dkhandlder = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -243,6 +243,7 @@ public class SongListActivity extends RootMusicActivity {
                 String str = HttpService.INSTANCE.Service(ctx).SongList(tinguid, pageNo, limitNo);
                 songList = gson.fromJson(str, SongListBean.class);
             } catch (Exception e) {
+
                 dkhandlder.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
@@ -290,6 +291,7 @@ public class SongListActivity extends RootMusicActivity {
                 String str = HttpService.INSTANCE.Service(ctx).SongList(tinguid, pageNo, limitNo);
                 songList = gson.fromJson(str, SongListBean.class);
             } catch (Exception e) {
+
                 dkhandlder.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

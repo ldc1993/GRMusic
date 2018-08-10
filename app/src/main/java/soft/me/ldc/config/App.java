@@ -26,7 +26,7 @@ public class App extends Application {
                 .retry(1)//提交次数
                 .build();
         NoHttp.initialize(config);
-        MyExceptionHandler.Self.INSTANCE.getHandler().SERVICE(getApplicationContext(), true);
+       MyExceptionHandler.Self.INSTANCE.getHandler().SERVICE(getApplicationContext(), true);
         Bugly.init(getApplicationContext(), "27190edbd9", false);
     }
 }

@@ -182,6 +182,7 @@ public class QueryMusicFragment extends RootFragment {
                     playMusicTask.pushPlayState(true);
                     MultiThreadPool.newInsance().pushThread(playMusicTask);
                 } catch (Exception e) {
+
                     ToastView.show(ctx, "错误!", Toast.LENGTH_SHORT);
                     e.printStackTrace();
                 }
@@ -256,6 +257,7 @@ public class QueryMusicFragment extends RootFragment {
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
@@ -306,6 +308,7 @@ public class QueryMusicFragment extends RootFragment {
                 queryMusicBean = gson.fromJson(str, QueryMusicBean.class);
 
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

@@ -20,16 +20,16 @@ import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.MusicListAdapter;
 import soft.me.ldc.base.RootMusicActivity;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.MusicListBean;
 import soft.me.ldc.model.MusicTypeBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
-import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
+import soft.me.ldc.view.ToastView;
 
 public class MusicListMusicActivity extends RootMusicActivity {
 
@@ -58,11 +58,11 @@ public class MusicListMusicActivity extends RootMusicActivity {
     //等待对话框
     private GRLoadDialog loadDialog = null;
 
-     final int REFRESHCODE = 0x000;//下拉刷新
-     final int LOADMORECODE = 0x001;//上拉刷新
-     final int UPDATEDATACODE = 0x002;//更新数据
-     final int NODATACODE = 0x003;//错误
-     final int ERRORCODE = 0x004;//错误
+    final int REFRESHCODE = 0x000;//下拉刷新
+    final int LOADMORECODE = 0x001;//上拉刷新
+    final int UPDATEDATACODE = 0x002;//更新数据
+    final int NODATACODE = 0x003;//错误
+    final int ERRORCODE = 0x004;//错误
     private Handler dkhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -232,6 +232,7 @@ public class MusicListMusicActivity extends RootMusicActivity {
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
@@ -271,6 +272,7 @@ public class MusicListMusicActivity extends RootMusicActivity {
                     gson = new Gson();
                 result = gson.fromJson(str, MusicListBean.class);
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

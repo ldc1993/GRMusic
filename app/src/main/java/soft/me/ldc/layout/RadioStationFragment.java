@@ -198,6 +198,7 @@ public class RadioStationFragment extends RootFragment {
                 radioStationBean = gson.fromJson(str, RadioStationBean.class);
 
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

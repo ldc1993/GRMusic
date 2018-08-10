@@ -24,8 +24,8 @@ import soft.me.ldc.model.SongerInfoBean;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.utils.StringUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
+import soft.me.ldc.view.ToastView;
 
 public class SongerInfoActivity extends RootMusicActivity {
 
@@ -173,6 +173,7 @@ public class SongerInfoActivity extends RootMusicActivity {
                 String str = HttpService.INSTANCE.Service(ctx).SongerInfo(tinguid);
                 infoBean = gson.fromJson(str, SongerInfoBean.class);
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

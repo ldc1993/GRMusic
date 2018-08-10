@@ -458,11 +458,12 @@ public class MainUI extends RootMusicActivity {
         protected WeatherBean doInBackground(Void... voids) {
             WeatherBean weatherBean = null;
             try {
-                Gson gson = new Gson();
+                Gson gson =new Gson();
                 String adCode = aliLocInfo.AdCode;
                 String str = HttpService.INSTANCE.Service(ctx).Weather(adCode + "");
                 weatherBean = gson.fromJson(str, WeatherBean.class);
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ErrorCode);
                 e.printStackTrace();
             }

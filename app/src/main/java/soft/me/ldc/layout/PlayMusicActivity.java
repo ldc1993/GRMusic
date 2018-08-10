@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.Optional;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.PlayMusicAdapter;
 import soft.me.ldc.base.RootMusicActivity;
@@ -25,9 +26,9 @@ import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.PlayService;
 import soft.me.ldc.task.DownloadMusicTask;
 import soft.me.ldc.utils.ToFormat;
-import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
 import soft.me.ldc.view.GRViewPager;
+import soft.me.ldc.view.ToastView;
 
 public class PlayMusicActivity extends RootMusicActivity {
 
@@ -212,6 +213,7 @@ public class PlayMusicActivity extends RootMusicActivity {
     };
 
     // TODO: 2018/1/16 点击事件
+    @Optional
     @OnClick({R.id.mReset, R.id.mPlayorPause, R.id.mDownload})
     public void ClickListener(View view) {
         switch (view.getId()) {

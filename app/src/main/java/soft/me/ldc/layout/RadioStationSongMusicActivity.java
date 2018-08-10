@@ -20,16 +20,16 @@ import butterknife.BindView;
 import soft.me.ldc.R;
 import soft.me.ldc.adapter.RadioStationSongAdapter;
 import soft.me.ldc.base.RootMusicActivity;
+import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.model.RadioStationBean;
 import soft.me.ldc.model.RadioStationSongBean;
 import soft.me.ldc.permission.ActivityList;
 import soft.me.ldc.service.HttpService;
 import soft.me.ldc.task.PlayMusicTask;
-import soft.me.ldc.common.pool.MultiThreadPool;
 import soft.me.ldc.utils.NetUtil;
 import soft.me.ldc.view.GRLoadDialog;
-import soft.me.ldc.view.ToastView;
 import soft.me.ldc.view.GRToolbar;
+import soft.me.ldc.view.ToastView;
 
 public class RadioStationSongMusicActivity extends RootMusicActivity {
 
@@ -231,6 +231,7 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }
@@ -279,6 +280,7 @@ public class RadioStationSongMusicActivity extends RootMusicActivity {
                 radioStationSongBean = gson.fromJson(str, RadioStationSongBean.class);
 
             } catch (Exception e) {
+
                 dkhandler.sendEmptyMessage(ERRORCODE);
                 e.printStackTrace();
             }

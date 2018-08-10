@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
+        debug {
+            keyAlias 'release'
+            keyPassword '123456'
+            storeFile file('D:/AndroidStudioProjects_Self/GRMusic/doc/my-release.jks')
+            storePassword '123456'
+        }
     }
     compileSdkVersion 26
     defaultConfig {

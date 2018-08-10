@@ -42,7 +42,7 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:minWidth="50dp"
-                android:src="@mipmap/me" />
+                android:src="@mipmap/ic_launcher" />
 
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="王紫春~小美女···"
+                    android:text="GR音乐播放器···"
                     android:textSize="12sp" />
 
             </android.support.v7.widget.LinearLayoutCompat>
