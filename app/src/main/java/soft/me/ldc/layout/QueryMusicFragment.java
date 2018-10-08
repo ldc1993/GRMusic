@@ -74,7 +74,7 @@ public class QueryMusicFragment extends RootFragment {
                     if (StringUtil.isNotBlank(mSearcView.getKey().toString())) {
                         RunRefreshTask(mSearcView.getKey().toString());
                     } else {
-                        RunRefreshTask("周杰伦");
+                        RunRefreshTask("");
                     }
                     break;
                 case LOADMORECODE:
